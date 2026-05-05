@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#09090f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>ChainHub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -14,79 +17,91 @@
   --text:#eef0ff;--text2:#7a84a0;--text3:#3d4560;
   --accent:#5b7fff;--accent2:#7c3aed;
   --green:#20d9a0;--amber:#f5a623;--red:#f04444;--pink:#e84d9a;--cyan:#0acdd8;
+  --nav-h:60px;--header-h:52px;
 }
-html,body{height:100%;overflow:hidden}
-body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(91,127,255,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(91,127,255,0.022) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;z-index:0}
-body::after{content:'';position:fixed;top:-300px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,0.055) 0%,transparent 65%);pointer-events:none;z-index:0}
-.app{display:flex;flex-direction:column;height:100vh;position:relative;z-index:1}
+html{height:100%;-webkit-text-size-adjust:100%}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);height:100%;overflow:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(91,127,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(91,127,255,0.02) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;top:-300px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,0.05) 0%,transparent 65%);pointer-events:none;z-index:0}
+.app{display:flex;flex-direction:column;height:100%;position:relative;z-index:1}
 
-/* HEADER */
-header{height:56px;display:flex;align-items:center;padding:0 1.25rem;gap:10px;border-bottom:1px solid var(--border);background:rgba(9,9,15,0.92);backdrop-filter:blur(24px);flex-shrink:0;z-index:50}
-.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:1rem;letter-spacing:-.025em;white-space:nowrap;text-decoration:none;color:inherit}
-.logo-icon{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+/* ── HEADER ── */
+header{height:var(--header-h);display:flex;align-items:center;padding:0 1rem;gap:8px;border-bottom:1px solid var(--border);background:rgba(9,9,15,0.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);flex-shrink:0;z-index:50}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.95rem;letter-spacing:-.025em;white-space:nowrap;text-decoration:none;color:inherit}
+.logo-icon{width:26px;height:26px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
 .logo em{color:var(--accent);font-style:normal}
 .search-wrap{position:relative;flex:1;max-width:260px}
-.search-wrap input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:6px 10px 6px 28px;color:var(--text);font-family:inherit;font-size:12.5px;outline:none;transition:border-color .15s}
+.search-wrap input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:6px 10px 6px 28px;color:var(--text);font-family:inherit;font-size:13px;outline:none;transition:border-color .15s;-webkit-appearance:none}
 .search-wrap input::placeholder{color:var(--text3)}
 .search-wrap input:focus{border-color:var(--accent)}
 .s-ico{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:12px;pointer-events:none}
 .hbtns{display:flex;gap:5px;margin-left:auto;align-items:center}
-.btn{padding:5px 13px;border-radius:7px;font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;border:1px solid var(--border2);background:var(--bg3);color:var(--text);white-space:nowrap;line-height:1.4}
+.btn{padding:6px 13px;border-radius:7px;font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;border:1px solid var(--border2);background:var(--bg3);color:var(--text);white-space:nowrap;line-height:1.4;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .btn:hover{background:var(--bg4);border-color:var(--accent);color:var(--accent)}
+.btn:active{transform:scale(.97)}
 .btn-p{background:var(--accent);border-color:var(--accent);color:#fff}
-.btn-p:hover{background:#4a6ef0;border-color:#4a6ef0;color:#fff !important}
-.btn-sm{padding:4px 10px;font-size:11px}
+.btn-p:hover,.btn-p:active{background:#4a6ef0;border-color:#4a6ef0;color:#fff}
+.btn-sm{padding:5px 10px;font-size:11.5px}
+
+/* ── HAMBURGER (mobile only) ── */
+.ham{display:none;width:34px;height:34px;border-radius:7px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);align-items:center;justify-content:center;cursor:pointer;font-size:16px;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+
+/* ── BODY ── */
 .body{display:flex;flex:1;overflow:hidden}
 
-/* SIDEBAR */
-.sidebar{width:196px;flex-shrink:0;border-right:1px solid var(--border);overflow-y:auto;padding:.75rem 0;background:var(--bg)}
+/* ── SIDEBAR ── */
+.sidebar{width:196px;flex-shrink:0;border-right:1px solid var(--border);overflow-y:auto;padding:.75rem 0;background:var(--bg);transition:transform .25s cubic-bezier(.4,0,.2,1)}
 .sidebar::-webkit-scrollbar{width:3px}
 .sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
 .s-lbl{font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);padding:0 .9rem;margin-bottom:3px}
 .s-sec{padding:0 0 .9rem}
-.cat-btn{display:flex;align-items:center;gap:7px;width:calc(100% - 8px);margin:1px 4px;padding:6px 9px;border-radius:7px;border:none;background:transparent;color:var(--text2);font-family:inherit;font-size:12px;cursor:pointer;transition:all .12s;text-align:left}
-.cat-btn:hover{background:var(--bg3);color:var(--text)}
+.cat-btn{display:flex;align-items:center;gap:7px;width:calc(100% - 8px);margin:1px 4px;padding:7px 9px;border-radius:7px;border:none;background:transparent;color:var(--text2);font-family:inherit;font-size:12px;cursor:pointer;transition:all .12s;text-align:left;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.cat-btn:hover,.cat-btn:active{background:var(--bg3);color:var(--text)}
 .cat-btn.active{background:rgba(91,127,255,0.13);color:var(--accent);font-weight:500}
 .c-ico{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
 .c-cnt{margin-left:auto;font-size:9.5px;color:var(--text3);background:var(--bg4);padding:1px 5px;border-radius:8px;font-family:'JetBrains Mono',monospace;flex-shrink:0}
-.add-cat-btn{width:calc(100% - 8px);margin:2px 4px;padding:5px 9px;border-radius:7px;border:1px dashed var(--border2);background:transparent;color:var(--text3);font-family:inherit;font-size:11px;cursor:pointer;transition:all .12s;display:block}
+.add-cat-btn{width:calc(100% - 8px);margin:2px 4px;padding:6px 9px;border-radius:7px;border:1px dashed var(--border2);background:transparent;color:var(--text3);font-family:inherit;font-size:11px;cursor:pointer;transition:all .12s;display:block;-webkit-tap-highlight-color:transparent}
 .add-cat-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(91,127,255,0.05)}
 
-/* CONTENT */
-.content{flex:1;overflow-y:auto;padding:1.1rem 1.25rem}
+/* ── DRAWER OVERLAY (mobile) ── */
+.drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:90;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.drawer-overlay.open{display:block}
+
+/* ── CONTENT ── */
+.content{flex:1;overflow-y:auto;padding:1rem 1rem 1rem;-webkit-overflow-scrolling:touch}
 .content::-webkit-scrollbar{width:3px}
 .content::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
-.stats{display:flex;gap:1.25rem;margin-bottom:.9rem;padding-bottom:.9rem;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.stats{display:flex;gap:1rem;margin-bottom:.85rem;padding-bottom:.85rem;border-bottom:1px solid var(--border);flex-wrap:wrap}
 .stat{display:flex;flex-direction:column;gap:1px}
-.sv{font-size:1.25rem;font-weight:700;font-family:'JetBrains Mono',monospace;background:linear-gradient(135deg,var(--accent),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.sl{font-size:9.5px;color:var(--text3);letter-spacing:.05em;text-transform:uppercase}
-.c-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem}
-.page-ttl{font-size:1rem;font-weight:600;letter-spacing:-.02em}
+.sv{font-size:1.2rem;font-weight:700;font-family:'JetBrains Mono',monospace;background:linear-gradient(135deg,var(--accent),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sl{font-size:9px;color:var(--text3);letter-spacing:.05em;text-transform:uppercase}
+.c-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem}
+.page-ttl{font-size:.95rem;font-weight:600;letter-spacing:-.02em}
 .vtog{display:flex;gap:3px}
-.vbtn{width:26px;height:26px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;transition:all .12s}
+.vbtn{width:28px;height:28px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;transition:all .12s;-webkit-tap-highlight-color:transparent}
 .vbtn.active{background:var(--accent);border-color:var(--accent);color:#fff}
-.vbtn:hover:not(.active){color:var(--text)}
 
-/* GRID */
-.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.75rem}
+/* ── GRID ── */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.7rem}
 .tools-list{display:flex;flex-direction:column;gap:5px}
 
-/* CARD */
-.tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:.9rem 1rem;transition:border-color .18s,transform .18s,box-shadow .18s;cursor:pointer;position:relative;overflow:hidden;display:block;text-decoration:none}
+/* ── CARD ── */
+.tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:.9rem 1rem;transition:border-color .18s,transform .18s,box-shadow .18s;cursor:pointer;position:relative;overflow:hidden;display:block;text-decoration:none;-webkit-tap-highlight-color:transparent;animation:fadeUp .2s ease both}
 .tool-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 55%,rgba(91,127,255,0.05));opacity:0;transition:opacity .2s;pointer-events:none}
 .tool-card:hover{border-color:rgba(91,127,255,0.35);transform:translateY(-2px);box-shadow:0 6px 22px rgba(0,0,0,0.28)}
 .tool-card:hover::after{opacity:1}
-.tool-card-list{flex-direction:row;align-items:center;padding:.65rem .85rem;border-radius:8px;transform:none !important}
-.tool-card-list:hover{box-shadow:none;border-color:rgba(91,127,255,0.25)}
+.tool-card:active{transform:scale(.98)}
+.tool-card-list{flex-direction:row;align-items:center;padding:.65rem .85rem;border-radius:8px}
+.tool-card-list:hover{transform:none;box-shadow:none;border-color:rgba(91,127,255,0.25)}
+.tool-card-list:active{transform:scale(.99)}
 .t-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
 .t-fav{width:34px;height:34px;border-radius:8px;background:var(--bg4);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;overflow:hidden}
 .t-fav img{width:34px;height:34px;object-fit:cover;border-radius:8px}
-.t-acts{display:flex;gap:3px;opacity:0;transition:opacity .15s}
-.tool-card:hover .t-acts,.tool-card-list:hover .t-acts{opacity:1}
-.a-btn{width:24px;height:24px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;transition:all .12s;flex-shrink:0}
-.a-btn:hover{background:var(--bg4);color:var(--text)}
-.a-btn.del:hover{background:rgba(240,68,68,0.15);color:var(--red);border-color:rgba(240,68,68,0.3)}
+.t-acts{display:flex;gap:4px;opacity:0;transition:opacity .15s}
+.tool-card:hover .t-acts,.tool-card-list:hover .t-acts,.show-acts .t-acts{opacity:1}
+.a-btn{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;transition:all .12s;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+.a-btn:hover,.a-btn:active{background:var(--bg4);color:var(--text)}
+.a-btn.del:hover,.a-btn.del:active{background:rgba(240,68,68,0.15);color:var(--red);border-color:rgba(240,68,68,0.3)}
 .t-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .t-desc{font-size:11px;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:1.5em}
 .t-meta{display:flex;align-items:center;gap:5px;margin-top:7px;flex-wrap:nowrap;overflow:hidden}
@@ -95,12 +110,12 @@ header{height:56px;display:flex;align-items:center;padding:0 1.25rem;gap:10px;bo
 .pbar{height:2px;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:2px;margin-top:8px;transform:scaleX(0);transform-origin:left;transition:transform .3s}
 .tool-card:hover .pbar{transform:scaleX(1)}
 
-/* LIST CARD */
+/* LIST */
 .lci{flex:1;display:flex;align-items:center;gap:9px;min-width:0}
-.lfav{width:28px;height:28px;border-radius:7px;background:var(--bg4);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;overflow:hidden}
-.lfav img{width:28px;height:28px;object-fit:cover;border-radius:7px}
+.lfav{width:30px;height:30px;border-radius:7px;background:var(--bg4);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;overflow:hidden}
+.lfav img{width:30px;height:30px;object-fit:cover;border-radius:7px}
 .ltxt{flex:1;min-width:0}
-.ln{font-size:12.5px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ln{font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ld{font-size:11px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lr{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0}
 
@@ -110,70 +125,134 @@ header{height:56px;display:flex;align-items:center;padding:0 1.25rem;gap:10px;bo
 .et{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.35rem}
 .ed{font-size:11.5px;color:var(--text2);margin-bottom:1.1rem}
 
-/* OVERLAY / MODAL */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.78);backdrop-filter:blur(10px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+/* ── MOBILE BOTTOM NAV ── */
+.mobile-nav{display:none;height:var(--nav-h);background:rgba(9,9,15,0.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);flex-shrink:0;z-index:50;padding:0 .5rem;padding-bottom:env(safe-area-inset-bottom)}
+.mobile-nav-inner{display:flex;align-items:center;height:100%;gap:2px}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 4px;border-radius:8px;border:none;background:transparent;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .15s;-webkit-tap-highlight-color:transparent;min-width:0}
+.nav-btn.active{color:var(--accent)}
+.nav-btn:active{transform:scale(.93)}
+.nav-icon{font-size:18px;line-height:1}
+.nav-label{font-size:9px;font-weight:500;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center}
+.nav-btn.active .nav-icon{filter:drop-shadow(0 0 4px rgba(91,127,255,.5))}
+.nav-fab{width:44px;height:44px;border-radius:13px;background:var(--accent);border:none;color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s;flex-shrink:0;box-shadow:0 4px 16px rgba(91,127,255,0.4)}
+.nav-fab:active{transform:scale(.92)}
+
+/* ── OVERLAY / MODAL ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
 .overlay.open{opacity:1;pointer-events:all}
-.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:1.4rem;width:460px;max-width:95vw;max-height:88vh;overflow-y:auto;transform:translateY(12px) scale(.97);transition:transform .2s}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:16px 16px 0 0;padding:1.25rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom));width:100%;max-width:100%;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform .28s cubic-bezier(.4,0,.2,1)}
 .modal::-webkit-scrollbar{width:3px}
 .modal::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
-.overlay.open .modal{transform:translateY(0) scale(1)}
-.m-ttl{font-size:.95rem;font-weight:600;margin-bottom:1.1rem;display:flex;align-items:center;justify-content:space-between}
-.m-cls{width:24px;height:24px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;line-height:1;transition:all .12s}
-.m-cls:hover{background:var(--bg4);color:var(--text)}
-.fg{margin-bottom:.8rem}
-.fl{display:block;font-size:11px;font-weight:500;color:var(--text2);margin-bottom:4px;letter-spacing:.03em}
-.fi,.fs,.fta{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:7px;padding:7px 10px;color:var(--text);font-family:inherit;font-size:12.5px;outline:none;transition:border-color .15s}
+.overlay.open .modal{transform:translateY(0)}
+.modal-handle{width:36px;height:4px;background:var(--border2);border-radius:4px;margin:0 auto .9rem;flex-shrink:0}
+.m-ttl{font-size:.95rem;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between}
+.m-cls{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;line-height:1;transition:all .12s;-webkit-tap-highlight-color:transparent}
+.fg{margin-bottom:.85rem}
+.fl{display:block;font-size:11.5px;font-weight:500;color:var(--text2);margin-bottom:4px;letter-spacing:.02em}
+.fi,.fs,.fta{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-family:inherit;font-size:16px;outline:none;transition:border-color .15s;-webkit-appearance:none;appearance:none}
 .fi:focus,.fs:focus,.fta:focus{border-color:var(--accent)}
 .fi::placeholder,.fta::placeholder{color:var(--text3)}
-.fs{appearance:none;cursor:pointer}
-.fs option{background:var(--bg3)}
-.fta{resize:vertical;min-height:65px}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.m-foot{display:flex;gap:6px;justify-content:flex-end;margin-top:1.1rem;padding-top:.9rem;border-top:1px solid var(--border)}
+.fs{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%233d4560'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.fs option{background:var(--bg3);font-size:14px}
+.fta{resize:none;min-height:72px;font-size:14px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.m-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem;padding-top:.9rem;border-top:1px solid var(--border)}
+.m-foot .btn{flex:1;justify-content:center;display:flex;padding:10px}
 
 /* EMOJI PICKER */
 .emoji-wrap{position:relative}
-.erow{display:flex;gap:5px}
-.erow .fi{flex:1}
-.epick-btn{padding:7px 10px;border-radius:7px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:inherit}
-.epick-btn:hover{border-color:var(--accent);color:var(--accent)}
-.epanel{position:absolute;top:calc(100% + 5px);left:0;right:0;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:9px;z-index:400;display:none;box-shadow:0 10px 28px rgba(0,0,0,0.5)}
+.erow{display:flex;gap:6px}
+.erow .fi{flex:1;font-size:18px}
+.epick-btn{padding:10px 12px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:13px;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:inherit;-webkit-tap-highlight-color:transparent}
+.epanel{position:absolute;bottom:calc(100% + 6px);left:0;right:0;background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:10px;z-index:400;display:none;box-shadow:0 -10px 28px rgba(0,0,0,0.5)}
 .epanel.open{display:block}
-.ep-tabs{display:flex;gap:3px;margin-bottom:7px;flex-wrap:wrap}
-.ep-tab{padding:2px 9px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:10px;cursor:pointer;font-family:inherit;transition:all .12s;white-space:nowrap}
-.ep-tab.active,.ep-tab:hover{background:rgba(91,127,255,0.15);border-color:var(--accent);color:var(--accent)}
-.ep-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:2px}
-.ep-em{width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:17px;border-radius:6px;cursor:pointer;transition:background .1s;border:none;background:transparent}
-.ep-em:hover{background:var(--bg4)}
+.ep-tabs{display:flex;gap:3px;margin-bottom:8px;flex-wrap:wrap}
+.ep-tab{padding:3px 10px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:10px;cursor:pointer;font-family:inherit;transition:all .12s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.ep-tab.active{background:rgba(91,127,255,0.15);border-color:var(--accent);color:var(--accent)}
+.ep-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px}
+.ep-em{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:20px;border-radius:7px;cursor:pointer;transition:background .1s;border:none;background:transparent;-webkit-tap-highlight-color:transparent}
+.ep-em:active{background:var(--bg4)}
 
 /* IMPORT/EXPORT */
-.imp-area{width:100%;background:var(--bg3);border:2px dashed var(--border2);border-radius:8px;padding:.9rem;color:var(--text2);font-family:'JetBrains Mono',monospace;font-size:10.5px;min-height:110px;outline:none;resize:vertical;transition:border-color .15s;line-height:1.5}
+.imp-area{width:100%;background:var(--bg3);border:2px dashed var(--border2);border-radius:8px;padding:.85rem;color:var(--text2);font-family:'JetBrains Mono',monospace;font-size:11px;min-height:100px;outline:none;resize:none;transition:border-color .15s;line-height:1.5;-webkit-appearance:none}
 .imp-area:focus{border-color:var(--accent)}
-.imp-area[readonly]{color:var(--text2);cursor:text}
 
 /* MANAGE CATS */
-.citem{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)}
+.citem{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)}
 .citem:last-child{border:none}
 .cdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 
 /* TOAST */
-.toast{position:fixed;bottom:1.1rem;left:50%;transform:translateX(-50%) translateY(55px);background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:7px 16px;font-size:12px;color:var(--text);z-index:999;transition:transform .28s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;pointer-events:none}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.toast.ok{border-color:rgba(32,217,160,.35)}
-.toast.err{border-color:rgba(240,68,68,.35)}
+.toast{position:fixed;bottom:calc(var(--nav-h) + .75rem);left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:8px 18px;font-size:12.5px;color:var(--text);z-index:999;transition:all .28s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;pointer-events:none;opacity:0}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.ok{border-color:rgba(32,217,160,.4)}
+.toast.err{border-color:rgba(240,68,68,.4)}
 
-/* SCROLL ANIMATIONS */
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.tool-card{animation:fadeUp .2s ease both}
+/* MOBILE SEARCH BAR (full width below header) */
+.mobile-search{display:none;padding:.5rem .85rem;border-bottom:1px solid var(--border);background:var(--bg)}
+.mobile-search input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 12px 9px 30px;color:var(--text);font-family:inherit;font-size:15px;outline:none;-webkit-appearance:none}
+.mobile-search input::placeholder{color:var(--text3)}
+.mobile-search .ms-ico{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:13px;pointer-events:none}
+.mobile-search-wrap{position:relative}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── DESKTOP ── */
+@media (min-width:641px){
+  .modal{border-radius:14px;max-width:480px;align-self:center;transform:translateY(16px) scale(.97);padding:1.4rem}
+  .overlay{align-items:center}
+  .overlay.open .modal{transform:translateY(0) scale(1)}
+  .modal-handle{display:none}
+  .m-foot .btn{flex:none;padding:6px 18px}
+  .fi,.fs{font-size:12.5px;padding:7px 10px}
+  .fta{font-size:12.5px}
+  .toast{bottom:1.25rem}
+}
+
+/* ── MOBILE ── */
+@media (max-width:640px){
+  html,body{height:100%;height:-webkit-fill-available}
+  .app{height:100%;height:-webkit-fill-available}
+  .ham{display:flex}
+  .hbtns{display:none}
+  .search-wrap{display:none}
+  .mobile-search{display:block}
+  .sidebar{position:fixed;top:0;left:0;bottom:0;width:80%;max-width:280px;z-index:95;transform:translateX(-100%);border-right:1px solid var(--border2);padding-top:calc(.75rem + env(safe-area-inset-top))}
+  .sidebar.open{transform:translateX(0)}
+  .drawer-overlay{display:block;opacity:0;pointer-events:none;transition:opacity .25s}
+  .drawer-overlay.open{opacity:1;pointer-events:all}
+  .content{padding:.85rem .85rem calc(.85rem + var(--nav-h));-webkit-overflow-scrolling:touch}
+  .tools-grid{grid-template-columns:1fr 1fr;gap:.6rem}
+  .tool-card{padding:.75rem .8rem}
+  .t-acts{opacity:1}
+  .t-fav{width:30px;height:30px;font-size:13px}
+  .t-fav img{width:30px;height:30px}
+  .t-name{font-size:12px}
+  .t-desc{font-size:10.5px;-webkit-line-clamp:2}
+  .mobile-nav{display:flex}
+  .body{flex:1;overflow:hidden}
+  .stats{gap:.75rem}
+  .sv{font-size:1.1rem}
+  .page-ttl{font-size:.9rem}
+}
+
+/* ── VERY SMALL PHONES ── */
+@media (max-width:380px){
+  .tools-grid{grid-template-columns:1fr}
+  .t-acts{opacity:1}
+}
 </style>
 </head>
 <body>
 <div class="app">
+
+  <!-- HEADER -->
   <header>
+    <button class="ham" id="ham-btn" onclick="toggleDrawer()" aria-label="Menu">☰</button>
     <a class="logo" href="#"><div class="logo-icon">⛓</div>Chain<em>Hub</em></a>
     <div class="search-wrap">
       <span class="s-ico">⌕</span>
-      <input id="srch" type="text" placeholder="Search tools...  ⌘K" oninput="filterTools()">
+      <input id="srch" type="text" placeholder="Search... ⌘K" oninput="filterTools()">
     </div>
     <div class="hbtns">
       <button class="btn btn-sm" onclick="openIE()">⇅ Import/Export</button>
@@ -181,6 +260,19 @@ header{height:56px;display:flex;align-items:center;padding:0 1.25rem;gap:10px;bo
       <button class="btn btn-p btn-sm" onclick="openAddModal()">＋ Add Tool</button>
     </div>
   </header>
+
+  <!-- MOBILE SEARCH -->
+  <div class="mobile-search">
+    <div class="mobile-search-wrap">
+      <span class="ms-ico">⌕</span>
+      <input id="msrch" type="search" placeholder="Search tools..." oninput="filterTools(true)" autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
+  </div>
+
+  <!-- DRAWER OVERLAY -->
+  <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+
+  <!-- BODY -->
   <div class="body">
     <aside class="sidebar" id="sidebar"></aside>
     <main class="content">
@@ -188,22 +280,46 @@ header{height:56px;display:flex;align-items:center;padding:0 1.25rem;gap:10px;bo
       <div class="c-hdr">
         <div class="page-ttl" id="pg-ttl">All Tools</div>
         <div class="vtog">
-          <button class="vbtn active" id="vg" onclick="setView('grid')" title="Grid view">⊞</button>
-          <button class="vbtn" id="vl" onclick="setView('list')" title="List view">☰</button>
+          <button class="vbtn active" id="vg" onclick="setView('grid')" title="Grid">⊞</button>
+          <button class="vbtn" id="vl" onclick="setView('list')" title="List">☰</button>
         </div>
       </div>
       <div id="tc"></div>
     </main>
   </div>
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-inner">
+      <button class="nav-btn active" id="nav-all" onclick="mobileNav('all')">
+        <span class="nav-icon">🌐</span>
+        <span class="nav-label">All</span>
+      </button>
+      <button class="nav-btn" id="nav-pinned" onclick="mobileNav('pinned')">
+        <span class="nav-icon">⭐</span>
+        <span class="nav-label">Pinned</span>
+      </button>
+      <button class="nav-fab" onclick="openAddModal()" aria-label="Add tool">＋</button>
+      <button class="nav-btn" id="nav-cats" onclick="toggleDrawer()">
+        <span class="nav-icon">📂</span>
+        <span class="nav-label">Categories</span>
+      </button>
+      <button class="nav-btn" id="nav-more" onclick="openIE()">
+        <span class="nav-icon">⇅</span>
+        <span class="nav-label">More</span>
+      </button>
+    </div>
+  </nav>
 </div>
 
 <!-- TOOL MODAL -->
 <div class="overlay" id="tool-modal">
 <div class="modal">
+  <div class="modal-handle"></div>
   <div class="m-ttl"><span id="m-ttl-txt">Add Tool</span><button class="m-cls" onclick="closeModal('tool-modal')">×</button></div>
-  <div class="fg"><label class="fl">URL *</label><input class="fi" id="f-url" placeholder="https://etherscan.io" oninput="autoFill()"></div>
+  <div class="fg"><label class="fl">URL *</label><input class="fi" id="f-url" type="url" placeholder="https://etherscan.io" oninput="autoFill()" autocomplete="off" autocorrect="off"></div>
   <div class="frow">
-    <div class="fg"><label class="fl">Name *</label><input class="fi" id="f-name" placeholder="Etherscan"></div>
+    <div class="fg"><label class="fl">Name *</label><input class="fi" id="f-name" placeholder="Etherscan" autocomplete="off"></div>
     <div class="fg"><label class="fl">Category *</label><select class="fs" id="f-cat"></select></div>
   </div>
   <div class="fg"><label class="fl">Description</label><textarea class="fta" id="f-desc" placeholder="What does this tool do?"></textarea></div>
@@ -211,11 +327,11 @@ header{height:56px;display:flex;align-items:center;padding:0 1.25rem;gap:10px;bo
     <div class="fg">
       <label class="fl">Icon</label>
       <div class="emoji-wrap" id="tool-ew">
-        <div class="erow"><input class="fi" id="f-icon" placeholder="🔍" maxlength="4"><button class="epick-btn" onclick="toggleEP('tool')">Pick ▾</button></div>
+        <div class="erow"><input class="fi" id="f-icon" placeholder="🔍" maxlength="4" autocomplete="off"><button class="epick-btn" onclick="toggleEP('tool')">Pick ▾</button></div>
         <div class="epanel" id="tool-epanel"><div class="ep-tabs" id="tool-etabs"></div><div class="ep-grid" id="tool-egrid"></div></div>
       </div>
     </div>
-    <div class="fg"><label class="fl">Tags (comma separated)</label><input class="fi" id="f-tags" placeholder="free, evm, mainnet"></div>
+    <div class="fg"><label class="fl">Tags</label><input class="fi" id="f-tags" placeholder="free, evm" autocomplete="off"></div>
   </div>
   <div class="m-foot">
     <button class="btn" onclick="closeModal('tool-modal')">Cancel</button>
@@ -226,14 +342,15 @@ header{height:56px;display:flex;align-items:center;padding:0 1.25rem;gap:10px;bo
 
 <!-- CAT MODAL -->
 <div class="overlay" id="cat-modal">
-<div class="modal" style="width:360px">
-  <div class="m-ttl"><span id="cat-ttl">New Category</span><button class="m-cls" onclick="closeModal('cat-modal')">×</button></div>
-  <div class="fg"><label class="fl">Name *</label><input class="fi" id="c-name" placeholder="DeFi Protocols"></div>
+<div class="modal" style="max-width:400px">
+  <div class="modal-handle"></div>
+  <div class="m-ttl"><span>New Category</span><button class="m-cls" onclick="closeModal('cat-modal')">×</button></div>
+  <div class="fg"><label class="fl">Name *</label><input class="fi" id="c-name" placeholder="DeFi Protocols" autocomplete="off"></div>
   <div class="frow">
     <div class="fg">
       <label class="fl">Icon</label>
       <div class="emoji-wrap" id="cat-ew">
-        <div class="erow"><input class="fi" id="c-icon" placeholder="💎" maxlength="4"><button class="epick-btn" onclick="toggleEP('cat')">Pick ▾</button></div>
+        <div class="erow"><input class="fi" id="c-icon" placeholder="💎" maxlength="4" autocomplete="off"><button class="epick-btn" onclick="toggleEP('cat')">Pick ▾</button></div>
         <div class="epanel" id="cat-epanel"><div class="ep-tabs" id="cat-etabs"></div><div class="ep-grid" id="cat-egrid"></div></div>
       </div>
     </div>
@@ -258,89 +375,76 @@ header{height:56px;display:flex;align-items:center;padding:0 1.25rem;gap:10px;bo
 </div>
 </div>
 
-<!-- MANAGE CATS MODAL -->
+<!-- MANAGE CATS -->
 <div class="overlay" id="mgcat-modal">
-<div class="modal" style="width:400px">
+<div class="modal" style="max-width:440px">
+  <div class="modal-handle"></div>
   <div class="m-ttl"><span>Manage Categories</span><button class="m-cls" onclick="closeModal('mgcat-modal')">×</button></div>
   <div id="cats-list"></div>
-  <div class="m-foot"><button class="btn" onclick="closeModal('mgcat-modal')">Done</button></div>
+  <div class="m-foot"><button class="btn btn-p" onclick="closeModal('mgcat-modal')">Done</button></div>
 </div>
 </div>
 
-<!-- IMPORT/EXPORT MODAL -->
+<!-- IMPORT/EXPORT -->
 <div class="overlay" id="ie-modal">
-<div class="modal" style="width:500px">
+<div class="modal" style="max-width:520px">
+  <div class="modal-handle"></div>
   <div class="m-ttl"><span>Import / Export</span><button class="m-cls" onclick="closeModal('ie-modal')">×</button></div>
-  <div style="display:flex;gap:7px;margin-bottom:1rem">
-    <button class="btn" style="flex:1" onclick="showExport()">📤 Export JSON</button>
-    <button class="btn" style="flex:1" onclick="showImport()">📥 Import / Merge</button>
-    <button class="btn" style="flex:1;color:var(--red);border-color:rgba(240,68,68,.3)" onclick="resetToDefault()">⚠ Reset All</button>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:1rem">
+    <button class="btn" onclick="showExport()">📤 Export</button>
+    <button class="btn" onclick="showImport()">📥 Import</button>
+    <button class="btn" style="color:var(--red);border-color:rgba(240,68,68,.3)" onclick="resetToDefault()">⚠ Reset</button>
   </div>
   <div id="ie-body"></div>
-  <div class="m-foot"><button class="btn" onclick="closeModal('ie-modal')">Close</button></div>
+  <div class="m-foot"><button class="btn btn-p" onclick="closeModal('ie-modal')">Close</button></div>
 </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const SK = 'chainhub_v3';
-const LEGACY = ['chainhub_v2','chainhub_v1','chainhub'];
+const SK='chainhub_v3';
+const LEGACY=['chainhub_v2','chainhub_v1','chainhub'];
 
-/* ── YOUR EXACT DATA BAKED IN ── */
-const SEED_DATA = {"tools":[{"id":"t1","name":"Etherscan","url":"https://etherscan.io","cat":"explorers","desc":"Ethereum blockchain explorer. View transactions, wallets, tokens and smart contracts.","icon":"🔍","tags":["ethereum","evm","free"],"pinned":true,"faviconUrl":"https://etherscan.io/images/favicon3.ico"},{"id":"t4","name":"OpenSea","url":"https://opensea.io","cat":"nft","desc":"Largest NFT marketplace. Buy, sell and discover rare digital items.","icon":"🌊","tags":["marketplace","ethereum","polygon"],"pinned":false},{"id":"t5","name":"Dune Analytics","url":"https://dune.com","cat":"analytics","desc":"Community platform for on-chain data analytics using SQL queries and dashboards.","icon":"📊","tags":["sql","free","on-chain"],"pinned":false},{"id":"t6","name":"Hardhat","url":"https://hardhat.org","cat":"dev","desc":"Ethereum development environment for compiling, testing and deploying smart contracts.","icon":"🔨","tags":["solidity","testing","npm"],"pinned":false},{"id":"t8","name":"The Graph","url":"https://thegraph.com","cat":"data","desc":"Indexing protocol for querying blockchain data with GraphQL API endpoints.","icon":"🗄","tags":["graphql","api","indexing"],"pinned":true},{"id":"tmoq1450l","url":"https://unchaindata.xyz/jobs#jobs","name":"Unchaindata","cat":"cmoq13len","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq14h81","url":"https://web3.career/","name":"Web3","cat":"cmoq13len","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq15l4o","url":"https://www.rootdata.com/Investors","name":"Rootdata","cat":"cmoq159ck","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq17662","url":"https://blocksec.com/phalcon/explorer","name":"phalcon","cat":"explorers","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq1kadx","url":"https://app.nansen.ai/","name":"Nansen","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq1mxbc","url":"https://app.elfa.ai/leaderboard/token?timeframe=1d","name":"Mindshare","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq1oasr","url":"https://loris.tools/","name":"Loris","cat":"cmoq1nrwq","desc":"Arbitrage Opportunity","icon":"","tags":[],"pinned":false},{"id":"tmoq1q77n","url":"https://app.coinmarketman.com/hypertracker","name":"HyperLiquid Wallet Tracker","cat":"cmoq1oqeq","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq1tcz2","url":"https://www.findas.org/","name":"Findas","cat":"cmoq159ck","desc":"TokenNomics Of Tokens","icon":"","tags":[],"pinned":false},{"id":"tmoq248ud","url":"https://stalkchain.com/dashboard/learning-center","name":"Stalkchain","cat":"cmoq11k5j","desc":"Solana Onchain Screener and finder","icon":"","tags":[],"pinned":false},{"id":"tmoq27zxh","url":"https://members.delphidigital.io/","name":"delphidigital","cat":"analytics","desc":"","icon":"","tags":["research"],"pinned":false},{"id":"tmoq28qu1","url":"https://classic.artemis.ai/home","name":"artemis","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2cdfc","url":"https://www.tradingview.com/chart/WpglJglJ/","name":"Tradingview","cat":"cmoq1nrwq","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2prmi","url":"https://www.coingecko.com/en/","name":"Coingecko","cat":"cmoq2pb6q","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2qz03","url":"https://www.livecoinwatch.com/tools/api#try","name":"Livecoinwatch","cat":"data","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2s93k","url":"https://legend.coinglass.com/chart/7e1e5b5cc9364c0a94379c9a2210c792","name":"Legend Coinglass","cat":"cmoq1nrwq","desc":"Liquidation","icon":"","tags":[],"pinned":false},{"id":"tmoq2suoq","url":"https://www.coinglass.com/","name":"Coinglass","cat":"cmoq2pb6q","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2trqd","url":"https://intel.arkm.com/explorer","name":"Intelligenc Arkham","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2u5zg","url":"https://defillama.com/","name":"Defillama","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2vpx7","url":"https://yield-analyzer.xyz/","name":"Yield-analyzer","cat":"cmoq2pb6q","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2wncz","url":"https://dune.com/decrypto_space/bitcoin-on-chain-metrics","name":"Dune Bitcoin essential metrics","cat":"cmoq0znnq","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2xn3d","url":"https://www.investing.com/economic-calendar","name":"Investing","cat":"cmoq12g4i","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2ysha","url":"https://studio.glassnode.com/","name":"Glassnode Studio","cat":"cmoq12g4i","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2z9r9","url":"https://cryptopanic.com/","name":"Cryptopanic","cat":"cmoq2pb6q","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq30cxx","url":"https://app.hyperliquid.xyz/trade","name":"hyperliquid","cat":"cmoq1oqeq","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq35e0d","url":"https://www.theblock.co/data/on-chain-metrics/bitcoin","name":"Theblock","cat":"cmoq0znnq","desc":"Bitcoin Macros Mertics","icon":"","tags":[],"pinned":false},{"id":"tmoq36bh2","url":"https://bitbo.io/tools/","name":"Bitbo","cat":"cmoq0znnq","desc":"Various Bitcoin Tools","icon":"","tags":[],"pinned":false},{"id":"tmoq377xj","url":"https://cryptoslate.com/companies/","name":"Cryptoslate","cat":"cmoq2pb6q","desc":"Crypto Companies list","icon":"","tags":[],"pinned":false},{"id":"tmoq3iaal","url":"https://jup.ag/","name":"Jupiter","cat":"cmoq11k5j","desc":"All in One Solana Ecosystem","icon":"","tags":[],"pinned":false},{"id":"tmoq3on5f","url":"https://www.meteora.ag/","name":"Meteora","cat":"cmoq11k5j","desc":"Liquidity Providing and earn Fees","icon":"","tags":[],"pinned":false},{"id":"tmoq3rfk2","url":"https://www.jito.network/staking/","name":"Jito","cat":"cmoq11k5j","desc":"Staking and restaking","icon":"","tags":[],"pinned":false}],"cats":[{"id":"explorers","name":"Block Explorers","icon":"🔍","color":"#4f7fff"},{"id":"nft","name":"NFTs","icon":"🖼","color":"#ec4899"},{"id":"analytics","name":"Analytics","icon":"📊","color":"#06b6d4"},{"id":"dev","name":"Dev Tools","icon":"⚙","color":"#ef4444"},{"id":"data","name":"Data / APIs","icon":"🗄","color":"#22d3a0"},{"id":"cmoq0znnq","name":"Bitcoin","icon":"₿","color":"#f59e0b"},{"id":"cmoq10cjr","name":"Ethereum","icon":"♢","color":"#06b6d4"},{"id":"cmoq11k5j","name":"Solana","icon":"𝒔","color":"#22d3a0"},{"id":"cmoq12g4i","name":"Macro","icon":"📊","color":"#7c3aed"},{"id":"cmoq13len","name":"Web3 Jobs","icon":"👨","color":"#7c3aed"},{"id":"cmoq159ck","name":"VC / Investors","icon":"📁","color":"#ec4899"},{"id":"cmoq1nrwq","name":"Trading","icon":"📁","color":"#22d3a0"},{"id":"cmoq1oqeq","name":"HyperLiquid","icon":"📁","color":"#22d3a0"},{"id":"cmoq2pb6q","name":"General","icon":"📁","color":"#22d3a0"}],"view":"grid"};
+const SEED={"tools":[{"id":"t1","name":"Etherscan","url":"https://etherscan.io","cat":"explorers","desc":"Ethereum blockchain explorer. View transactions, wallets, tokens and smart contracts.","icon":"🔍","tags":["ethereum","evm","free"],"pinned":true,"faviconUrl":"https://etherscan.io/images/favicon3.ico"},{"id":"t4","name":"OpenSea","url":"https://opensea.io","cat":"nft","desc":"Largest NFT marketplace. Buy, sell and discover rare digital items.","icon":"🌊","tags":["marketplace","ethereum","polygon"],"pinned":false},{"id":"t5","name":"Dune Analytics","url":"https://dune.com","cat":"analytics","desc":"Community platform for on-chain data analytics using SQL queries and dashboards.","icon":"📊","tags":["sql","free","on-chain"],"pinned":false},{"id":"t6","name":"Hardhat","url":"https://hardhat.org","cat":"dev","desc":"Ethereum development environment for compiling, testing and deploying smart contracts.","icon":"🔨","tags":["solidity","testing","npm"],"pinned":false},{"id":"t8","name":"The Graph","url":"https://thegraph.com","cat":"data","desc":"Indexing protocol for querying blockchain data with GraphQL API endpoints.","icon":"🗄","tags":["graphql","api","indexing"],"pinned":true},{"id":"tmoq1450l","url":"https://unchaindata.xyz/jobs#jobs","name":"Unchaindata","cat":"cmoq13len","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq14h81","url":"https://web3.career/","name":"Web3","cat":"cmoq13len","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq15l4o","url":"https://www.rootdata.com/Investors","name":"Rootdata","cat":"cmoq159ck","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq17662","url":"https://blocksec.com/phalcon/explorer","name":"phalcon","cat":"explorers","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq1kadx","url":"https://app.nansen.ai/","name":"Nansen","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq1mxbc","url":"https://app.elfa.ai/leaderboard/token?timeframe=1d","name":"Mindshare","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq1oasr","url":"https://loris.tools/","name":"Loris","cat":"cmoq1nrwq","desc":"Arbitrage Opportunity","icon":"","tags":[],"pinned":false},{"id":"tmoq1q77n","url":"https://app.coinmarketman.com/hypertracker","name":"HyperLiquid Wallet Tracker","cat":"cmoq1oqeq","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq1tcz2","url":"https://www.findas.org/","name":"Findas","cat":"cmoq159ck","desc":"TokenNomics Of Tokens","icon":"","tags":[],"pinned":false},{"id":"tmoq248ud","url":"https://stalkchain.com/dashboard/learning-center","name":"Stalkchain","cat":"cmoq11k5j","desc":"Solana Onchain Screener and finder","icon":"","tags":[],"pinned":false},{"id":"tmoq27zxh","url":"https://members.delphidigital.io/","name":"delphidigital","cat":"analytics","desc":"","icon":"","tags":["research"],"pinned":false},{"id":"tmoq28qu1","url":"https://classic.artemis.ai/home","name":"artemis","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2cdfc","url":"https://www.tradingview.com/chart/WpglJglJ/","name":"Tradingview","cat":"cmoq1nrwq","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2prmi","url":"https://www.coingecko.com/en/","name":"Coingecko","cat":"cmoq2pb6q","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2qz03","url":"https://www.livecoinwatch.com/tools/api#try","name":"Livecoinwatch","cat":"data","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2s93k","url":"https://legend.coinglass.com/chart/7e1e5b5cc9364c0a94379c9a2210c792","name":"Legend Coinglass","cat":"cmoq1nrwq","desc":"Liquidation","icon":"","tags":[],"pinned":false},{"id":"tmoq2suoq","url":"https://www.coinglass.com/","name":"Coinglass","cat":"cmoq2pb6q","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2trqd","url":"https://intel.arkm.com/explorer","name":"Intelligenc Arkham","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2u5zg","url":"https://defillama.com/","name":"Defillama","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2vpx7","url":"https://yield-analyzer.xyz/","name":"Yield-analyzer","cat":"cmoq2pb6q","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2wncz","url":"https://dune.com/decrypto_space/bitcoin-on-chain-metrics","name":"Dune Bitcoin essential metrics","cat":"cmoq0znnq","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2xn3d","url":"https://www.investing.com/economic-calendar","name":"Investing","cat":"cmoq12g4i","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2ysha","url":"https://studio.glassnode.com/","name":"Glassnode Studio","cat":"cmoq12g4i","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2z9r9","url":"https://cryptopanic.com/","name":"Cryptopanic","cat":"cmoq2pb6q","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq30cxx","url":"https://app.hyperliquid.xyz/trade","name":"hyperliquid","cat":"cmoq1oqeq","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq35e0d","url":"https://www.theblock.co/data/on-chain-metrics/bitcoin","name":"Theblock","cat":"cmoq0znnq","desc":"Bitcoin Macros Mertics","icon":"","tags":[],"pinned":false},{"id":"tmoq36bh2","url":"https://bitbo.io/tools/","name":"Bitbo","cat":"cmoq0znnq","desc":"Various Bitcoin Tools","icon":"","tags":[],"pinned":false},{"id":"tmoq377xj","url":"https://cryptoslate.com/companies/","name":"Cryptoslate","cat":"cmoq2pb6q","desc":"Crypto Companies list","icon":"","tags":[],"pinned":false},{"id":"tmoq3iaal","url":"https://jup.ag/","name":"Jupiter","cat":"cmoq11k5j","desc":"All in One Solana Ecosystem","icon":"","tags":[],"pinned":false},{"id":"tmoq3on5f","url":"https://www.meteora.ag/","name":"Meteora","cat":"cmoq11k5j","desc":"Liquidity Providing and earn Fees","icon":"","tags":[],"pinned":false},{"id":"tmoq3rfk2","url":"https://www.jito.network/staking/","name":"Jito","cat":"cmoq11k5j","desc":"Staking and restaking","icon":"","tags":[],"pinned":false}],"cats":[{"id":"explorers","name":"Block Explorers","icon":"🔍","color":"#4f7fff"},{"id":"nft","name":"NFTs","icon":"🖼","color":"#ec4899"},{"id":"analytics","name":"Analytics","icon":"📊","color":"#06b6d4"},{"id":"dev","name":"Dev Tools","icon":"⚙","color":"#ef4444"},{"id":"data","name":"Data / APIs","icon":"🗄","color":"#22d3a0"},{"id":"cmoq0znnq","name":"Bitcoin","icon":"₿","color":"#f59e0b"},{"id":"cmoq10cjr","name":"Ethereum","icon":"♢","color":"#06b6d4"},{"id":"cmoq11k5j","name":"Solana","icon":"𝒔","color":"#22d3a0"},{"id":"cmoq12g4i","name":"Macro","icon":"📊","color":"#7c3aed"},{"id":"cmoq13len","name":"Web3 Jobs","icon":"👨","color":"#7c3aed"},{"id":"cmoq159ck","name":"VC / Investors","icon":"📁","color":"#ec4899"},{"id":"cmoq1nrwq","name":"Trading","icon":"📁","color":"#22d3a0"},{"id":"cmoq1oqeq","name":"HyperLiquid","icon":"📁","color":"#22d3a0"},{"id":"cmoq2pb6q","name":"General","icon":"📁","color":"#22d3a0"}],"view":"grid"};
 
-const W3E = {
-  'Chains':['⛓','🔗','🪙','💎','🏅','🔮','⚡','🔥','❄️','🌊','🌐','🛰','₿','Ξ','◎','⟠'],
-  'DeFi':['💹','📈','📉','💸','💳','🏦','⚖️','🎯','💼','📊','🗂','💱','🏧','💰','🤑','🏪'],
-  'NFT & Art':['🖼','🎨','🖌','✏️','🎭','🏺','🗿','🎃','🎆','✨','🪄','🎠','🖍','🎪','🎡','🌈'],
-  'Dev':['⚙️','🔧','🔨','🛠','🔩','⛏','🔑','🔐','🛡','⚔️','🔭','💻','🖥','📱','🖨','⌨️'],
-  'Wallets':['👛','💼','🗄','📦','📫','💾','💿','📀','🔒','🔓','🗝','📲','📬','📮','🗃','🗳'],
-  'Bridges':['🌉','🌁','🗺','🌏','🔀','↔️','🔄','♻️','🔃','🔁','📶','📡','🛜','🌐','⇄','🚀'],
-  'Analytics':['📊','📈','📉','🗃','📋','📌','🔎','🔍','🧮','🔢','📐','📏','🎛','🕹','🧩','🗺'],
-  'Security':['🛡','🔐','🔒','🔑','⚔️','🪖','🪤','🚧','⚠️','🚨','🚦','🛑','🔔','📯','🚔','🔕'],
-  'Governance':['🏛','⚖️','🗳','📜','📝','✍️','🤝','👥','🏗','🏢','🌆','🌇','🗺','📃','📄','🏙'],
-  'Status':['✅','❌','⭐','🌟','🔥','💥','❓','❗','🆕','🆙','🆒','💯','🔝','⬆️','➡️','🎯'],
-};
+const W3E={'Chains':['⛓','🔗','🪙','💎','🏅','🔮','⚡','🔥','❄️','🌊','🌐','🛰','₿','Ξ','◎','⟠'],'DeFi':['💹','📈','📉','💸','💳','🏦','⚖️','🎯','💼','📊','🗂','💱','🏧','💰','🤑','🏪'],'NFT':['🖼','🎨','🖌','✏️','🎭','🏺','🗿','🎃','🎆','✨','🪄','🎠','🖍','🎪','🎡','🌈'],'Dev':['⚙️','🔧','🔨','🛠','🔩','⛏','🔑','🔐','🛡','⚔️','🔭','💻','🖥','📱','🖨','⌨️'],'Wallets':['👛','💼','🗄','📦','📫','💾','💿','📀','🔒','🔓','🗝','📲','📬','📮','🗃','🗳'],'Bridges':['🌉','🌁','🗺','🌏','🔀','↔️','🔄','♻️','🔃','🔁','📶','📡','🛜','🌐','⇄','🚀'],'Analytics':['📊','📈','📉','🗃','📋','📌','🔎','🔍','🧮','🔢','📐','📏','🎛','🕹','🧩','🗺'],'Security':['🛡','🔐','🔒','🔑','⚔️','🪖','🪤','🚧','⚠️','🚨','🚦','🛑','🔔','📯','🚔','🔕'],'Gov':['🏛','⚖️','🗳','📜','📝','✍️','🤝','👥','🏗','🏢','🌆','🌇','🗺','📃','📄','🏙'],'Status':['✅','❌','⭐','🌟','🔥','💥','❓','❗','🆕','🆙','💯','🔝','⬆️','➡️','🎯','⚡']};
 
 let S={tools:[],cats:[],view:'grid',activeCat:'all',search:'',editId:null};
+const isMobile=()=>window.innerWidth<=640;
 
 function gid(p='t'){return p+Date.now().toString(36)+Math.random().toString(36).slice(2,5)}
 
-/* ── STORAGE: localStorage with SEED fallback ── */
+/* STORAGE */
 function load(){
-  // 1. Try current key
-  try{
-    const r=localStorage.getItem(SK);
-    if(r){const d=JSON.parse(r);S.tools=d.tools||[];S.cats=d.cats||[];S.view=d.view||'grid';return;}
-  }catch(e){}
-  // 2. Try legacy keys - auto migrate
-  for(const k of LEGACY){
-    try{
-      const r=localStorage.getItem(k);
-      if(r){
-        const d=JSON.parse(r);
-        if((d.tools||[]).length||(d.cats||[]).length){
-          S.tools=d.tools||[];S.cats=d.cats||[];S.view=d.view||'grid';
-          save();
-          showToast(`Migrated from ${k} ✓`,'ok');
-          return;
-        }
-      }
-    }catch(e){}
-  }
-  // 3. Use your baked-in seed data
-  S.tools=JSON.parse(JSON.stringify(SEED_DATA.tools));
-  S.cats=JSON.parse(JSON.stringify(SEED_DATA.cats));
-  S.view=SEED_DATA.view||'grid';
-  save();
+  try{const r=localStorage.getItem(SK);if(r){const d=JSON.parse(r);S.tools=d.tools||[];S.cats=d.cats||[];S.view=d.view||'grid';return}}catch(e){}
+  for(const k of LEGACY){try{const r=localStorage.getItem(k);if(r){const d=JSON.parse(r);if((d.tools||[]).length||(d.cats||[]).length){S.tools=d.tools||[];S.cats=d.cats||[];S.view=d.view||'grid';save();showToast('Migrated from '+k+' ✓','ok');return}}}catch(e){}}
+  S.tools=JSON.parse(JSON.stringify(SEED.tools));S.cats=JSON.parse(JSON.stringify(SEED.cats));S.view=SEED.view||'grid';save();
+}
+function save(){try{localStorage.setItem(SK,JSON.stringify({tools:S.tools,cats:S.cats,view:S.view}))}catch(e){}}
+
+/* DRAWER */
+function toggleDrawer(){
+  const sb=document.getElementById('sidebar'),ov=document.getElementById('drawer-overlay');
+  const open=sb.classList.toggle('open');
+  ov.classList.toggle('open',open);
+  if(open){document.body.style.overflow='hidden';}else{document.body.style.overflow='';}
+}
+function closeDrawer(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('drawer-overlay').classList.remove('open');
+  document.body.style.overflow='';
 }
 
-function save(){
-  try{localStorage.setItem(SK,JSON.stringify({tools:S.tools,cats:S.cats,view:S.view}));}catch(e){}
+/* MOBILE NAV */
+function mobileNav(cat){
+  S.activeCat=cat;
+  document.getElementById('nav-all').className='nav-btn'+(cat==='all'?' active':'');
+  document.getElementById('nav-pinned').className='nav-btn'+(cat==='pinned'?' active':'');
+  renderSidebar();renderTools();
 }
 
-/* ── RENDER ── */
+/* SIDEBAR */
 function renderSidebar(){
   const sb=document.getElementById('sidebar');
   const all=S.tools.length,pin=S.tools.filter(t=>t.pinned).length;
@@ -365,7 +469,7 @@ function renderStats(){
   const t=S.tools.length,c=S.cats.length,p=S.tools.filter(x=>x.pinned).length,ac=new Set(S.tools.map(x=>x.cat)).size;
   document.getElementById('stats').innerHTML=`
     <div class="stat"><div class="sv">${t}</div><div class="sl">Tools</div></div>
-    <div class="stat"><div class="sv">${c}</div><div class="sl">Categories</div></div>
+    <div class="stat"><div class="sv">${c}</div><div class="sl">Cats</div></div>
     <div class="stat"><div class="sv">${p}</div><div class="sl">Pinned</div></div>
     <div class="stat"><div class="sv">${ac}</div><div class="sl">Active</div></div>`;
 }
@@ -381,41 +485,42 @@ function getFiltered(){
 function renderTools(){
   const tools=getFiltered(),tc=document.getElementById('tc');
   const cat=S.cats.find(c=>c.id===S.activeCat);
-  document.getElementById('pg-ttl').textContent=S.activeCat==='all'?'All Tools':S.activeCat==='pinned'?'⭐ Pinned':cat?`${cat.icon} ${cat.name}`:'';
+  document.getElementById('pg-ttl').textContent=S.activeCat==='all'?'All Tools':S.activeCat==='pinned'?'⭐ Pinned':cat?cat.icon+' '+cat.name:'';
   if(!tools.length){
-    tc.innerHTML=`<div class="empty"><div class="ei">${S.search?'🔭':'📦'}</div><div class="et">${S.search?'No results':'No tools yet'}</div><div class="ed">${S.search?'Try a different term.':'Add your first tool to get started.'}</div>${!S.search?'<button class="btn btn-p" onclick="openAddModal()">＋ Add Tool</button>':''}</div>`;
+    tc.innerHTML=`<div class="empty"><div class="ei">${S.search?'🔭':'📦'}</div><div class="et">${S.search?'No results':'No tools yet'}</div><div class="ed">${S.search?'Try a different term.':'Add your first tool.'}</div>${!S.search?'<button class="btn btn-p" onclick="openAddModal()">＋ Add Tool</button>':''}</div>`;
     return;
   }
-  if(S.view==='grid'){tc.innerHTML=`<div class="tools-grid">${tools.map(renderCard).join('')}</div>`;}
-  else{tc.innerHTML=`<div class="tools-list">${tools.map(renderListCard).join('')}</div>`;}
+  const mobile=isMobile();
+  if(S.view==='grid'){tc.innerHTML=`<div class="tools-grid">${tools.map((t,i)=>renderCard(t,i,mobile)).join('')}</div>`;}
+  else{tc.innerHTML=`<div class="tools-list">${tools.map((t,i)=>renderListCard(t,i)).join('')}</div>`;}
 }
 
 function gc(id){return S.cats.find(c=>c.id===id)}
 function domain(url){try{return new URL(url).hostname.replace('www.','')}catch(e){return url}}
-function fav(t){try{return`https://www.google.com/s2/favicons?domain=${new URL(t.url).hostname}&sz=64`}catch(e){return''}}
+function fav(t){if(t.faviconUrl)return t.faviconUrl;try{return'https://www.google.com/s2/favicons?domain='+new URL(t.url).hostname+'&sz=64'}catch(e){return''}}
 
-function favHtml(t,sz=34){
-  const f=t.faviconUrl||fav(t);
-  const ico=t.icon||(gc(t.cat)||{}).icon||'🔧';
-  const rs=sz===34?8:7;
-  return f?`<img src="${f}" style="width:${sz}px;height:${sz}px;object-fit:cover;border-radius:${rs}px" onerror="this.style.display='none';this.nextSibling.style.display='flex'" loading="lazy"><span style="display:none;font-size:${sz===34?15:13}px">${ico}</span>`:`<span style="font-size:${sz===34?15:13}px">${ico}</span>`;
+function favHtml(t,sz){
+  const f=fav(t),ico=t.icon||(gc(t.cat)||{}).icon||'🔧';
+  const fs=sz<=30?13:15;
+  return f?`<img src="${f}" style="width:${sz}px;height:${sz}px;object-fit:cover;border-radius:${sz<=30?7:8}px" onerror="this.style.display='none';this.nextSibling.style.display='flex'" loading="lazy"><span style="display:none;font-size:${fs}px">${ico}</span>`:`<span style="font-size:${fs}px">${ico}</span>`;
 }
 
-function renderCard(t,i){
+function renderCard(t,i,mobile){
   const cat=gc(t.cat);
-  return`<div class="tool-card" style="animation-delay:${Math.min(i*0.03,0.3)}s" onclick="openTool('${t.id}')">
+  const delay=Math.min(i*0.025,.25);
+  return`<div class="tool-card" style="animation-delay:${delay}s" onclick="openTool('${t.id}')">
     <div class="t-top">
-      <div class="t-fav">${favHtml(t,34)}</div>
+      <div class="t-fav">${favHtml(t,mobile?30:34)}</div>
       <div class="t-acts">
-        <button class="a-btn" onclick="event.stopPropagation();pin('${t.id}')" title="${t.pinned?'Unpin':'Pin'}">${t.pinned?'⭐':'☆'}</button>
-        <button class="a-btn" onclick="event.stopPropagation();editT('${t.id}')" title="Edit">✏</button>
-        <button class="a-btn del" onclick="event.stopPropagation();delT('${t.id}')" title="Delete">✕</button>
+        <button class="a-btn" onclick="event.stopPropagation();pin('${t.id}')">${t.pinned?'⭐':'☆'}</button>
+        <button class="a-btn" onclick="event.stopPropagation();editT('${t.id}')">✏</button>
+        <button class="a-btn del" onclick="event.stopPropagation();delT('${t.id}')">✕</button>
       </div>
     </div>
-    <div class="t-name">${t.pinned?'<span style="font-size:10px">⭐</span> ':''}${t.name}</div>
-    <div class="t-desc">${t.desc||'<span style="opacity:.4">No description yet.</span>'}</div>
+    <div class="t-name">${t.pinned?'<span style="font-size:9px">⭐</span> ':''}${t.name}</div>
+    <div class="t-desc">${t.desc||'<span style="opacity:.35">No description.</span>'}</div>
     <div class="t-meta">
-      ${cat?`<span class="t-tag" style="background:${cat.color}18;color:${cat.color};border-color:${cat.color}33">${cat.icon} ${cat.name}</span>`:''}
+      ${cat?`<span class="t-tag" style="background:${cat.color}18;color:${cat.color};border-color:${cat.color}33">${cat.icon}</span>`:''}
       ${(t.tags||[]).slice(0,1).map(tg=>`<span class="t-tag">${tg}</span>`).join('')}
       <span class="t-url">${domain(t.url)}</span>
     </div>
@@ -425,17 +530,16 @@ function renderCard(t,i){
 
 function renderListCard(t,i){
   const cat=gc(t.cat);
-  return`<div class="tool-card tool-card-list" style="animation-delay:${Math.min(i*0.02,0.2)}s" onclick="openTool('${t.id}')">
+  return`<div class="tool-card tool-card-list" style="animation-delay:${Math.min(i*0.02,.2)}s" onclick="openTool('${t.id}')">
     <div class="lci">
-      <div class="lfav">${favHtml(t,28)}</div>
+      <div class="lfav">${favHtml(t,30)}</div>
       <div class="ltxt">
         <div class="ln">${t.pinned?'⭐ ':''}${t.name}</div>
         <div class="ld">${t.desc||domain(t.url)}</div>
       </div>
     </div>
     <div class="lr">
-      ${cat?`<span class="t-tag" style="background:${cat.color}18;color:${cat.color};border-color:${cat.color}33;font-size:9.5px">${cat.icon} ${cat.name}</span>`:''}
-      <span style="font-size:9.5px;color:var(--text3);font-family:'JetBrains Mono',monospace">${domain(t.url)}</span>
+      ${cat?`<span class="t-tag" style="background:${cat.color}18;color:${cat.color};border-color:${cat.color}33;font-size:9px">${cat.icon} ${cat.name}</span>`:''}
       <div class="t-acts" style="opacity:1">
         <button class="a-btn" onclick="event.stopPropagation();pin('${t.id}')">${t.pinned?'⭐':'☆'}</button>
         <button class="a-btn" onclick="event.stopPropagation();editT('${t.id}')">✏</button>
@@ -446,28 +550,31 @@ function renderListCard(t,i){
 }
 
 function openTool(id){const t=S.tools.find(x=>x.id===id);if(t)try{window.open(t.url,'_blank')}catch(e){}}
-function selCat(id){S.activeCat=id;renderSidebar();renderTools()}
-function filterTools(){S.search=document.getElementById('srch').value;renderTools()}
+function selCat(id){S.activeCat=id;closeDrawer();renderSidebar();renderTools()}
+function filterTools(fromMobile){
+  const v=fromMobile?document.getElementById('msrch').value:document.getElementById('srch').value;
+  S.search=v;renderTools();
+}
 function setView(v){S.view=v;document.getElementById('vg').className='vbtn'+(v==='grid'?' active':'');document.getElementById('vl').className='vbtn'+(v==='list'?' active':'');save();renderTools()}
 function pin(id){const t=S.tools.find(x=>x.id===id);if(t){t.pinned=!t.pinned;save();renderAll()}}
 function delT(id){if(!confirm('Remove this tool?'))return;S.tools=S.tools.filter(t=>t.id!==id);save();renderAll();showToast('Tool removed','ok')}
 
-/* ── TOOL MODAL ── */
+/* TOOL MODAL */
 function popCats(sel){document.getElementById('f-cat').innerHTML=S.cats.map(c=>`<option value="${c.id}"${sel===c.id?' selected':''}>${c.icon} ${c.name}</option>`).join('');if(S.activeCat!=='all'&&S.activeCat!=='pinned'&&!sel)document.getElementById('f-cat').value=S.activeCat}
 function openAddModal(){S.editId=null;document.getElementById('m-ttl-txt').textContent='Add Tool';['f-url','f-name','f-desc','f-icon','f-tags'].forEach(id=>document.getElementById(id).value='');popCats();buildEP('tool','f-icon');openModal('tool-modal')}
 function editT(id){const t=S.tools.find(x=>x.id===id);if(!t)return;S.editId=id;document.getElementById('m-ttl-txt').textContent='Edit Tool';document.getElementById('f-url').value=t.url;document.getElementById('f-name').value=t.name;document.getElementById('f-desc').value=t.desc||'';document.getElementById('f-icon').value=t.icon||'';document.getElementById('f-tags').value=(t.tags||[]).join(', ');popCats(t.cat);buildEP('tool','f-icon');openModal('tool-modal')}
-function autoFill(){const u=document.getElementById('f-url').value.trim();if(!u||document.getElementById('f-name').value)return;try{const h=new URL(u).hostname.replace('www.','');const n=h.split('.')[0];document.getElementById('f-name').value=n.charAt(0).toUpperCase()+n.slice(1)}catch(e){}}
+function autoFill(){const u=document.getElementById('f-url').value.trim();if(!u||document.getElementById('f-name').value)return;try{const h=new URL(u).hostname.replace('www.','');document.getElementById('f-name').value=h.split('.')[0].charAt(0).toUpperCase()+h.split('.')[0].slice(1)}catch(e){}}
 function saveTool(){
   const url=document.getElementById('f-url').value.trim(),name=document.getElementById('f-name').value.trim();
   const cat=document.getElementById('f-cat').value,desc=document.getElementById('f-desc').value.trim();
   const icon=document.getElementById('f-icon').value.trim(),tags=document.getElementById('f-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
-  if(!url||!name){showToast('URL and Name are required','err');return}
-  if(S.editId){const t=S.tools.find(x=>x.id===S.editId);if(t)Object.assign(t,{url,name,cat,desc,icon,tags});showToast('Tool updated ✓','ok')}
-  else{S.tools.push({id:gid('t'),url,name,cat,desc,icon,tags,pinned:false});showToast('Tool added ✓','ok')}
+  if(!url||!name){showToast('URL and Name required','err');return}
+  if(S.editId){const t=S.tools.find(x=>x.id===S.editId);if(t)Object.assign(t,{url,name,cat,desc,icon,tags,faviconUrl:''});showToast('Updated ✓','ok')}
+  else{S.tools.push({id:gid('t'),url,name,cat,desc,icon,tags,pinned:false,faviconUrl:''});showToast('Tool added ✓','ok')}
   save();closeModal('tool-modal');renderAll()
 }
 
-/* ── CAT MODAL ── */
+/* CAT MODAL */
 function openCatModal(){['c-name','c-icon'].forEach(id=>document.getElementById(id).value='');buildEP('cat','c-icon');openModal('cat-modal')}
 function saveCat(){
   const name=document.getElementById('c-name').value.trim(),icon=document.getElementById('c-icon').value.trim()||'📁',color=document.getElementById('c-color').value;
@@ -475,69 +582,72 @@ function saveCat(){
   S.cats.push({id:gid('c'),name,icon,color});save();closeModal('cat-modal');renderAll();showToast('Category created ✓','ok')
 }
 
-/* ── MANAGE CATS ── */
+/* MANAGE CATS */
 function openMgCats(){renderCatList();openModal('mgcat-modal')}
 function renderCatList(){
   const el=document.getElementById('cats-list');
-  if(!S.cats.length){el.innerHTML='<p style="color:var(--text2);font-size:12px;padding:.5rem 0">No categories yet.</p>';return}
-  el.innerHTML=S.cats.map(c=>{
-    const cnt=S.tools.filter(t=>t.cat===c.id).length;
-    return`<div class="citem"><div class="cdot" style="background:${c.color}"></div><span style="font-size:14px">${c.icon}</span><span style="font-size:12px;flex:1">${c.name}</span><span style="font-size:10.5px;color:var(--text3);margin-right:10px">${cnt} tools</span><button class="a-btn del" onclick="delCat('${c.id}')">✕</button></div>`;
-  }).join('')
+  if(!S.cats.length){el.innerHTML='<p style="color:var(--text2);font-size:12px;padding:.5rem 0">No categories.</p>';return}
+  el.innerHTML=S.cats.map(c=>{const cnt=S.tools.filter(t=>t.cat===c.id).length;return`<div class="citem"><div class="cdot" style="background:${c.color}"></div><span style="font-size:14px">${c.icon}</span><span style="font-size:12.5px;flex:1">${c.name}</span><span style="font-size:10px;color:var(--text3);margin-right:10px">${cnt}</span><button class="a-btn del" onclick="delCat('${c.id}')">✕</button></div>`}).join('')
 }
 function delCat(id){
   const cnt=S.tools.filter(t=>t.cat===id).length;
-  if(cnt>0&&!confirm(`Delete category and ${cnt} tool(s)?`))return;
+  if(cnt>0&&!confirm('Delete category + '+cnt+' tool(s)?'))return;
   S.tools=S.tools.filter(t=>t.cat!==id);S.cats=S.cats.filter(c=>c.id!==id);
   if(S.activeCat===id)S.activeCat='all';
-  save();renderCatList();renderAll();showToast('Category deleted','ok')
+  save();renderCatList();renderAll();showToast('Deleted','ok')
 }
 
-/* ── IMPORT / EXPORT ── */
+/* IMPORT/EXPORT */
 function openIE(){document.getElementById('ie-body').innerHTML='';openModal('ie-modal')}
-function showExport(){
-  const d=JSON.stringify({tools:S.tools,cats:S.cats},null,2);
-  document.getElementById('ie-body').innerHTML=`<p style="font-size:11.5px;color:var(--text2);margin-bottom:.5rem">Your full data backup — copy or download:</p><textarea class="imp-area" readonly onclick="this.select()">${d}</textarea><div style="margin-top:7px;display:flex;gap:6px"><button class="btn btn-sm" onclick="cpExport()">📋 Copy</button><button class="btn btn-sm" onclick="dlExport()">⬇ Download</button></div>`
-}
+function showExport(){const d=JSON.stringify({tools:S.tools,cats:S.cats},null,2);document.getElementById('ie-body').innerHTML=`<p style="font-size:11.5px;color:var(--text2);margin-bottom:.5rem">Your full data backup:</p><textarea class="imp-area" readonly onclick="this.select()">${d}</textarea><div style="margin-top:7px;display:flex;gap:6px"><button class="btn btn-sm" onclick="cpExport()">📋 Copy</button><button class="btn btn-sm" onclick="dlExport()">⬇ Download</button></div>`}
 function cpExport(){const ta=document.querySelector('.imp-area');if(ta){navigator.clipboard.writeText(ta.value).then(()=>showToast('Copied ✓','ok')).catch(()=>{ta.select();document.execCommand('copy');showToast('Copied ✓','ok')})}}
 function dlExport(){const d=JSON.stringify({tools:S.tools,cats:S.cats},null,2);const b=new Blob([d],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='chainhub-backup.json';a.click();showToast('Downloaded ✓','ok')}
-function showImport(){document.getElementById('ie-body').innerHTML=`<p style="font-size:11.5px;color:var(--text2);margin-bottom:.5rem">Paste a JSON backup to import or merge:</p><textarea class="imp-area" id="imp-ta" placeholder='{"tools":[...],"cats":[...]}'></textarea><div style="margin-top:7px;display:flex;gap:6px"><button class="btn btn-p btn-sm" onclick="doImport()">📥 Replace all</button><button class="btn btn-sm" onclick="doMerge()">🔀 Merge (skip dupes)</button></div>`}
-function doImport(){try{const d=JSON.parse(document.getElementById('imp-ta').value);S.tools=d.tools||[];S.cats=d.cats||[];save();closeModal('ie-modal');renderAll();showToast(`Imported ${S.tools.length} tools ✓`,'ok')}catch(e){showToast('Invalid JSON','err')}}
-function doMerge(){try{const d=JSON.parse(document.getElementById('imp-ta').value);let tc=0,cc=0;(d.cats||[]).forEach(c=>{if(!S.cats.find(x=>x.name===c.name)){S.cats.push({...c,id:c.id||gid('c')});cc++}});(d.tools||[]).forEach(t=>{if(!S.tools.find(x=>x.url===t.url&&x.name===t.name)){S.tools.push({...t,id:t.id||gid('t')});tc++}});save();closeModal('ie-modal');renderAll();showToast(`Merged: +${tc} tools, +${cc} cats ✓`,'ok')}catch(e){showToast('Invalid JSON','err')}}
-function resetToDefault(){if(!confirm('Reset ALL data to your original v2 backup? This cannot be undone.'))return;S.tools=JSON.parse(JSON.stringify(SEED_DATA.tools));S.cats=JSON.parse(JSON.stringify(SEED_DATA.cats));S.view='grid';save();closeModal('ie-modal');renderAll();showToast('Reset to default data ✓','ok')}
+function showImport(){document.getElementById('ie-body').innerHTML=`<p style="font-size:11.5px;color:var(--text2);margin-bottom:.5rem">Paste JSON backup to import:</p><textarea class="imp-area" id="imp-ta" placeholder='{"tools":[...],"cats":[...]}'></textarea><div style="margin-top:7px;display:flex;gap:6px"><button class="btn btn-p btn-sm" onclick="doImport()">📥 Replace all</button><button class="btn btn-sm" onclick="doMerge()">🔀 Merge</button></div>`}
+function doImport(){try{const d=JSON.parse(document.getElementById('imp-ta').value);S.tools=d.tools||[];S.cats=d.cats||[];save();closeModal('ie-modal');renderAll();showToast('Imported '+S.tools.length+' tools ✓','ok')}catch(e){showToast('Invalid JSON','err')}}
+function doMerge(){try{const d=JSON.parse(document.getElementById('imp-ta').value);let tc=0,cc=0;(d.cats||[]).forEach(c=>{if(!S.cats.find(x=>x.name===c.name)){S.cats.push({...c,id:c.id||gid('c')});cc++}});(d.tools||[]).forEach(t=>{if(!S.tools.find(x=>x.url===t.url&&x.name===t.name)){S.tools.push({...t,id:t.id||gid('t')});tc++}});save();closeModal('ie-modal');renderAll();showToast('Merged +'+tc+' tools, +'+cc+' cats ✓','ok')}catch(e){showToast('Invalid JSON','err')}}
+function resetToDefault(){if(!confirm('Reset to original v2 backup data?'))return;S.tools=JSON.parse(JSON.stringify(SEED.tools));S.cats=JSON.parse(JSON.stringify(SEED.cats));S.view='grid';save();closeModal('ie-modal');renderAll();showToast('Reset ✓','ok')}
 
-/* ── EMOJI PICKER ── */
+/* EMOJI PICKER */
 let epTab={};
 function buildEP(ns,inputId){
   const tabs=Object.keys(W3E);epTab[ns]=tabs[0];
-  document.getElementById(`${ns}-etabs`).innerHTML=tabs.map(t=>`<button class="ep-tab${t===tabs[0]?' active':''}" onclick="swEPTab('${ns}','${t.replace(/'/g,"\\'")}','${inputId}')">${t.split(' ')[0]}</button>`).join('');
+  document.getElementById(ns+'-etabs').innerHTML=tabs.map(t=>`<button class="ep-tab${t===tabs[0]?' active':''}" onclick="swEPTab('${ns}','${t}','${inputId}')">${t}</button>`).join('');
   renderEPGrid(ns,tabs[0],inputId)
 }
-function swEPTab(ns,tab,inputId){epTab[ns]=tab;document.querySelectorAll(`#${ns}-etabs .ep-tab`).forEach((b,i)=>{b.className='ep-tab'+(Object.keys(W3E)[i]===tab?' active':'')});renderEPGrid(ns,tab,inputId)}
-function renderEPGrid(ns,tab,inputId){document.getElementById(`${ns}-egrid`).innerHTML=(W3E[tab]||[]).map(e=>`<button class="ep-em" onclick="pickE('${inputId}','${e}','${ns}')">${e}</button>`).join('')}
-function pickE(inputId,e,ns){document.getElementById(inputId).value=e;closeEP(ns)}
-function toggleEP(ns){const p=document.getElementById(`${ns}-epanel`);const was=p.classList.contains('open');document.querySelectorAll('.epanel').forEach(x=>x.classList.remove('open'));if(!was)p.classList.add('open')}
-function closeEP(ns){document.getElementById(`${ns}-epanel`).classList.remove('open')}
+function swEPTab(ns,tab,iid){epTab[ns]=tab;document.querySelectorAll('#'+ns+'-etabs .ep-tab').forEach((b,i)=>{b.className='ep-tab'+(Object.keys(W3E)[i]===tab?' active':'')});renderEPGrid(ns,tab,iid)}
+function renderEPGrid(ns,tab,iid){document.getElementById(ns+'-egrid').innerHTML=(W3E[tab]||[]).map(e=>`<button class="ep-em" onclick="pickE('${iid}','${e}','${ns}')">${e}</button>`).join('')}
+function pickE(iid,e,ns){document.getElementById(iid).value=e;closeEP(ns)}
+function toggleEP(ns){const p=document.getElementById(ns+'-epanel');const was=p.classList.contains('open');document.querySelectorAll('.epanel').forEach(x=>x.classList.remove('open'));if(!was)p.classList.add('open')}
+function closeEP(ns){document.getElementById(ns+'-epanel').classList.remove('open')}
 document.addEventListener('click',e=>{if(!e.target.closest('.emoji-wrap'))document.querySelectorAll('.epanel').forEach(p=>p.classList.remove('open'))})
 
-/* ── MODAL HELPERS ── */
-function openModal(id){document.getElementById(id).classList.add('open')}
-function closeModal(id){document.getElementById(id).classList.remove('open');document.querySelectorAll('.epanel').forEach(p=>p.classList.remove('open'))}
+/* MODALS */
+function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.querySelectorAll('.epanel').forEach(p=>p.classList.remove('open'));if(!document.querySelector('.overlay.open'))document.body.style.overflow=''}
 document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)closeModal(el.id)}))
 
-/* ── TOAST ── */
+/* TOAST */
 function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
 
-/* ── KEYBOARD ── */
+/* KEYBOARD */
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape')document.querySelectorAll('.overlay.open').forEach(x=>x.classList.remove('open'));
-  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();document.getElementById('srch').focus()}
+  if(e.key==='Escape'){closeDrawer();document.querySelectorAll('.overlay.open').forEach(x=>closeModal(x.id))}
+  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();(isMobile()?document.getElementById('msrch'):document.getElementById('srch')).focus()}
   if((e.metaKey||e.ctrlKey)&&e.key==='n'){e.preventDefault();openAddModal()}
 })
 
-function renderAll(){renderSidebar();renderStats();renderTools()}
+/* SWIPE TO CLOSE DRAWER */
+let touchStartX=0;
+document.addEventListener('touchstart',e=>{touchStartX=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  if(dx<-50&&document.getElementById('sidebar').classList.contains('open'))closeDrawer();
+},{passive:true});
 
-/* ── INIT ── */
+/* RESIZE */
+window.addEventListener('resize',()=>renderTools());
+
+function renderAll(){renderSidebar();renderStats();renderTools()}
 load();renderAll();
 </script>
 </body>
