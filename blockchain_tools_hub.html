@@ -1,1175 +1,544 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ChainHub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#09090f;--bg2:#0f1018;--bg3:#141520;--bg4:#1a1c2e;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.11);
+  --text:#eef0ff;--text2:#7a84a0;--text3:#3d4560;
+  --accent:#5b7fff;--accent2:#7c3aed;
+  --green:#20d9a0;--amber:#f5a623;--red:#f04444;--pink:#e84d9a;--cyan:#0acdd8;
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(91,127,255,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(91,127,255,0.022) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;top:-300px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,0.055) 0%,transparent 65%);pointer-events:none;z-index:0}
+.app{display:flex;flex-direction:column;height:100vh;position:relative;z-index:1}
 
-  :root {
-    --bg: #0a0b0f;
-    --bg2: #11131a;
-    --bg3: #171922;
-    --bg4: #1e2130;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.12);
-    --text: #f0f2ff;
-    --text2: #8892aa;
-    --text3: #4a5268;
-    --accent: #4f7fff;
-    --accent2: #7c3aed;
-    --green: #22d3a0;
-    --amber: #f59e0b;
-    --red: #ef4444;
-    --pink: #ec4899;
-    --cyan: #06b6d4;
-  }
+/* HEADER */
+header{height:56px;display:flex;align-items:center;padding:0 1.25rem;gap:10px;border-bottom:1px solid var(--border);background:rgba(9,9,15,0.92);backdrop-filter:blur(24px);flex-shrink:0;z-index:50}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:1rem;letter-spacing:-.025em;white-space:nowrap;text-decoration:none;color:inherit}
+.logo-icon{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.logo em{color:var(--accent);font-style:normal}
+.search-wrap{position:relative;flex:1;max-width:260px}
+.search-wrap input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:6px 10px 6px 28px;color:var(--text);font-family:inherit;font-size:12.5px;outline:none;transition:border-color .15s}
+.search-wrap input::placeholder{color:var(--text3)}
+.search-wrap input:focus{border-color:var(--accent)}
+.s-ico{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:12px;pointer-events:none}
+.hbtns{display:flex;gap:5px;margin-left:auto;align-items:center}
+.btn{padding:5px 13px;border-radius:7px;font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;border:1px solid var(--border2);background:var(--bg3);color:var(--text);white-space:nowrap;line-height:1.4}
+.btn:hover{background:var(--bg4);border-color:var(--accent);color:var(--accent)}
+.btn-p{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-p:hover{background:#4a6ef0;border-color:#4a6ef0;color:#fff !important}
+.btn-sm{padding:4px 10px;font-size:11px}
+.body{display:flex;flex:1;overflow:hidden}
 
-  body {
-    font-family: 'Space Grotesk', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+/* SIDEBAR */
+.sidebar{width:196px;flex-shrink:0;border-right:1px solid var(--border);overflow-y:auto;padding:.75rem 0;background:var(--bg)}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+.s-lbl{font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);padding:0 .9rem;margin-bottom:3px}
+.s-sec{padding:0 0 .9rem}
+.cat-btn{display:flex;align-items:center;gap:7px;width:calc(100% - 8px);margin:1px 4px;padding:6px 9px;border-radius:7px;border:none;background:transparent;color:var(--text2);font-family:inherit;font-size:12px;cursor:pointer;transition:all .12s;text-align:left}
+.cat-btn:hover{background:var(--bg3);color:var(--text)}
+.cat-btn.active{background:rgba(91,127,255,0.13);color:var(--accent);font-weight:500}
+.c-ico{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.c-cnt{margin-left:auto;font-size:9.5px;color:var(--text3);background:var(--bg4);padding:1px 5px;border-radius:8px;font-family:'JetBrains Mono',monospace;flex-shrink:0}
+.add-cat-btn{width:calc(100% - 8px);margin:2px 4px;padding:5px 9px;border-radius:7px;border:1px dashed var(--border2);background:transparent;color:var(--text3);font-family:inherit;font-size:11px;cursor:pointer;transition:all .12s;display:block}
+.add-cat-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(91,127,255,0.05)}
 
-  /* GRID BG */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(79,127,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(79,127,255,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:1.1rem 1.25rem}
+.content::-webkit-scrollbar{width:3px}
+.content::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+.stats{display:flex;gap:1.25rem;margin-bottom:.9rem;padding-bottom:.9rem;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.stat{display:flex;flex-direction:column;gap:1px}
+.sv{font-size:1.25rem;font-weight:700;font-family:'JetBrains Mono',monospace;background:linear-gradient(135deg,var(--accent),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sl{font-size:9.5px;color:var(--text3);letter-spacing:.05em;text-transform:uppercase}
+.c-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem}
+.page-ttl{font-size:1rem;font-weight:600;letter-spacing:-.02em}
+.vtog{display:flex;gap:3px}
+.vbtn{width:26px;height:26px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;transition:all .12s}
+.vbtn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.vbtn:hover:not(.active){color:var(--text)}
 
-  /* GLOW ORB */
-  body::after {
-    content: '';
-    position: fixed;
-    top: -200px;
-    right: -200px;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
+/* GRID */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.75rem}
+.tools-list{display:flex;flex-direction:column;gap:5px}
 
-  .app { position: relative; z-index: 1; }
+/* CARD */
+.tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:.9rem 1rem;transition:border-color .18s,transform .18s,box-shadow .18s;cursor:pointer;position:relative;overflow:hidden;display:block;text-decoration:none}
+.tool-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 55%,rgba(91,127,255,0.05));opacity:0;transition:opacity .2s;pointer-events:none}
+.tool-card:hover{border-color:rgba(91,127,255,0.35);transform:translateY(-2px);box-shadow:0 6px 22px rgba(0,0,0,0.28)}
+.tool-card:hover::after{opacity:1}
+.tool-card-list{flex-direction:row;align-items:center;padding:.65rem .85rem;border-radius:8px;transform:none !important}
+.tool-card-list:hover{box-shadow:none;border-color:rgba(91,127,255,0.25)}
+.t-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.t-fav{width:34px;height:34px;border-radius:8px;background:var(--bg4);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;overflow:hidden}
+.t-fav img{width:34px;height:34px;object-fit:cover;border-radius:8px}
+.t-acts{display:flex;gap:3px;opacity:0;transition:opacity .15s}
+.tool-card:hover .t-acts,.tool-card-list:hover .t-acts{opacity:1}
+.a-btn{width:24px;height:24px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;transition:all .12s;flex-shrink:0}
+.a-btn:hover{background:var(--bg4);color:var(--text)}
+.a-btn.del:hover{background:rgba(240,68,68,0.15);color:var(--red);border-color:rgba(240,68,68,0.3)}
+.t-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-desc{font-size:11px;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:1.5em}
+.t-meta{display:flex;align-items:center;gap:5px;margin-top:7px;flex-wrap:nowrap;overflow:hidden}
+.t-tag{font-size:9.5px;font-weight:500;padding:2px 6px;border-radius:20px;background:var(--bg4);color:var(--text3);border:1px solid var(--border);white-space:nowrap;flex-shrink:0}
+.t-url{margin-left:auto;font-size:9.5px;color:var(--accent);font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:1;min-width:0}
+.pbar{height:2px;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:2px;margin-top:8px;transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.tool-card:hover .pbar{transform:scaleX(1)}
 
-  /* HEADER */
-  header {
-    padding: 0 2rem;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border);
-    background: rgba(10,11,15,0.9);
-    backdrop-filter: blur(20px);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
+/* LIST CARD */
+.lci{flex:1;display:flex;align-items:center;gap:9px;min-width:0}
+.lfav{width:28px;height:28px;border-radius:7px;background:var(--bg4);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;overflow:hidden}
+.lfav img{width:28px;height:28px;object-fit:cover;border-radius:7px}
+.ltxt{flex:1;min-width:0}
+.ln{font-size:12.5px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ld{font-size:11px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lr{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0}
 
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-    font-size: 1.15rem;
-    letter-spacing: -0.02em;
-  }
+/* EMPTY */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 1rem;text-align:center}
+.ei{font-size:36px;margin-bottom:.6rem;opacity:.4}
+.et{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.35rem}
+.ed{font-size:11.5px;color:var(--text2);margin-bottom:1.1rem}
 
-  .logo-icon {
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-  }
+/* OVERLAY / MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.78);backdrop-filter:blur(10px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:1.4rem;width:460px;max-width:95vw;max-height:88vh;overflow-y:auto;transform:translateY(12px) scale(.97);transition:transform .2s}
+.modal::-webkit-scrollbar{width:3px}
+.modal::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+.overlay.open .modal{transform:translateY(0) scale(1)}
+.m-ttl{font-size:.95rem;font-weight:600;margin-bottom:1.1rem;display:flex;align-items:center;justify-content:space-between}
+.m-cls{width:24px;height:24px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;line-height:1;transition:all .12s}
+.m-cls:hover{background:var(--bg4);color:var(--text)}
+.fg{margin-bottom:.8rem}
+.fl{display:block;font-size:11px;font-weight:500;color:var(--text2);margin-bottom:4px;letter-spacing:.03em}
+.fi,.fs,.fta{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:7px;padding:7px 10px;color:var(--text);font-family:inherit;font-size:12.5px;outline:none;transition:border-color .15s}
+.fi:focus,.fs:focus,.fta:focus{border-color:var(--accent)}
+.fi::placeholder,.fta::placeholder{color:var(--text3)}
+.fs{appearance:none;cursor:pointer}
+.fs option{background:var(--bg3)}
+.fta{resize:vertical;min-height:65px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.m-foot{display:flex;gap:6px;justify-content:flex-end;margin-top:1.1rem;padding-top:.9rem;border-top:1px solid var(--border)}
 
-  .logo span { color: var(--accent); }
+/* EMOJI PICKER */
+.emoji-wrap{position:relative}
+.erow{display:flex;gap:5px}
+.erow .fi{flex:1}
+.epick-btn{padding:7px 10px;border-radius:7px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:inherit}
+.epick-btn:hover{border-color:var(--accent);color:var(--accent)}
+.epanel{position:absolute;top:calc(100% + 5px);left:0;right:0;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:9px;z-index:400;display:none;box-shadow:0 10px 28px rgba(0,0,0,0.5)}
+.epanel.open{display:block}
+.ep-tabs{display:flex;gap:3px;margin-bottom:7px;flex-wrap:wrap}
+.ep-tab{padding:2px 9px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:10px;cursor:pointer;font-family:inherit;transition:all .12s;white-space:nowrap}
+.ep-tab.active,.ep-tab:hover{background:rgba(91,127,255,0.15);border-color:var(--accent);color:var(--accent)}
+.ep-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:2px}
+.ep-em{width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:17px;border-radius:6px;cursor:pointer;transition:background .1s;border:none;background:transparent}
+.ep-em:hover{background:var(--bg4)}
 
-  .header-actions { display: flex; gap: 8px; align-items: center; }
+/* IMPORT/EXPORT */
+.imp-area{width:100%;background:var(--bg3);border:2px dashed var(--border2);border-radius:8px;padding:.9rem;color:var(--text2);font-family:'JetBrains Mono',monospace;font-size:10.5px;min-height:110px;outline:none;resize:vertical;transition:border-color .15s;line-height:1.5}
+.imp-area:focus{border-color:var(--accent)}
+.imp-area[readonly]{color:var(--text2);cursor:text}
 
-  .btn {
-    padding: 7px 16px;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s;
-    border: 1px solid var(--border2);
-    background: var(--bg3);
-    color: var(--text);
-  }
-  .btn:hover { background: var(--bg4); border-color: var(--accent); color: var(--accent); }
+/* MANAGE CATS */
+.citem{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)}
+.citem:last-child{border:none}
+.cdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 
-  .btn-primary {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-  }
-  .btn-primary:hover { background: #3d6ee8; border-color: #3d6ee8; color: #fff; }
+/* TOAST */
+.toast{position:fixed;bottom:1.1rem;left:50%;transform:translateX(-50%) translateY(55px);background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:7px 16px;font-size:12px;color:var(--text);z-index:999;transition:transform .28s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.ok{border-color:rgba(32,217,160,.35)}
+.toast.err{border-color:rgba(240,68,68,.35)}
 
-  .search-wrap {
-    position: relative;
-    flex: 1;
-    max-width: 320px;
-    margin: 0 1rem;
-  }
-
-  .search-wrap input {
-    width: 100%;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 7px 12px 7px 34px;
-    color: var(--text);
-    font-family: inherit;
-    font-size: 13px;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-  .search-wrap input::placeholder { color: var(--text3); }
-  .search-wrap input:focus { border-color: var(--accent); }
-  .search-icon {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text3);
-    font-size: 14px;
-    pointer-events: none;
-  }
-
-  /* MAIN */
-  .main { display: flex; min-height: calc(100vh - 64px); }
-
-  /* SIDEBAR */
-  .sidebar {
-    width: 220px;
-    flex-shrink: 0;
-    padding: 1.5rem 0;
-    border-right: 1px solid var(--border);
-    background: var(--bg);
-  }
-
-  .sidebar-section {
-    padding: 0 0.75rem 1.5rem;
-  }
-
-  .sidebar-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text3);
-    padding: 0 0.75rem;
-    margin-bottom: 6px;
-  }
-
-  .cat-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: none;
-    background: transparent;
-    color: var(--text2);
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 400;
-    cursor: pointer;
-    transition: all 0.12s;
-    text-align: left;
-  }
-
-  .cat-btn:hover { background: var(--bg3); color: var(--text); }
-  .cat-btn.active { background: rgba(79,127,255,0.12); color: var(--accent); font-weight: 500; }
-
-  .cat-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 7px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    flex-shrink: 0;
-  }
-
-  .cat-count {
-    margin-left: auto;
-    font-size: 11px;
-    color: var(--text3);
-    background: var(--bg4);
-    padding: 1px 6px;
-    border-radius: 10px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  /* CONTENT */
-  .content { flex: 1; padding: 2rem; overflow-y: auto; }
-
-  .content-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.75rem;
-  }
-
-  .page-title {
-    font-size: 1.35rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-
-  .view-toggle { display: flex; gap: 4px; }
-  .view-btn {
-    width: 32px; height: 32px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    background: var(--bg3);
-    color: var(--text2);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.12s;
-  }
-  .view-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .view-btn:hover:not(.active) { border-color: var(--border2); color: var(--text); }
-
-  /* TOOLS GRID */
-  .tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 1rem;
-  }
-
-  .tools-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  /* TOOL CARD */
-  .tool-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.1rem 1.25rem;
-    transition: all 0.18s;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    text-decoration: none;
-    display: block;
-  }
-
-  .tool-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, transparent 60%, rgba(79,127,255,0.04));
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-
-  .tool-card:hover {
-    border-color: rgba(79,127,255,0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-  }
-  .tool-card:hover::before { opacity: 1; }
-
-  .tool-card-list {
-    flex-direction: row;
-    align-items: center;
-    padding: 0.85rem 1rem;
-    border-radius: 8px;
-  }
-
-  .tool-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
-
-  .tool-favicon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: var(--bg4);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-    overflow: hidden;
-  }
-
-  .tool-favicon img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
-
-  .tool-actions { display: flex; gap: 4px; opacity: 0; transition: opacity 0.15s; }
-  .tool-card:hover .tool-actions { opacity: 1; }
-
-  .action-btn {
-    width: 28px; height: 28px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    background: var(--bg3);
-    color: var(--text2);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    font-size: 12px;
-    transition: all 0.12s;
-  }
-  .action-btn:hover { background: var(--bg4); color: var(--text); }
-  .action-btn.delete:hover { background: rgba(239,68,68,0.15); color: var(--red); border-color: rgba(239,68,68,0.3); }
-
-  .tool-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .tool-desc {
-    font-size: 12px;
-    color: var(--text2);
-    line-height: 1.5;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .tool-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 10px;
-  }
-
-  .tool-tag {
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    padding: 2px 8px;
-    border-radius: 20px;
-    background: var(--bg4);
-    color: var(--text3);
-    border: 1px solid var(--border);
-  }
-
-  .tool-link {
-    margin-left: auto;
-    font-size: 11px;
-    color: var(--accent);
-    font-family: 'JetBrains Mono', monospace;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 160px;
-  }
-
-  /* LIST VIEW */
-  .list-card-info { flex: 1; display: flex; align-items: center; gap: 12px; }
-  .list-card-favicon { width: 32px; height: 32px; border-radius: 8px; background: var(--bg4); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; overflow: hidden; }
-  .list-card-favicon img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
-  .list-card-text { flex: 1; min-width: 0; }
-  .list-tool-name { font-size: 13px; font-weight: 500; color: var(--text); }
-  .list-tool-desc { font-size: 12px; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .list-card-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
-
-  /* MODAL OVERLAY */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(8px);
-    z-index: 200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
-  }
-  .modal-overlay.open { opacity: 1; pointer-events: all; }
-
-  .modal {
-    background: var(--bg2);
-    border: 1px solid var(--border2);
-    border-radius: 16px;
-    padding: 2rem;
-    width: 480px;
-    max-width: 95vw;
-    transform: translateY(16px) scale(0.97);
-    transition: transform 0.2s;
-  }
-  .modal-overlay.open .modal { transform: translateY(0) scale(1); }
-
-  .modal-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .modal-close {
-    width: 28px; height: 28px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text2);
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    transition: all 0.12s;
-  }
-  .modal-close:hover { background: var(--bg4); color: var(--text); }
-
-  .form-group { margin-bottom: 1.1rem; }
-  .form-label { display: block; font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 6px; letter-spacing: 0.03em; }
-  .form-input, .form-select, .form-textarea {
-    width: 100%;
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 8px;
-    padding: 9px 12px;
-    color: var(--text);
-    font-family: inherit;
-    font-size: 13px;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
-  .form-input::placeholder, .form-textarea::placeholder { color: var(--text3); }
-  .form-select { appearance: none; cursor: pointer; }
-  .form-textarea { resize: vertical; min-height: 80px; }
-
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-  .modal-footer { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1.5rem; }
-
-  /* EMPTY STATE */
-  .empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 4rem 2rem;
-    text-align: center;
-    color: var(--text2);
-  }
-  .empty-icon { font-size: 48px; margin-bottom: 1rem; opacity: 0.5; }
-  .empty-title { font-size: 1.1rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
-  .empty-desc { font-size: 13px; color: var(--text2); margin-bottom: 1.5rem; }
-
-  /* STATS BAR */
-  .stats-bar {
-    display: flex;
-    gap: 1.5rem;
-    margin-bottom: 1.75rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .stat {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .stat-value {
-    font-size: 1.4rem;
-    font-weight: 700;
-    font-family: 'JetBrains Mono', monospace;
-    background: linear-gradient(135deg, var(--accent), var(--green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .stat-label { font-size: 11px; color: var(--text3); letter-spacing: 0.04em; text-transform: uppercase; }
-
-  /* CAT MANAGEMENT */
-  .manage-cat-btn {
-    width: 100%;
-    padding: 6px 12px;
-    border-radius: 7px;
-    border: 1px dashed var(--border2);
-    background: transparent;
-    color: var(--text3);
-    font-family: inherit;
-    font-size: 12px;
-    cursor: pointer;
-    margin-top: 6px;
-    transition: all 0.12s;
-  }
-  .manage-cat-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(79,127,255,0.05); }
-
-  /* TAG COLORS */
-  .tag-defi { background: rgba(34,211,160,0.1); color: var(--green); border-color: rgba(34,211,160,0.2); }
-  .tag-nft { background: rgba(236,72,153,0.1); color: var(--pink); border-color: rgba(236,72,153,0.2); }
-  .tag-explorer { background: rgba(79,127,255,0.1); color: var(--accent); border-color: rgba(79,127,255,0.2); }
-  .tag-wallet { background: rgba(245,158,11,0.1); color: var(--amber); border-color: rgba(245,158,11,0.2); }
-  .tag-analytics { background: rgba(6,182,212,0.1); color: var(--cyan); border-color: rgba(6,182,212,0.2); }
-
-  /* TOAST */
-  .toast {
-    position: fixed;
-    bottom: 1.5rem;
-    left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 10px;
-    padding: 10px 20px;
-    font-size: 13px;
-    color: var(--text);
-    z-index: 999;
-    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
-    white-space: nowrap;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast.success { border-color: rgba(34,211,160,0.3); }
-  .toast.error { border-color: rgba(239,68,68,0.3); }
-
-  /* CATEGORY MANAGE MODAL */
-  .cat-item-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
-  .cat-item-row:last-child { border: none; }
-  .cat-color-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
-
-  /* PREVIEW TOOLTIP */
-  .preview-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.3); }
-  }
-
-  .pin-star { color: var(--amber); font-size: 12px; }
-
-  /* QUICK PREVIEW */
-  .preview-bar {
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--green));
-    border-radius: 2px;
-    margin-top: 10px;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s;
-  }
-  .tool-card:hover .preview-bar { transform: scaleX(1); }
-
-  .no-results { text-align: center; padding: 3rem; color: var(--text2); }
-
-  /* Responsive */
-  @media (max-width: 700px) {
-    .sidebar { display: none; }
-    .content { padding: 1rem; }
-    header { padding: 0 1rem; }
-  }
+/* SCROLL ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.tool-card{animation:fadeUp .2s ease both}
 </style>
 </head>
 <body>
-<div class="app" id="app">
-
-  <!-- HEADER -->
+<div class="app">
   <header>
-    <div class="logo">
-      <div class="logo-icon">⛓</div>
-      Chain<span>Hub</span>
-    </div>
+    <a class="logo" href="#"><div class="logo-icon">⛓</div>Chain<em>Hub</em></a>
     <div class="search-wrap">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="search-input" placeholder="Search tools..." oninput="filterTools()">
+      <span class="s-ico">⌕</span>
+      <input id="srch" type="text" placeholder="Search tools...  ⌘K" oninput="filterTools()">
     </div>
-    <div class="header-actions">
-      <button class="btn" onclick="openCatModal()">+ Category</button>
-      <button class="btn btn-primary" onclick="openAddModal()">+ Add Tool</button>
+    <div class="hbtns">
+      <button class="btn btn-sm" onclick="openIE()">⇅ Import/Export</button>
+      <button class="btn btn-sm" onclick="openCatModal()">＋ Category</button>
+      <button class="btn btn-p btn-sm" onclick="openAddModal()">＋ Add Tool</button>
     </div>
   </header>
-
-  <div class="main">
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div class="sidebar-section">
-        <div class="sidebar-label">Views</div>
-        <button class="cat-btn active" id="cat-all" onclick="selectCat('all')">
-          <div class="cat-icon" style="background:rgba(79,127,255,0.1)">🌐</div>
-          All Tools
-          <span class="cat-count" id="count-all">0</span>
-        </button>
-        <button class="cat-btn" id="cat-pinned" onclick="selectCat('pinned')">
-          <div class="cat-icon" style="background:rgba(245,158,11,0.1)">⭐</div>
-          Pinned
-          <span class="cat-count" id="count-pinned">0</span>
-        </button>
-      </div>
-      <div class="sidebar-section" id="cats-sidebar">
-        <div class="sidebar-label">Categories</div>
-      </div>
-      <div style="padding: 0 0.75rem;">
-        <button class="manage-cat-btn" onclick="openManageCatsModal()">⚙ Manage Categories</button>
-      </div>
-    </aside>
-
-    <!-- CONTENT -->
+  <div class="body">
+    <aside class="sidebar" id="sidebar"></aside>
     <main class="content">
-      <div class="stats-bar" id="stats-bar"></div>
-
-      <div class="content-header">
-        <div class="page-title" id="page-title">All Tools</div>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div class="view-toggle">
-            <button class="view-btn active" id="view-grid" onclick="setView('grid')" title="Grid view">⊞</button>
-            <button class="view-btn" id="view-list" onclick="setView('list')" title="List view">☰</button>
-          </div>
+      <div class="stats" id="stats"></div>
+      <div class="c-hdr">
+        <div class="page-ttl" id="pg-ttl">All Tools</div>
+        <div class="vtog">
+          <button class="vbtn active" id="vg" onclick="setView('grid')" title="Grid view">⊞</button>
+          <button class="vbtn" id="vl" onclick="setView('list')" title="List view">☰</button>
         </div>
       </div>
-
-      <div id="tools-container"></div>
+      <div id="tc"></div>
     </main>
   </div>
-
-  <!-- ADD/EDIT TOOL MODAL -->
-  <div class="modal-overlay" id="tool-modal">
-    <div class="modal">
-      <div class="modal-title">
-        <span id="modal-title-text">Add Tool</span>
-        <button class="modal-close" onclick="closeToolModal()">×</button>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Tool URL *</label>
-        <input class="form-input" id="tool-url" placeholder="https://etherscan.io" oninput="autoFillFromUrl()">
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Name *</label>
-          <input class="form-input" id="tool-name" placeholder="Etherscan">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Category *</label>
-          <select class="form-select" id="tool-cat"></select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Description</label>
-        <textarea class="form-textarea" id="tool-desc" placeholder="What does this tool do?"></textarea>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Custom Icon (emoji)</label>
-          <input class="form-input" id="tool-icon" placeholder="🔍" maxlength="2">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Tags (comma separated)</label>
-          <input class="form-input" id="tool-tags" placeholder="free, evm, mainnet">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn" onclick="closeToolModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveTool()">Save Tool</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ADD CATEGORY MODAL -->
-  <div class="modal-overlay" id="cat-modal">
-    <div class="modal">
-      <div class="modal-title">
-        <span>New Category</span>
-        <button class="modal-close" onclick="closeCatModal()">×</button>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Category Name *</label>
-        <input class="form-input" id="cat-name" placeholder="DeFi Protocols">
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Icon (emoji)</label>
-          <input class="form-input" id="cat-icon" placeholder="💎" maxlength="2">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Color</label>
-          <select class="form-select" id="cat-color">
-            <option value="#22d3a0">🟢 Green</option>
-            <option value="#4f7fff">🔵 Blue</option>
-            <option value="#ec4899">🩷 Pink</option>
-            <option value="#f59e0b">🟡 Amber</option>
-            <option value="#06b6d4">🩵 Cyan</option>
-            <option value="#7c3aed">🟣 Purple</option>
-            <option value="#ef4444">🔴 Red</option>
-          </select>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn" onclick="closeCatModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveCat()">Create Category</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MANAGE CATS MODAL -->
-  <div class="modal-overlay" id="manage-cats-modal">
-    <div class="modal">
-      <div class="modal-title">
-        <span>Manage Categories</span>
-        <button class="modal-close" onclick="closeManageCatsModal()">×</button>
-      </div>
-      <div id="cats-list" style="max-height:320px;overflow-y:auto;"></div>
-      <div class="modal-footer">
-        <button class="btn" onclick="closeManageCatsModal()">Done</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- TOAST -->
-  <div class="toast" id="toast"></div>
 </div>
 
+<!-- TOOL MODAL -->
+<div class="overlay" id="tool-modal">
+<div class="modal">
+  <div class="m-ttl"><span id="m-ttl-txt">Add Tool</span><button class="m-cls" onclick="closeModal('tool-modal')">×</button></div>
+  <div class="fg"><label class="fl">URL *</label><input class="fi" id="f-url" placeholder="https://etherscan.io" oninput="autoFill()"></div>
+  <div class="frow">
+    <div class="fg"><label class="fl">Name *</label><input class="fi" id="f-name" placeholder="Etherscan"></div>
+    <div class="fg"><label class="fl">Category *</label><select class="fs" id="f-cat"></select></div>
+  </div>
+  <div class="fg"><label class="fl">Description</label><textarea class="fta" id="f-desc" placeholder="What does this tool do?"></textarea></div>
+  <div class="frow">
+    <div class="fg">
+      <label class="fl">Icon</label>
+      <div class="emoji-wrap" id="tool-ew">
+        <div class="erow"><input class="fi" id="f-icon" placeholder="🔍" maxlength="4"><button class="epick-btn" onclick="toggleEP('tool')">Pick ▾</button></div>
+        <div class="epanel" id="tool-epanel"><div class="ep-tabs" id="tool-etabs"></div><div class="ep-grid" id="tool-egrid"></div></div>
+      </div>
+    </div>
+    <div class="fg"><label class="fl">Tags (comma separated)</label><input class="fi" id="f-tags" placeholder="free, evm, mainnet"></div>
+  </div>
+  <div class="m-foot">
+    <button class="btn" onclick="closeModal('tool-modal')">Cancel</button>
+    <button class="btn btn-p" onclick="saveTool()">Save Tool</button>
+  </div>
+</div>
+</div>
+
+<!-- CAT MODAL -->
+<div class="overlay" id="cat-modal">
+<div class="modal" style="width:360px">
+  <div class="m-ttl"><span id="cat-ttl">New Category</span><button class="m-cls" onclick="closeModal('cat-modal')">×</button></div>
+  <div class="fg"><label class="fl">Name *</label><input class="fi" id="c-name" placeholder="DeFi Protocols"></div>
+  <div class="frow">
+    <div class="fg">
+      <label class="fl">Icon</label>
+      <div class="emoji-wrap" id="cat-ew">
+        <div class="erow"><input class="fi" id="c-icon" placeholder="💎" maxlength="4"><button class="epick-btn" onclick="toggleEP('cat')">Pick ▾</button></div>
+        <div class="epanel" id="cat-epanel"><div class="ep-tabs" id="cat-etabs"></div><div class="ep-grid" id="cat-egrid"></div></div>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="fl">Color</label>
+      <select class="fs" id="c-color">
+        <option value="#22d3a0">🟢 Green</option>
+        <option value="#5b7fff">🔵 Blue</option>
+        <option value="#ec4899">🩷 Pink</option>
+        <option value="#f59e0b">🟡 Amber</option>
+        <option value="#06b6d4">🩵 Cyan</option>
+        <option value="#7c3aed">🟣 Purple</option>
+        <option value="#ef4444">🔴 Red</option>
+        <option value="#f97316">🟠 Orange</option>
+      </select>
+    </div>
+  </div>
+  <div class="m-foot">
+    <button class="btn" onclick="closeModal('cat-modal')">Cancel</button>
+    <button class="btn btn-p" onclick="saveCat()">Create</button>
+  </div>
+</div>
+</div>
+
+<!-- MANAGE CATS MODAL -->
+<div class="overlay" id="mgcat-modal">
+<div class="modal" style="width:400px">
+  <div class="m-ttl"><span>Manage Categories</span><button class="m-cls" onclick="closeModal('mgcat-modal')">×</button></div>
+  <div id="cats-list"></div>
+  <div class="m-foot"><button class="btn" onclick="closeModal('mgcat-modal')">Done</button></div>
+</div>
+</div>
+
+<!-- IMPORT/EXPORT MODAL -->
+<div class="overlay" id="ie-modal">
+<div class="modal" style="width:500px">
+  <div class="m-ttl"><span>Import / Export</span><button class="m-cls" onclick="closeModal('ie-modal')">×</button></div>
+  <div style="display:flex;gap:7px;margin-bottom:1rem">
+    <button class="btn" style="flex:1" onclick="showExport()">📤 Export JSON</button>
+    <button class="btn" style="flex:1" onclick="showImport()">📥 Import / Merge</button>
+    <button class="btn" style="flex:1;color:var(--red);border-color:rgba(240,68,68,.3)" onclick="resetToDefault()">⚠ Reset All</button>
+  </div>
+  <div id="ie-body"></div>
+  <div class="m-foot"><button class="btn" onclick="closeModal('ie-modal')">Close</button></div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-const STORAGE_KEY = 'chainhub_v2';
+const SK = 'chainhub_v3';
+const LEGACY = ['chainhub_v2','chainhub_v1','chainhub'];
 
-const DEFAULT_CATS = [
-  { id: 'explorers', name: 'Block Explorers', icon: '🔍', color: '#4f7fff' },
-  { id: 'defi', name: 'DeFi', icon: '💎', color: '#22d3a0' },
-  { id: 'wallets', name: 'Wallets', icon: '👛', color: '#f59e0b' },
-  { id: 'nft', name: 'NFTs', icon: '🖼', color: '#ec4899' },
-  { id: 'analytics', name: 'Analytics', icon: '📊', color: '#06b6d4' },
-  { id: 'bridges', name: 'Bridges', icon: '🌉', color: '#7c3aed' },
-  { id: 'dev', name: 'Dev Tools', icon: '⚙', color: '#ef4444' },
-  { id: 'data', name: 'Data / APIs', icon: '🗄', color: '#22d3a0' },
-];
+/* ── YOUR EXACT DATA BAKED IN ── */
+const SEED_DATA = {"tools":[{"id":"t1","name":"Etherscan","url":"https://etherscan.io","cat":"explorers","desc":"Ethereum blockchain explorer. View transactions, wallets, tokens and smart contracts.","icon":"🔍","tags":["ethereum","evm","free"],"pinned":true,"faviconUrl":"https://etherscan.io/images/favicon3.ico"},{"id":"t4","name":"OpenSea","url":"https://opensea.io","cat":"nft","desc":"Largest NFT marketplace. Buy, sell and discover rare digital items.","icon":"🌊","tags":["marketplace","ethereum","polygon"],"pinned":false},{"id":"t5","name":"Dune Analytics","url":"https://dune.com","cat":"analytics","desc":"Community platform for on-chain data analytics using SQL queries and dashboards.","icon":"📊","tags":["sql","free","on-chain"],"pinned":false},{"id":"t6","name":"Hardhat","url":"https://hardhat.org","cat":"dev","desc":"Ethereum development environment for compiling, testing and deploying smart contracts.","icon":"🔨","tags":["solidity","testing","npm"],"pinned":false},{"id":"t8","name":"The Graph","url":"https://thegraph.com","cat":"data","desc":"Indexing protocol for querying blockchain data with GraphQL API endpoints.","icon":"🗄","tags":["graphql","api","indexing"],"pinned":true},{"id":"tmoq1450l","url":"https://unchaindata.xyz/jobs#jobs","name":"Unchaindata","cat":"cmoq13len","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq14h81","url":"https://web3.career/","name":"Web3","cat":"cmoq13len","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq15l4o","url":"https://www.rootdata.com/Investors","name":"Rootdata","cat":"cmoq159ck","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq17662","url":"https://blocksec.com/phalcon/explorer","name":"phalcon","cat":"explorers","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq1kadx","url":"https://app.nansen.ai/","name":"Nansen","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq1mxbc","url":"https://app.elfa.ai/leaderboard/token?timeframe=1d","name":"Mindshare","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq1oasr","url":"https://loris.tools/","name":"Loris","cat":"cmoq1nrwq","desc":"Arbitrage Opportunity","icon":"","tags":[],"pinned":false},{"id":"tmoq1q77n","url":"https://app.coinmarketman.com/hypertracker","name":"HyperLiquid Wallet Tracker","cat":"cmoq1oqeq","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq1tcz2","url":"https://www.findas.org/","name":"Findas","cat":"cmoq159ck","desc":"TokenNomics Of Tokens","icon":"","tags":[],"pinned":false},{"id":"tmoq248ud","url":"https://stalkchain.com/dashboard/learning-center","name":"Stalkchain","cat":"cmoq11k5j","desc":"Solana Onchain Screener and finder","icon":"","tags":[],"pinned":false},{"id":"tmoq27zxh","url":"https://members.delphidigital.io/","name":"delphidigital","cat":"analytics","desc":"","icon":"","tags":["research"],"pinned":false},{"id":"tmoq28qu1","url":"https://classic.artemis.ai/home","name":"artemis","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2cdfc","url":"https://www.tradingview.com/chart/WpglJglJ/","name":"Tradingview","cat":"cmoq1nrwq","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2prmi","url":"https://www.coingecko.com/en/","name":"Coingecko","cat":"cmoq2pb6q","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2qz03","url":"https://www.livecoinwatch.com/tools/api#try","name":"Livecoinwatch","cat":"data","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2s93k","url":"https://legend.coinglass.com/chart/7e1e5b5cc9364c0a94379c9a2210c792","name":"Legend Coinglass","cat":"cmoq1nrwq","desc":"Liquidation","icon":"","tags":[],"pinned":false},{"id":"tmoq2suoq","url":"https://www.coinglass.com/","name":"Coinglass","cat":"cmoq2pb6q","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2trqd","url":"https://intel.arkm.com/explorer","name":"Intelligenc Arkham","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2u5zg","url":"https://defillama.com/","name":"Defillama","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2vpx7","url":"https://yield-analyzer.xyz/","name":"Yield-analyzer","cat":"cmoq2pb6q","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2wncz","url":"https://dune.com/decrypto_space/bitcoin-on-chain-metrics","name":"Dune Bitcoin essential metrics","cat":"cmoq0znnq","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2xn3d","url":"https://www.investing.com/economic-calendar","name":"Investing","cat":"cmoq12g4i","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2ysha","url":"https://studio.glassnode.com/","name":"Glassnode Studio","cat":"cmoq12g4i","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2z9r9","url":"https://cryptopanic.com/","name":"Cryptopanic","cat":"cmoq2pb6q","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq30cxx","url":"https://app.hyperliquid.xyz/trade","name":"hyperliquid","cat":"cmoq1oqeq","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq35e0d","url":"https://www.theblock.co/data/on-chain-metrics/bitcoin","name":"Theblock","cat":"cmoq0znnq","desc":"Bitcoin Macros Mertics","icon":"","tags":[],"pinned":false},{"id":"tmoq36bh2","url":"https://bitbo.io/tools/","name":"Bitbo","cat":"cmoq0znnq","desc":"Various Bitcoin Tools","icon":"","tags":[],"pinned":false},{"id":"tmoq377xj","url":"https://cryptoslate.com/companies/","name":"Cryptoslate","cat":"cmoq2pb6q","desc":"Crypto Companies list","icon":"","tags":[],"pinned":false},{"id":"tmoq3iaal","url":"https://jup.ag/","name":"Jupiter","cat":"cmoq11k5j","desc":"All in One Solana Ecosystem","icon":"","tags":[],"pinned":false},{"id":"tmoq3on5f","url":"https://www.meteora.ag/","name":"Meteora","cat":"cmoq11k5j","desc":"Liquidity Providing and earn Fees","icon":"","tags":[],"pinned":false},{"id":"tmoq3rfk2","url":"https://www.jito.network/staking/","name":"Jito","cat":"cmoq11k5j","desc":"Staking and restaking","icon":"","tags":[],"pinned":false}],"cats":[{"id":"explorers","name":"Block Explorers","icon":"🔍","color":"#4f7fff"},{"id":"nft","name":"NFTs","icon":"🖼","color":"#ec4899"},{"id":"analytics","name":"Analytics","icon":"📊","color":"#06b6d4"},{"id":"dev","name":"Dev Tools","icon":"⚙","color":"#ef4444"},{"id":"data","name":"Data / APIs","icon":"🗄","color":"#22d3a0"},{"id":"cmoq0znnq","name":"Bitcoin","icon":"₿","color":"#f59e0b"},{"id":"cmoq10cjr","name":"Ethereum","icon":"♢","color":"#06b6d4"},{"id":"cmoq11k5j","name":"Solana","icon":"𝒔","color":"#22d3a0"},{"id":"cmoq12g4i","name":"Macro","icon":"📊","color":"#7c3aed"},{"id":"cmoq13len","name":"Web3 Jobs","icon":"👨","color":"#7c3aed"},{"id":"cmoq159ck","name":"VC / Investors","icon":"📁","color":"#ec4899"},{"id":"cmoq1nrwq","name":"Trading","icon":"📁","color":"#22d3a0"},{"id":"cmoq1oqeq","name":"HyperLiquid","icon":"📁","color":"#22d3a0"},{"id":"cmoq2pb6q","name":"General","icon":"📁","color":"#22d3a0"}],"view":"grid"};
 
-const DEFAULT_TOOLS = [
-  { id: 't1', name: 'Etherscan', url: 'https://etherscan.io', cat: 'explorers', desc: 'Ethereum blockchain explorer. View transactions, wallets, tokens and smart contracts.', icon: '🔍', tags: ['ethereum', 'evm', 'free'], pinned: true, faviconUrl: 'https://etherscan.io/images/favicon3.ico' },
-  { id: 't2', name: 'Uniswap', url: 'https://app.uniswap.org', cat: 'defi', desc: 'Leading decentralized exchange for swapping ERC-20 tokens with automated market making.', icon: '🦄', tags: ['dex', 'amm', 'ethereum'], pinned: false, faviconUrl: '' },
-  { id: 't3', name: 'MetaMask', url: 'https://metamask.io', cat: 'wallets', desc: 'Most popular Ethereum browser wallet for DApps, DeFi, and NFT interaction.', icon: '🦊', tags: ['browser', 'ethereum', 'web3'], pinned: true, faviconUrl: '' },
-  { id: 't4', name: 'OpenSea', url: 'https://opensea.io', cat: 'nft', desc: 'Largest NFT marketplace. Buy, sell and discover rare digital items.', icon: '🌊', tags: ['marketplace', 'ethereum', 'polygon'], pinned: false, faviconUrl: '' },
-  { id: 't5', name: 'Dune Analytics', url: 'https://dune.com', cat: 'analytics', desc: 'Community platform for on-chain data analytics using SQL queries and dashboards.', icon: '📊', tags: ['sql', 'free', 'on-chain'], pinned: false, faviconUrl: '' },
-  { id: 't6', name: 'Hardhat', url: 'https://hardhat.org', cat: 'dev', desc: 'Ethereum development environment for compiling, testing and deploying smart contracts.', icon: '🔨', tags: ['solidity', 'testing', 'npm'], pinned: false, faviconUrl: '' },
-  { id: 't7', name: 'Stargate', url: 'https://stargate.finance', cat: 'bridges', desc: 'Cross-chain bridge for moving assets across multiple blockchain networks seamlessly.', icon: '🌉', tags: ['cross-chain', 'bridge', 'layerzero'], pinned: false, faviconUrl: '' },
-  { id: 't8', name: 'The Graph', url: 'https://thegraph.com', cat: 'data', desc: 'Indexing protocol for querying blockchain data with GraphQL API endpoints.', icon: '🗄', tags: ['graphql', 'api', 'indexing'], pinned: true, faviconUrl: '' },
-];
+const W3E = {
+  'Chains':['⛓','🔗','🪙','💎','🏅','🔮','⚡','🔥','❄️','🌊','🌐','🛰','₿','Ξ','◎','⟠'],
+  'DeFi':['💹','📈','📉','💸','💳','🏦','⚖️','🎯','💼','📊','🗂','💱','🏧','💰','🤑','🏪'],
+  'NFT & Art':['🖼','🎨','🖌','✏️','🎭','🏺','🗿','🎃','🎆','✨','🪄','🎠','🖍','🎪','🎡','🌈'],
+  'Dev':['⚙️','🔧','🔨','🛠','🔩','⛏','🔑','🔐','🛡','⚔️','🔭','💻','🖥','📱','🖨','⌨️'],
+  'Wallets':['👛','💼','🗄','📦','📫','💾','💿','📀','🔒','🔓','🗝','📲','📬','📮','🗃','🗳'],
+  'Bridges':['🌉','🌁','🗺','🌏','🔀','↔️','🔄','♻️','🔃','🔁','📶','📡','🛜','🌐','⇄','🚀'],
+  'Analytics':['📊','📈','📉','🗃','📋','📌','🔎','🔍','🧮','🔢','📐','📏','🎛','🕹','🧩','🗺'],
+  'Security':['🛡','🔐','🔒','🔑','⚔️','🪖','🪤','🚧','⚠️','🚨','🚦','🛑','🔔','📯','🚔','🔕'],
+  'Governance':['🏛','⚖️','🗳','📜','📝','✍️','🤝','👥','🏗','🏢','🌆','🌇','🗺','📃','📄','🏙'],
+  'Status':['✅','❌','⭐','🌟','🔥','💥','❓','❗','🆕','🆙','🆒','💯','🔝','⬆️','➡️','🎯'],
+};
 
-let state = { tools: [], cats: [], view: 'grid', activeCat: 'all', search: '', editingToolId: null };
+let S={tools:[],cats:[],view:'grid',activeCat:'all',search:'',editId:null};
 
-function loadState() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const s = JSON.parse(raw);
-      state.tools = s.tools || DEFAULT_TOOLS;
-      state.cats = s.cats || DEFAULT_CATS;
-      state.view = s.view || 'grid';
-    } else {
-      state.tools = [...DEFAULT_TOOLS];
-      state.cats = [...DEFAULT_CATS];
-    }
-  } catch(e) {
-    state.tools = [...DEFAULT_TOOLS];
-    state.cats = [...DEFAULT_CATS];
+function gid(p='t'){return p+Date.now().toString(36)+Math.random().toString(36).slice(2,5)}
+
+/* ── STORAGE: localStorage with SEED fallback ── */
+function load(){
+  // 1. Try current key
+  try{
+    const r=localStorage.getItem(SK);
+    if(r){const d=JSON.parse(r);S.tools=d.tools||[];S.cats=d.cats||[];S.view=d.view||'grid';return;}
+  }catch(e){}
+  // 2. Try legacy keys - auto migrate
+  for(const k of LEGACY){
+    try{
+      const r=localStorage.getItem(k);
+      if(r){
+        const d=JSON.parse(r);
+        if((d.tools||[]).length||(d.cats||[]).length){
+          S.tools=d.tools||[];S.cats=d.cats||[];S.view=d.view||'grid';
+          save();
+          showToast(`Migrated from ${k} ✓`,'ok');
+          return;
+        }
+      }
+    }catch(e){}
   }
+  // 3. Use your baked-in seed data
+  S.tools=JSON.parse(JSON.stringify(SEED_DATA.tools));
+  S.cats=JSON.parse(JSON.stringify(SEED_DATA.cats));
+  S.view=SEED_DATA.view||'grid';
+  save();
 }
 
-function saveState() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ tools: state.tools, cats: state.cats, view: state.view }));
-  } catch(e) {}
+function save(){
+  try{localStorage.setItem(SK,JSON.stringify({tools:S.tools,cats:S.cats,view:S.view}));}catch(e){}
 }
 
-function genId() { return 't' + Date.now().toString(36); }
-function genCatId() { return 'c' + Date.now().toString(36); }
-
-// RENDER SIDEBAR
-function renderSidebar() {
-  const container = document.getElementById('cats-sidebar');
-  const allCount = state.tools.length;
-  const pinnedCount = state.tools.filter(t => t.pinned).length;
-  document.getElementById('count-all').textContent = allCount;
-  document.getElementById('count-pinned').textContent = pinnedCount;
-
-  let html = '<div class="sidebar-label">Categories</div>';
-  state.cats.forEach(cat => {
-    const count = state.tools.filter(t => t.cat === cat.id).length;
-    const isActive = state.activeCat === cat.id;
-    html += `<button class="cat-btn ${isActive ? 'active' : ''}" onclick="selectCat('${cat.id}')">
-      <div class="cat-icon" style="background:${cat.color}22; font-size:15px">${cat.icon}</div>
-      <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">${cat.name}</span>
-      <span class="cat-count">${count}</span>
-    </button>`;
+/* ── RENDER ── */
+function renderSidebar(){
+  const sb=document.getElementById('sidebar');
+  const all=S.tools.length,pin=S.tools.filter(t=>t.pinned).length;
+  let h=`<div class="s-sec"><div class="s-lbl">Views</div>
+    <button class="cat-btn ${S.activeCat==='all'?'active':''}" onclick="selCat('all')">
+      <div class="c-ico" style="background:rgba(91,127,255,.1)">🌐</div><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">All Tools</span><span class="c-cnt">${all}</span></button>
+    <button class="cat-btn ${S.activeCat==='pinned'?'active':''}" onclick="selCat('pinned')">
+      <div class="c-ico" style="background:rgba(245,166,35,.1)">⭐</div><span style="flex:1">Pinned</span><span class="c-cnt">${pin}</span></button>
+  </div><div class="s-sec"><div class="s-lbl">Categories</div>`;
+  S.cats.forEach(c=>{
+    const cnt=S.tools.filter(t=>t.cat===c.id).length;
+    h+=`<button class="cat-btn ${S.activeCat===c.id?'active':''}" onclick="selCat('${c.id}')">
+      <div class="c-ico" style="background:${c.color}22">${c.icon}</div>
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}</span>
+      <span class="c-cnt">${cnt}</span></button>`;
   });
-
-  container.innerHTML = html;
-
-  // update "all" and "pinned" active state
-  document.getElementById('cat-all').className = 'cat-btn ' + (state.activeCat === 'all' ? 'active' : '');
-  document.getElementById('cat-pinned').className = 'cat-btn ' + (state.activeCat === 'pinned' ? 'active' : '');
+  h+=`</div><div style="padding:0 4px"><button class="add-cat-btn" onclick="openMgCats()">⚙ Manage categories</button></div>`;
+  sb.innerHTML=h;
 }
 
-// RENDER STATS
-function renderStats() {
-  const total = state.tools.length;
-  const cats = new Set(state.tools.map(t => t.cat)).size;
-  const pinned = state.tools.filter(t => t.pinned).length;
-  document.getElementById('stats-bar').innerHTML = `
-    <div class="stat"><div class="stat-value">${total}</div><div class="stat-label">Total Tools</div></div>
-    <div class="stat"><div class="stat-value">${cats}</div><div class="stat-label">Categories</div></div>
-    <div class="stat"><div class="stat-value">${pinned}</div><div class="stat-label">Pinned</div></div>
-    <div class="stat"><div class="stat-value">${state.cats.length}</div><div class="stat-label">All Categories</div></div>
-  `;
+function renderStats(){
+  const t=S.tools.length,c=S.cats.length,p=S.tools.filter(x=>x.pinned).length,ac=new Set(S.tools.map(x=>x.cat)).size;
+  document.getElementById('stats').innerHTML=`
+    <div class="stat"><div class="sv">${t}</div><div class="sl">Tools</div></div>
+    <div class="stat"><div class="sv">${c}</div><div class="sl">Categories</div></div>
+    <div class="stat"><div class="sv">${p}</div><div class="sl">Pinned</div></div>
+    <div class="stat"><div class="sv">${ac}</div><div class="sl">Active</div></div>`;
 }
 
-// FILTER
-function getFilteredTools() {
-  let tools = [...state.tools];
-  if (state.activeCat === 'pinned') tools = tools.filter(t => t.pinned);
-  else if (state.activeCat !== 'all') tools = tools.filter(t => t.cat === state.activeCat);
-  if (state.search) {
-    const q = state.search.toLowerCase();
-    tools = tools.filter(t =>
-      t.name.toLowerCase().includes(q) ||
-      (t.desc || '').toLowerCase().includes(q) ||
-      (t.tags || []).some(tag => tag.toLowerCase().includes(q))
-    );
-  }
-  return tools;
+function getFiltered(){
+  let t=[...S.tools];
+  if(S.activeCat==='pinned')t=t.filter(x=>x.pinned);
+  else if(S.activeCat!=='all')t=t.filter(x=>x.cat===S.activeCat);
+  if(S.search){const q=S.search.toLowerCase();t=t.filter(x=>x.name.toLowerCase().includes(q)||(x.desc||'').toLowerCase().includes(q)||(x.tags||[]).some(tg=>tg.toLowerCase().includes(q)));}
+  return t;
 }
 
-// RENDER TOOLS
-function renderTools() {
-  const tools = getFilteredTools();
-  const container = document.getElementById('tools-container');
-  const cat = state.cats.find(c => c.id === state.activeCat);
-  const pageTitle = document.getElementById('page-title');
-
-  if (state.activeCat === 'all') pageTitle.textContent = `All Tools`;
-  else if (state.activeCat === 'pinned') pageTitle.textContent = `⭐ Pinned`;
-  else if (cat) pageTitle.textContent = `${cat.icon} ${cat.name}`;
-
-  if (!tools.length) {
-    container.innerHTML = `<div class="empty">
-      <div class="empty-icon">🔭</div>
-      <div class="empty-title">${state.search ? 'No tools found' : 'No tools yet'}</div>
-      <div class="empty-desc">${state.search ? 'Try a different search term.' : 'Add your first tool to get started.'}</div>
-      ${!state.search ? '<button class="btn btn-primary" onclick="openAddModal()">+ Add Tool</button>' : ''}
-    </div>`;
+function renderTools(){
+  const tools=getFiltered(),tc=document.getElementById('tc');
+  const cat=S.cats.find(c=>c.id===S.activeCat);
+  document.getElementById('pg-ttl').textContent=S.activeCat==='all'?'All Tools':S.activeCat==='pinned'?'⭐ Pinned':cat?`${cat.icon} ${cat.name}`:'';
+  if(!tools.length){
+    tc.innerHTML=`<div class="empty"><div class="ei">${S.search?'🔭':'📦'}</div><div class="et">${S.search?'No results':'No tools yet'}</div><div class="ed">${S.search?'Try a different term.':'Add your first tool to get started.'}</div>${!S.search?'<button class="btn btn-p" onclick="openAddModal()">＋ Add Tool</button>':''}</div>`;
     return;
   }
-
-  if (state.view === 'grid') {
-    container.innerHTML = `<div class="tools-grid">${tools.map(t => renderCard(t)).join('')}</div>`;
-  } else {
-    container.innerHTML = `<div class="tools-list">${tools.map(t => renderListCard(t)).join('')}</div>`;
-  }
+  if(S.view==='grid'){tc.innerHTML=`<div class="tools-grid">${tools.map(renderCard).join('')}</div>`;}
+  else{tc.innerHTML=`<div class="tools-list">${tools.map(renderListCard).join('')}</div>`;}
 }
 
-function getCatForTool(catId) {
-  return state.cats.find(c => c.id === catId);
+function gc(id){return S.cats.find(c=>c.id===id)}
+function domain(url){try{return new URL(url).hostname.replace('www.','')}catch(e){return url}}
+function fav(t){try{return`https://www.google.com/s2/favicons?domain=${new URL(t.url).hostname}&sz=64`}catch(e){return''}}
+
+function favHtml(t,sz=34){
+  const f=t.faviconUrl||fav(t);
+  const ico=t.icon||(gc(t.cat)||{}).icon||'🔧';
+  const rs=sz===34?8:7;
+  return f?`<img src="${f}" style="width:${sz}px;height:${sz}px;object-fit:cover;border-radius:${rs}px" onerror="this.style.display='none';this.nextSibling.style.display='flex'" loading="lazy"><span style="display:none;font-size:${sz===34?15:13}px">${ico}</span>`:`<span style="font-size:${sz===34?15:13}px">${ico}</span>`;
 }
 
-function getFaviconUrl(tool) {
-  if (tool.faviconUrl) return tool.faviconUrl;
-  try {
-    const host = new URL(tool.url).hostname;
-    return `https://www.google.com/s2/favicons?domain=${host}&sz=64`;
-  } catch(e) { return ''; }
-}
-
-function renderCard(tool) {
-  const cat = getCatForTool(tool.cat);
-  const fav = getFaviconUrl(tool);
-  const tagHtml = (tool.tags || []).slice(0,2).map(t => `<span class="tool-tag">${t}</span>`).join('');
-  return `<div class="tool-card" onclick="openTool('${tool.id}')">
-    <div class="tool-top">
-      <div class="tool-favicon">
-        ${fav ? `<img src="${fav}" onerror="this.style.display='none';this.nextSibling.style.display='flex'" alt="">
-        <span style="display:none;font-size:18px">${tool.icon || (cat ? cat.icon : '🔧')}</span>` : `<span style="font-size:18px">${tool.icon || (cat ? cat.icon : '🔧')}</span>`}
-      </div>
-      <div class="tool-actions">
-        ${tool.pinned ? '' : ''}
-        <button class="action-btn" onclick="event.stopPropagation();togglePin('${tool.id}')" title="${tool.pinned ? 'Unpin' : 'Pin'}">
-          ${tool.pinned ? '⭐' : '☆'}
-        </button>
-        <button class="action-btn" onclick="event.stopPropagation();editTool('${tool.id}')" title="Edit">✏</button>
-        <button class="action-btn delete" onclick="event.stopPropagation();deleteTool('${tool.id}')" title="Delete">✕</button>
+function renderCard(t,i){
+  const cat=gc(t.cat);
+  return`<div class="tool-card" style="animation-delay:${Math.min(i*0.03,0.3)}s" onclick="openTool('${t.id}')">
+    <div class="t-top">
+      <div class="t-fav">${favHtml(t,34)}</div>
+      <div class="t-acts">
+        <button class="a-btn" onclick="event.stopPropagation();pin('${t.id}')" title="${t.pinned?'Unpin':'Pin'}">${t.pinned?'⭐':'☆'}</button>
+        <button class="a-btn" onclick="event.stopPropagation();editT('${t.id}')" title="Edit">✏</button>
+        <button class="a-btn del" onclick="event.stopPropagation();delT('${t.id}')" title="Delete">✕</button>
       </div>
     </div>
-    <div class="tool-name">${tool.pinned ? '<span class="pin-star">⭐</span> ' : ''}${tool.name}</div>
-    <div class="tool-desc">${tool.desc || 'No description added yet.'}</div>
-    <div class="tool-meta">
-      ${cat ? `<span class="tool-tag" style="background:${cat.color}18;color:${cat.color};border-color:${cat.color}33">${cat.icon} ${cat.name}</span>` : ''}
-      ${tagHtml}
-      <span class="tool-link">${getDomain(tool.url)}</span>
+    <div class="t-name">${t.pinned?'<span style="font-size:10px">⭐</span> ':''}${t.name}</div>
+    <div class="t-desc">${t.desc||'<span style="opacity:.4">No description yet.</span>'}</div>
+    <div class="t-meta">
+      ${cat?`<span class="t-tag" style="background:${cat.color}18;color:${cat.color};border-color:${cat.color}33">${cat.icon} ${cat.name}</span>`:''}
+      ${(t.tags||[]).slice(0,1).map(tg=>`<span class="t-tag">${tg}</span>`).join('')}
+      <span class="t-url">${domain(t.url)}</span>
     </div>
-    <div class="preview-bar"></div>
+    <div class="pbar"></div>
   </div>`;
 }
 
-function renderListCard(tool) {
-  const cat = getCatForTool(tool.cat);
-  const fav = getFaviconUrl(tool);
-  return `<div class="tool-card tool-card-list" onclick="openTool('${tool.id}')">
-    <div class="list-card-info">
-      <div class="list-card-favicon">
-        ${fav ? `<img src="${fav}" onerror="this.style.display='none';this.nextSibling.style.display='flex'" alt=""><span style="display:none;font-size:15px">${tool.icon || '🔧'}</span>` : `<span style="font-size:15px">${tool.icon || '🔧'}</span>`}
-      </div>
-      <div class="list-card-text">
-        <div class="list-tool-name">${tool.pinned ? '⭐ ' : ''}${tool.name}</div>
-        <div class="list-tool-desc">${tool.desc || getDomain(tool.url)}</div>
+function renderListCard(t,i){
+  const cat=gc(t.cat);
+  return`<div class="tool-card tool-card-list" style="animation-delay:${Math.min(i*0.02,0.2)}s" onclick="openTool('${t.id}')">
+    <div class="lci">
+      <div class="lfav">${favHtml(t,28)}</div>
+      <div class="ltxt">
+        <div class="ln">${t.pinned?'⭐ ':''}${t.name}</div>
+        <div class="ld">${t.desc||domain(t.url)}</div>
       </div>
     </div>
-    <div class="list-card-right">
-      ${cat ? `<span class="tool-tag" style="background:${cat.color}18;color:${cat.color};border-color:${cat.color}33;font-size:11px">${cat.icon} ${cat.name}</span>` : ''}
-      <span style="font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace">${getDomain(tool.url)}</span>
-      <div class="tool-actions" style="opacity:1">
-        <button class="action-btn" onclick="event.stopPropagation();togglePin('${tool.id}')" title="Pin">${tool.pinned ? '⭐' : '☆'}</button>
-        <button class="action-btn" onclick="event.stopPropagation();editTool('${tool.id}')" title="Edit">✏</button>
-        <button class="action-btn delete" onclick="event.stopPropagation();deleteTool('${tool.id}')" title="Delete">✕</button>
+    <div class="lr">
+      ${cat?`<span class="t-tag" style="background:${cat.color}18;color:${cat.color};border-color:${cat.color}33;font-size:9.5px">${cat.icon} ${cat.name}</span>`:''}
+      <span style="font-size:9.5px;color:var(--text3);font-family:'JetBrains Mono',monospace">${domain(t.url)}</span>
+      <div class="t-acts" style="opacity:1">
+        <button class="a-btn" onclick="event.stopPropagation();pin('${t.id}')">${t.pinned?'⭐':'☆'}</button>
+        <button class="a-btn" onclick="event.stopPropagation();editT('${t.id}')">✏</button>
+        <button class="a-btn del" onclick="event.stopPropagation();delT('${t.id}')">✕</button>
       </div>
     </div>
   </div>`;
 }
 
-function getDomain(url) {
-  try { return new URL(url).hostname.replace('www.', ''); } catch(e) { return url; }
+function openTool(id){const t=S.tools.find(x=>x.id===id);if(t)try{window.open(t.url,'_blank')}catch(e){}}
+function selCat(id){S.activeCat=id;renderSidebar();renderTools()}
+function filterTools(){S.search=document.getElementById('srch').value;renderTools()}
+function setView(v){S.view=v;document.getElementById('vg').className='vbtn'+(v==='grid'?' active':'');document.getElementById('vl').className='vbtn'+(v==='list'?' active':'');save();renderTools()}
+function pin(id){const t=S.tools.find(x=>x.id===id);if(t){t.pinned=!t.pinned;save();renderAll()}}
+function delT(id){if(!confirm('Remove this tool?'))return;S.tools=S.tools.filter(t=>t.id!==id);save();renderAll();showToast('Tool removed','ok')}
+
+/* ── TOOL MODAL ── */
+function popCats(sel){document.getElementById('f-cat').innerHTML=S.cats.map(c=>`<option value="${c.id}"${sel===c.id?' selected':''}>${c.icon} ${c.name}</option>`).join('');if(S.activeCat!=='all'&&S.activeCat!=='pinned'&&!sel)document.getElementById('f-cat').value=S.activeCat}
+function openAddModal(){S.editId=null;document.getElementById('m-ttl-txt').textContent='Add Tool';['f-url','f-name','f-desc','f-icon','f-tags'].forEach(id=>document.getElementById(id).value='');popCats();buildEP('tool','f-icon');openModal('tool-modal')}
+function editT(id){const t=S.tools.find(x=>x.id===id);if(!t)return;S.editId=id;document.getElementById('m-ttl-txt').textContent='Edit Tool';document.getElementById('f-url').value=t.url;document.getElementById('f-name').value=t.name;document.getElementById('f-desc').value=t.desc||'';document.getElementById('f-icon').value=t.icon||'';document.getElementById('f-tags').value=(t.tags||[]).join(', ');popCats(t.cat);buildEP('tool','f-icon');openModal('tool-modal')}
+function autoFill(){const u=document.getElementById('f-url').value.trim();if(!u||document.getElementById('f-name').value)return;try{const h=new URL(u).hostname.replace('www.','');const n=h.split('.')[0];document.getElementById('f-name').value=n.charAt(0).toUpperCase()+n.slice(1)}catch(e){}}
+function saveTool(){
+  const url=document.getElementById('f-url').value.trim(),name=document.getElementById('f-name').value.trim();
+  const cat=document.getElementById('f-cat').value,desc=document.getElementById('f-desc').value.trim();
+  const icon=document.getElementById('f-icon').value.trim(),tags=document.getElementById('f-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  if(!url||!name){showToast('URL and Name are required','err');return}
+  if(S.editId){const t=S.tools.find(x=>x.id===S.editId);if(t)Object.assign(t,{url,name,cat,desc,icon,tags});showToast('Tool updated ✓','ok')}
+  else{S.tools.push({id:gid('t'),url,name,cat,desc,icon,tags,pinned:false});showToast('Tool added ✓','ok')}
+  save();closeModal('tool-modal');renderAll()
 }
 
-function openTool(id) {
-  const tool = state.tools.find(t => t.id === id);
-  if (tool && tool.url) {
-    try { window.open(tool.url, '_blank'); } catch(e) {}
-  }
+/* ── CAT MODAL ── */
+function openCatModal(){['c-name','c-icon'].forEach(id=>document.getElementById(id).value='');buildEP('cat','c-icon');openModal('cat-modal')}
+function saveCat(){
+  const name=document.getElementById('c-name').value.trim(),icon=document.getElementById('c-icon').value.trim()||'📁',color=document.getElementById('c-color').value;
+  if(!name){showToast('Name required','err');return}
+  S.cats.push({id:gid('c'),name,icon,color});save();closeModal('cat-modal');renderAll();showToast('Category created ✓','ok')
 }
 
-// SELECT CAT
-function selectCat(id) {
-  state.activeCat = id;
-  renderSidebar();
-  renderTools();
+/* ── MANAGE CATS ── */
+function openMgCats(){renderCatList();openModal('mgcat-modal')}
+function renderCatList(){
+  const el=document.getElementById('cats-list');
+  if(!S.cats.length){el.innerHTML='<p style="color:var(--text2);font-size:12px;padding:.5rem 0">No categories yet.</p>';return}
+  el.innerHTML=S.cats.map(c=>{
+    const cnt=S.tools.filter(t=>t.cat===c.id).length;
+    return`<div class="citem"><div class="cdot" style="background:${c.color}"></div><span style="font-size:14px">${c.icon}</span><span style="font-size:12px;flex:1">${c.name}</span><span style="font-size:10.5px;color:var(--text3);margin-right:10px">${cnt} tools</span><button class="a-btn del" onclick="delCat('${c.id}')">✕</button></div>`;
+  }).join('')
+}
+function delCat(id){
+  const cnt=S.tools.filter(t=>t.cat===id).length;
+  if(cnt>0&&!confirm(`Delete category and ${cnt} tool(s)?`))return;
+  S.tools=S.tools.filter(t=>t.cat!==id);S.cats=S.cats.filter(c=>c.id!==id);
+  if(S.activeCat===id)S.activeCat='all';
+  save();renderCatList();renderAll();showToast('Category deleted','ok')
 }
 
-// FILTER
-function filterTools() {
-  state.search = document.getElementById('search-input').value;
-  renderTools();
+/* ── IMPORT / EXPORT ── */
+function openIE(){document.getElementById('ie-body').innerHTML='';openModal('ie-modal')}
+function showExport(){
+  const d=JSON.stringify({tools:S.tools,cats:S.cats},null,2);
+  document.getElementById('ie-body').innerHTML=`<p style="font-size:11.5px;color:var(--text2);margin-bottom:.5rem">Your full data backup — copy or download:</p><textarea class="imp-area" readonly onclick="this.select()">${d}</textarea><div style="margin-top:7px;display:flex;gap:6px"><button class="btn btn-sm" onclick="cpExport()">📋 Copy</button><button class="btn btn-sm" onclick="dlExport()">⬇ Download</button></div>`
 }
+function cpExport(){const ta=document.querySelector('.imp-area');if(ta){navigator.clipboard.writeText(ta.value).then(()=>showToast('Copied ✓','ok')).catch(()=>{ta.select();document.execCommand('copy');showToast('Copied ✓','ok')})}}
+function dlExport(){const d=JSON.stringify({tools:S.tools,cats:S.cats},null,2);const b=new Blob([d],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='chainhub-backup.json';a.click();showToast('Downloaded ✓','ok')}
+function showImport(){document.getElementById('ie-body').innerHTML=`<p style="font-size:11.5px;color:var(--text2);margin-bottom:.5rem">Paste a JSON backup to import or merge:</p><textarea class="imp-area" id="imp-ta" placeholder='{"tools":[...],"cats":[...]}'></textarea><div style="margin-top:7px;display:flex;gap:6px"><button class="btn btn-p btn-sm" onclick="doImport()">📥 Replace all</button><button class="btn btn-sm" onclick="doMerge()">🔀 Merge (skip dupes)</button></div>`}
+function doImport(){try{const d=JSON.parse(document.getElementById('imp-ta').value);S.tools=d.tools||[];S.cats=d.cats||[];save();closeModal('ie-modal');renderAll();showToast(`Imported ${S.tools.length} tools ✓`,'ok')}catch(e){showToast('Invalid JSON','err')}}
+function doMerge(){try{const d=JSON.parse(document.getElementById('imp-ta').value);let tc=0,cc=0;(d.cats||[]).forEach(c=>{if(!S.cats.find(x=>x.name===c.name)){S.cats.push({...c,id:c.id||gid('c')});cc++}});(d.tools||[]).forEach(t=>{if(!S.tools.find(x=>x.url===t.url&&x.name===t.name)){S.tools.push({...t,id:t.id||gid('t')});tc++}});save();closeModal('ie-modal');renderAll();showToast(`Merged: +${tc} tools, +${cc} cats ✓`,'ok')}catch(e){showToast('Invalid JSON','err')}}
+function resetToDefault(){if(!confirm('Reset ALL data to your original v2 backup? This cannot be undone.'))return;S.tools=JSON.parse(JSON.stringify(SEED_DATA.tools));S.cats=JSON.parse(JSON.stringify(SEED_DATA.cats));S.view='grid';save();closeModal('ie-modal');renderAll();showToast('Reset to default data ✓','ok')}
 
-// VIEW
-function setView(v) {
-  state.view = v;
-  document.getElementById('view-grid').className = 'view-btn' + (v === 'grid' ? ' active' : '');
-  document.getElementById('view-list').className = 'view-btn' + (v === 'list' ? ' active' : '');
-  saveState();
-  renderTools();
+/* ── EMOJI PICKER ── */
+let epTab={};
+function buildEP(ns,inputId){
+  const tabs=Object.keys(W3E);epTab[ns]=tabs[0];
+  document.getElementById(`${ns}-etabs`).innerHTML=tabs.map(t=>`<button class="ep-tab${t===tabs[0]?' active':''}" onclick="swEPTab('${ns}','${t.replace(/'/g,"\\'")}','${inputId}')">${t.split(' ')[0]}</button>`).join('');
+  renderEPGrid(ns,tabs[0],inputId)
 }
+function swEPTab(ns,tab,inputId){epTab[ns]=tab;document.querySelectorAll(`#${ns}-etabs .ep-tab`).forEach((b,i)=>{b.className='ep-tab'+(Object.keys(W3E)[i]===tab?' active':'')});renderEPGrid(ns,tab,inputId)}
+function renderEPGrid(ns,tab,inputId){document.getElementById(`${ns}-egrid`).innerHTML=(W3E[tab]||[]).map(e=>`<button class="ep-em" onclick="pickE('${inputId}','${e}','${ns}')">${e}</button>`).join('')}
+function pickE(inputId,e,ns){document.getElementById(inputId).value=e;closeEP(ns)}
+function toggleEP(ns){const p=document.getElementById(`${ns}-epanel`);const was=p.classList.contains('open');document.querySelectorAll('.epanel').forEach(x=>x.classList.remove('open'));if(!was)p.classList.add('open')}
+function closeEP(ns){document.getElementById(`${ns}-epanel`).classList.remove('open')}
+document.addEventListener('click',e=>{if(!e.target.closest('.emoji-wrap'))document.querySelectorAll('.epanel').forEach(p=>p.classList.remove('open'))})
 
-// PIN
-function togglePin(id) {
-  const t = state.tools.find(t => t.id === id);
-  if (t) { t.pinned = !t.pinned; saveState(); renderSidebar(); renderStats(); renderTools(); }
-}
+/* ── MODAL HELPERS ── */
+function openModal(id){document.getElementById(id).classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.querySelectorAll('.epanel').forEach(p=>p.classList.remove('open'))}
+document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)closeModal(el.id)}))
 
-// DELETE
-function deleteTool(id) {
-  state.tools = state.tools.filter(t => t.id !== id);
-  saveState(); renderAll();
-  showToast('Tool removed', 'success');
-}
+/* ── TOAST ── */
+function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
 
-// TOOL MODAL
-function openAddModal() {
-  state.editingToolId = null;
-  document.getElementById('modal-title-text').textContent = 'Add Tool';
-  document.getElementById('tool-url').value = '';
-  document.getElementById('tool-name').value = '';
-  document.getElementById('tool-desc').value = '';
-  document.getElementById('tool-icon').value = '';
-  document.getElementById('tool-tags').value = '';
-  populateCatSelect();
-  document.getElementById('tool-modal').classList.add('open');
-}
+/* ── KEYBOARD ── */
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')document.querySelectorAll('.overlay.open').forEach(x=>x.classList.remove('open'));
+  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();document.getElementById('srch').focus()}
+  if((e.metaKey||e.ctrlKey)&&e.key==='n'){e.preventDefault();openAddModal()}
+})
 
-function editTool(id) {
-  const t = state.tools.find(t => t.id === id);
-  if (!t) return;
-  state.editingToolId = id;
-  document.getElementById('modal-title-text').textContent = 'Edit Tool';
-  document.getElementById('tool-url').value = t.url;
-  document.getElementById('tool-name').value = t.name;
-  document.getElementById('tool-desc').value = t.desc || '';
-  document.getElementById('tool-icon').value = t.icon || '';
-  document.getElementById('tool-tags').value = (t.tags || []).join(', ');
-  populateCatSelect(t.cat);
-  document.getElementById('tool-modal').classList.add('open');
-}
+function renderAll(){renderSidebar();renderStats();renderTools()}
 
-function closeToolModal() {
-  document.getElementById('tool-modal').classList.remove('open');
-}
-
-function populateCatSelect(selected) {
-  const sel = document.getElementById('tool-cat');
-  sel.innerHTML = state.cats.map(c => `<option value="${c.id}" ${selected === c.id ? 'selected' : ''}>${c.icon} ${c.name}</option>`).join('');
-  if (state.activeCat !== 'all' && state.activeCat !== 'pinned' && !selected) {
-    sel.value = state.activeCat;
-  }
-}
-
-function autoFillFromUrl() {
-  const url = document.getElementById('tool-url').value.trim();
-  if (!url || document.getElementById('tool-name').value) return;
-  try {
-    const host = new URL(url).hostname.replace('www.', '');
-    const name = host.split('.')[0];
-    document.getElementById('tool-name').value = name.charAt(0).toUpperCase() + name.slice(1);
-  } catch(e) {}
-}
-
-function saveTool() {
-  const url = document.getElementById('tool-url').value.trim();
-  const name = document.getElementById('tool-name').value.trim();
-  const cat = document.getElementById('tool-cat').value;
-  const desc = document.getElementById('tool-desc').value.trim();
-  const icon = document.getElementById('tool-icon').value.trim();
-  const tags = document.getElementById('tool-tags').value.split(',').map(t => t.trim()).filter(Boolean);
-
-  if (!url || !name) { showToast('URL and Name are required', 'error'); return; }
-
-  if (state.editingToolId) {
-    const t = state.tools.find(t => t.id === state.editingToolId);
-    if (t) { Object.assign(t, { url, name, cat, desc, icon, tags, faviconUrl: '' }); }
-    showToast('Tool updated ✓', 'success');
-  } else {
-    state.tools.push({ id: genId(), url, name, cat, desc, icon, tags, pinned: false, faviconUrl: '' });
-    showToast('Tool added ✓', 'success');
-  }
-
-  saveState();
-  closeToolModal();
-  renderAll();
-}
-
-// CAT MODAL
-function openCatModal() {
-  document.getElementById('cat-name').value = '';
-  document.getElementById('cat-icon').value = '';
-  document.getElementById('cat-color').value = '#22d3a0';
-  document.getElementById('cat-modal').classList.add('open');
-}
-
-function closeCatModal() { document.getElementById('cat-modal').classList.remove('open'); }
-
-function saveCat() {
-  const name = document.getElementById('cat-name').value.trim();
-  const icon = document.getElementById('cat-icon').value.trim() || '📁';
-  const color = document.getElementById('cat-color').value;
-  if (!name) { showToast('Category name required', 'error'); return; }
-  state.cats.push({ id: genCatId(), name, icon, color });
-  saveState();
-  closeCatModal();
-  renderAll();
-  showToast('Category created ✓', 'success');
-}
-
-// MANAGE CATS
-function openManageCatsModal() {
-  renderManageCats();
-  document.getElementById('manage-cats-modal').classList.add('open');
-}
-
-function closeManageCatsModal() { document.getElementById('manage-cats-modal').classList.remove('open'); }
-
-function renderManageCats() {
-  const container = document.getElementById('cats-list');
-  if (!state.cats.length) { container.innerHTML = '<p style="color:var(--text2);font-size:13px;padding:1rem 0">No categories yet.</p>'; return; }
-  container.innerHTML = state.cats.map(cat => {
-    const count = state.tools.filter(t => t.cat === cat.id).length;
-    return `<div class="cat-item-row">
-      <div class="cat-color-dot" style="background:${cat.color}"></div>
-      <span style="font-size:16px">${cat.icon}</span>
-      <span style="font-size:13px;flex:1">${cat.name}</span>
-      <span style="font-size:12px;color:var(--text3);margin-right:12px">${count} tools</span>
-      <button class="action-btn delete" onclick="deleteCat('${cat.id}')" title="Delete category">✕</button>
-    </div>`;
-  }).join('');
-}
-
-function deleteCat(id) {
-  const count = state.tools.filter(t => t.cat === id).length;
-  if (count > 0 && !confirm(`Delete category and ${count} tool(s)?`)) return;
-  state.tools = state.tools.filter(t => t.cat !== id);
-  state.cats = state.cats.filter(c => c.id !== id);
-  if (state.activeCat === id) state.activeCat = 'all';
-  saveState();
-  renderManageCats();
-  renderAll();
-  showToast('Category deleted', 'success');
-}
-
-// TOAST
-function showToast(msg, type = '') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast ' + type;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-// KEYBOARD
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeToolModal();
-    closeCatModal();
-    closeManageCatsModal();
-  }
-  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-    e.preventDefault();
-    document.getElementById('search-input').focus();
-  }
-});
-
-// CLOSE MODALS ON OVERLAY CLICK
-['tool-modal','cat-modal','manage-cats-modal'].forEach(id => {
-  document.getElementById(id).addEventListener('click', e => {
-    if (e.target.id === id) {
-      document.getElementById(id).classList.remove('open');
-    }
-  });
-});
-
-function renderAll() {
-  renderSidebar();
-  renderStats();
-  renderTools();
-}
-
-// INIT
-loadState();
-renderAll();
+/* ── INIT ── */
+load();renderAll();
 </script>
 </body>
 </html>
