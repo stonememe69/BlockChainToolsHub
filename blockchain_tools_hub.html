@@ -44,17 +44,21 @@ header{height:var(--header-h);display:flex;align-items:center;padding:0 1rem;gap
 .btn-sm{padding:5px 10px;font-size:11.5px}
 .btn-green{background:rgba(32,217,160,0.12);border-color:rgba(32,217,160,0.3);color:var(--green)}
 .btn-green:hover{background:rgba(32,217,160,0.2);color:var(--green)}
+.btn-amber{background:rgba(245,166,35,0.12);border-color:rgba(245,166,35,0.3);color:var(--amber)}
 
-/* SYNC STATUS BADGE */
-.sync-badge{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:10.5px;font-weight:500;border:1px solid;cursor:default;white-space:nowrap;flex-shrink:0;transition:all .3s}
-.sync-badge.synced{border-color:rgba(32,217,160,.3);background:rgba(32,217,160,.08);color:var(--green)}
-.sync-badge.saving{border-color:rgba(91,127,255,.3);background:rgba(91,127,255,.08);color:var(--accent)}
+/* CLOUD SYNC BADGE */
+.sync-badge{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:10.5px;font-weight:500;border:1px solid;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .3s}
+.sync-badge.cloud{border-color:rgba(32,217,160,.3);background:rgba(32,217,160,.08);color:var(--green)}
+.sync-badge.saving{border-color:rgba(91,127,255,.3);background:rgba(91,127,255,.08);color:var(--accent);animation:badgePulse 1.2s infinite}
+.sync-badge.local{border-color:rgba(245,166,35,.3);background:rgba(245,166,35,.08);color:var(--amber)}
 .sync-badge.error{border-color:rgba(240,68,68,.3);background:rgba(240,68,68,.08);color:var(--red)}
+.sync-badge.offline{border-color:var(--border2);background:var(--bg3);color:var(--text3)}
 .sync-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
-.sync-dot.pulse{animation:pulse 1.5s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes badgePulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{display:inline-block;animation:spin .8s linear infinite}
 
-/* HAMBURGER */
+/* HAM */
 .ham{display:none;width:34px;height:34px;border-radius:7px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);align-items:center;justify-content:center;cursor:pointer;font-size:16px;flex-shrink:0;-webkit-tap-highlight-color:transparent}
 
 /* BODY */
@@ -136,7 +140,7 @@ header{height:var(--header-h);display:flex;align-items:center;padding:0 1rem;gap
 .et{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.35rem}
 .ed{font-size:11.5px;color:var(--text2);margin-bottom:1.1rem}
 
-/* MOBILE BOTTOM NAV */
+/* MOBILE NAV */
 .mobile-nav{display:none;height:var(--nav-h);background:rgba(9,9,15,0.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);flex-shrink:0;z-index:50;padding:0 .5rem;padding-bottom:env(safe-area-inset-bottom)}
 .mobile-nav-inner{display:flex;align-items:center;height:100%;gap:2px}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 4px;border-radius:8px;border:none;background:transparent;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .15s;-webkit-tap-highlight-color:transparent;min-width:0}
@@ -148,7 +152,7 @@ header{height:var(--header-h);display:flex;align-items:center;padding:0 1rem;gap
 .nav-fab{width:44px;height:44px;border-radius:13px;background:var(--accent);border:none;color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s;flex-shrink:0;box-shadow:0 4px 16px rgba(91,127,255,0.4)}
 .nav-fab:active{transform:scale(.92)}
 
-/* OVERLAY / MODAL */
+/* MODALS */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
 .overlay.open{opacity:1;pointer-events:all}
 .modal{background:var(--bg2);border:1px solid var(--border2);border-radius:16px 16px 0 0;padding:1.25rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom));width:100%;max-width:100%;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform .28s cubic-bezier(.4,0,.2,1)}
@@ -178,7 +182,7 @@ header{height:var(--header-h);display:flex;align-items:center;padding:0 1rem;gap
 .epanel{position:absolute;bottom:calc(100% + 6px);left:0;right:0;background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:10px;z-index:400;display:none;box-shadow:0 -10px 28px rgba(0,0,0,0.5)}
 .epanel.open{display:block}
 .ep-tabs{display:flex;gap:3px;margin-bottom:8px;flex-wrap:wrap}
-.ep-tab{padding:3px 10px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:10px;cursor:pointer;font-family:inherit;transition:all .12px;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.ep-tab{padding:3px 10px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:10px;cursor:pointer;font-family:inherit;transition:all .12s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
 .ep-tab.active{background:rgba(91,127,255,0.15);border-color:var(--accent);color:var(--accent)}
 .ep-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px}
 .ep-em{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:20px;border-radius:7px;cursor:pointer;transition:background .1s;border:none;background:transparent;-webkit-tap-highlight-color:transparent}
@@ -194,35 +198,53 @@ header{height:var(--header-h);display:flex;align-items:center;padding:0 1rem;gap
 .cdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 
 /* TOAST */
-.toast{position:fixed;bottom:calc(var(--nav-h) + .75rem);left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:8px 18px;font-size:12.5px;color:var(--text);z-index:999;transition:all .28s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;pointer-events:none;opacity:0}
+.toast{position:fixed;bottom:calc(var(--nav-h) + .75rem);left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:8px 18px;font-size:12.5px;color:var(--text);z-index:999;transition:all .28s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;pointer-events:none;opacity:0;max-width:90vw;text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .toast.ok{border-color:rgba(32,217,160,.4)}
 .toast.err{border-color:rgba(240,68,68,.4)}
 
-/* MOBILE SEARCH BAR */
+/* MOBILE SEARCH */
 .mobile-search{display:none;padding:.5rem .85rem;border-bottom:1px solid var(--border);background:var(--bg)}
 .mobile-search input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 12px 9px 30px;color:var(--text);font-family:inherit;font-size:15px;outline:none;-webkit-appearance:none}
 .mobile-search input::placeholder{color:var(--text3)}
 .mobile-search .ms-ico{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:13px;pointer-events:none}
 .mobile-search-wrap{position:relative}
 
-/* MEMORY PANEL */
-.mem-panel{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:.85rem;margin-bottom:.85rem}
-.mem-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.mem-ttl{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em}
-.mem-layers{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-.mem-layer{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;border:1px solid;font-size:10px;font-weight:500}
-.mem-layer.ok{border-color:rgba(32,217,160,.3);background:rgba(32,217,160,.07);color:var(--green)}
-.mem-layer.warn{border-color:rgba(245,166,35,.3);background:rgba(245,166,35,.07);color:var(--amber)}
-.mem-layer.err{border-color:rgba(240,68,68,.3);background:rgba(240,68,68,.07);color:var(--red)}
-.mem-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+/* ── SETUP WIZARD ── */
+.wizard-overlay{position:fixed;inset:0;background:rgba(9,9,15,0.97);z-index:500;display:flex;align-items:center;justify-content:center;padding:1rem}
+.wizard-box{background:var(--bg2);border:1px solid var(--border2);border-radius:18px;padding:2rem;max-width:480px;width:100%;animation:fadeUp .3s ease}
+.wiz-logo{width:48px;height:48px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 1.2rem}
+.wiz-title{font-size:1.2rem;font-weight:700;text-align:center;margin-bottom:.4rem}
+.wiz-sub{font-size:12.5px;color:var(--text2);text-align:center;line-height:1.6;margin-bottom:1.5rem}
+.wiz-steps{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.4rem}
+.wiz-step{display:flex;align-items:flex-start;gap:10px;padding:.75rem;background:var(--bg3);border:1px solid var(--border);border-radius:10px}
+.wiz-step-num{width:22px;height:22px;border-radius:50%;background:rgba(91,127,255,.2);border:1px solid rgba(91,127,255,.4);color:var(--accent);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.wiz-step-body{flex:1}
+.wiz-step-title{font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:2px}
+.wiz-step-desc{font-size:11px;color:var(--text2);line-height:1.5}
+.wiz-step-desc a{color:var(--accent);text-decoration:none}
+.wiz-step-desc a:hover{text-decoration:underline}
+.wiz-fields{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.4rem}
+.wiz-error{font-size:11.5px;color:var(--red);background:rgba(240,68,68,.08);border:1px solid rgba(240,68,68,.2);border-radius:8px;padding:8px 12px;margin-bottom:.75rem;display:none}
+.wiz-error.show{display:block}
+.wiz-footer{display:flex;gap:8px}
+.wiz-footer .btn{flex:1;display:flex;align-items:center;justify-content:center;padding:11px}
+.mono{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.02em}
 
-/* BACKUP REMINDER BANNER */
-.backup-banner{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(91,127,255,.07);border:1px solid rgba(91,127,255,.2);border-radius:8px;margin-bottom:.85rem;font-size:11.5px;color:var(--text2)}
-.backup-banner strong{color:var(--accent);font-weight:600}
-.backup-banner .bb-close{margin-left:auto;background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:0 2px;-webkit-tap-highlight-color:transparent}
+/* CLOUD SETTINGS PANEL */
+.cloud-panel{background:var(--bg3);border:1px solid var(--border2);border-radius:11px;padding:1rem;margin-bottom:.85rem}
+.cp-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.cp-label{font-size:11.5px;font-weight:600;color:var(--text2)}
+.cp-status{display:flex;align-items:center;gap:5px;font-size:11px}
+.cp-key{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);word-break:break-all;margin-top:4px}
+.cp-actions{display:flex;gap:5px;margin-top:.75rem;flex-wrap:wrap}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* CONFLICT MODAL */
+.conflict-box{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:.85rem;margin-bottom:.85rem}
+.conflict-row{display:flex;justify-content:space-between;font-size:11px;color:var(--text2);padding:3px 0}
+.conflict-row span:last-child{color:var(--text);font-weight:500}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
 /* DESKTOP */
 @media (min-width:641px){
@@ -261,7 +283,8 @@ header{height:var(--header-h);display:flex;align-items:center;padding:0 1rem;gap
   .stats{gap:.75rem}
   .sv{font-size:1.1rem}
   .page-ttl{font-size:.9rem}
-  .sync-badge span:last-child{display:none}
+  .sync-badge span.sbtext{display:none}
+  .wizard-box{padding:1.4rem}
 }
 
 @media (max-width:380px){
@@ -271,7 +294,55 @@ header{height:var(--header-h);display:flex;align-items:center;padding:0 1rem;gap
 </style>
 </head>
 <body>
-<div class="app">
+
+<!-- ── SETUP WIZARD (shown on first run) ── -->
+<div class="wizard-overlay" id="wizard" style="display:none">
+  <div class="wizard-box">
+    <div class="wiz-logo">⛓</div>
+    <div class="wiz-title">Connect Cloud Sync</div>
+    <div class="wiz-sub">Link a free JSONBin account to sync your tools across all devices — phone, laptop, anywhere.</div>
+    <div class="wiz-steps">
+      <div class="wiz-step">
+        <div class="wiz-step-num">1</div>
+        <div class="wiz-step-body">
+          <div class="wiz-step-title">Create a free account</div>
+          <div class="wiz-step-desc">Go to <a href="https://jsonbin.io" target="_blank">jsonbin.io</a> → Sign up (free, no credit card)</div>
+        </div>
+      </div>
+      <div class="wiz-step">
+        <div class="wiz-step-num">2</div>
+        <div class="wiz-step-body">
+          <div class="wiz-step-title">Copy your API Key</div>
+          <div class="wiz-step-desc">Dashboard → API Keys → click the eye icon → copy the <strong>Secret Key</strong></div>
+        </div>
+      </div>
+      <div class="wiz-step">
+        <div class="wiz-step-num">3</div>
+        <div class="wiz-step-body">
+          <div class="wiz-step-title">Paste it below — that's it!</div>
+          <div class="wiz-step-desc">ChainHub will create a private bin and sync automatically forever.</div>
+        </div>
+      </div>
+    </div>
+    <div class="wiz-fields">
+      <div class="fg" style="margin:0">
+        <label class="fl">JSONBin Secret API Key *</label>
+        <input class="fi mono" id="wiz-apikey" type="password" placeholder="$2b$10$..." autocomplete="off" autocorrect="off" spellcheck="false">
+      </div>
+      <div class="fg" style="margin:0">
+        <label class="fl">Bin ID <span style="color:var(--text3)">(leave empty to create new)</span></label>
+        <input class="fi mono" id="wiz-binid" placeholder="67f3a... (optional — paste if syncing existing device)" autocomplete="off" autocorrect="off" spellcheck="false">
+      </div>
+    </div>
+    <div class="wiz-error" id="wiz-error"></div>
+    <div class="wiz-footer">
+      <button class="btn" onclick="skipCloud()">Use offline only</button>
+      <button class="btn btn-p" id="wiz-btn" onclick="connectCloud()">🔗 Connect & Sync</button>
+    </div>
+  </div>
+</div>
+
+<div class="app" id="main-app" style="display:none">
 
   <!-- HEADER -->
   <header>
@@ -282,9 +353,9 @@ header{height:var(--header-h);display:flex;align-items:center;padding:0 1rem;gap
       <input id="srch" type="text" placeholder="Search... ⌘K" oninput="filterTools()">
     </div>
     <div class="hbtns">
-      <div class="sync-badge synced" id="sync-badge" title="Memory status">
+      <div class="sync-badge local" id="sync-badge" onclick="openCloudModal()" title="Click to manage cloud sync">
         <div class="sync-dot" id="sync-dot"></div>
-        <span id="sync-label">Saved</span>
+        <span id="sync-label" class="sbtext">Connecting…</span>
       </div>
       <button class="btn btn-sm" onclick="openIE()">⇅ Import/Export</button>
       <button class="btn btn-sm" onclick="openCatModal()">＋ Category</button>
@@ -307,15 +378,12 @@ header{height:var(--header-h);display:flex;align-items:center;padding:0 1rem;gap
   <div class="body">
     <aside class="sidebar" id="sidebar"></aside>
     <main class="content">
-      <div id="backup-banner-wrap"></div>
       <div class="stats" id="stats"></div>
       <div class="c-hdr">
         <div class="page-ttl" id="pg-ttl">All Tools</div>
-        <div style="display:flex;align-items:center;gap:6px">
-          <div class="vtog">
-            <button class="vbtn active" id="vg" onclick="setView('grid')" title="Grid">⊞</button>
-            <button class="vbtn" id="vl" onclick="setView('list')" title="List">☰</button>
-          </div>
+        <div class="vtog">
+          <button class="vbtn active" id="vg" onclick="setView('grid')" title="Grid">⊞</button>
+          <button class="vbtn" id="vl" onclick="setView('list')" title="List">☰</button>
         </div>
       </div>
       <div id="tc"></div>
@@ -331,12 +399,12 @@ header{height:var(--header-h);display:flex;align-items:center;padding:0 1rem;gap
       <button class="nav-btn" id="nav-pinned" onclick="mobileNav('pinned')">
         <span class="nav-icon">⭐</span><span class="nav-label">Pinned</span>
       </button>
-      <button class="nav-fab" onclick="openAddModal()" aria-label="Add tool">＋</button>
+      <button class="nav-fab" onclick="openAddModal()" aria-label="Add">＋</button>
       <button class="nav-btn" id="nav-cats" onclick="toggleDrawer()">
-        <span class="nav-icon">📂</span><span class="nav-label">Categories</span>
+        <span class="nav-icon">📂</span><span class="nav-label">Cats</span>
       </button>
-      <button class="nav-btn" id="nav-more" onclick="openIE()">
-        <span class="nav-icon">⇅</span><span class="nav-label">More</span>
+      <button class="nav-btn" id="nav-sync" onclick="openCloudModal()">
+        <span class="nav-icon" id="nav-sync-icon">☁️</span><span class="nav-label">Sync</span>
       </button>
     </div>
   </nav>
@@ -415,22 +483,21 @@ header{height:var(--header-h);display:flex;align-items:center;padding:0 1rem;gap
 </div>
 </div>
 
+<!-- CLOUD SETTINGS MODAL -->
+<div class="overlay" id="cloud-modal">
+<div class="modal" style="max-width:480px">
+  <div class="modal-handle"></div>
+  <div class="m-ttl"><span>☁️ Cloud Sync Settings</span><button class="m-cls" onclick="closeModal('cloud-modal')">×</button></div>
+  <div id="cloud-modal-body"></div>
+  <div class="m-foot"><button class="btn btn-p" onclick="closeModal('cloud-modal')">Close</button></div>
+</div>
+</div>
+
 <!-- IMPORT/EXPORT -->
 <div class="overlay" id="ie-modal">
 <div class="modal" style="max-width:520px">
   <div class="modal-handle"></div>
   <div class="m-ttl"><span>Import / Export</span><button class="m-cls" onclick="closeModal('ie-modal')">×</button></div>
-
-  <!-- Memory Status Panel -->
-  <div class="mem-panel">
-    <div class="mem-row">
-      <div class="mem-ttl">🔐 Persistent Memory Layers</div>
-      <div style="font-size:10px;color:var(--text3)" id="mem-last-saved"></div>
-    </div>
-    <div class="mem-layers" id="mem-layers"></div>
-    <div style="margin-top:8px;font-size:10.5px;color:var(--text3);line-height:1.5">Your data is automatically saved to all available storage layers. Use Export to create a portable backup file.</div>
-  </div>
-
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:1rem">
     <button class="btn" onclick="showExport()">📤 Export</button>
     <button class="btn" onclick="showImport()">📥 Import</button>
@@ -444,282 +511,422 @@ header{height:var(--header-h);display:flex;align-items:center;padding:0 1rem;gap
 <div class="toast" id="toast"></div>
 
 <script>
-/* ═══════════════════════════════════════════
-   CHAINHUB — MULTI-LAYER PERSISTENT MEMORY
-   Layers: localStorage → IndexedDB → sessionStorage (fallback)
-   Auto-save on every change with debounce
-   Version integrity check on load
-   ═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   CHAINHUB — CLOUD SYNC via JSONBin.io
+   Storage: localStorage (L1) + IndexedDB (L2) + JSONBin cloud (L3)
+   Multi-device sync with conflict resolution (latest-write-wins)
+   ═══════════════════════════════════════════════════════ */
 
 const SK='chainhub_v3';
 const SK_IDB='chainhub_idb_v3';
-const SK_SESSION='chainhub_session_v3';
+const CFG_KEY='chainhub_cloud_cfg';
+const JSONBIN_API='https://api.jsonbin.io/v3';
 const LEGACY=['chainhub_v2','chainhub_v1','chainhub'];
-const BACKUP_REMINDER_KEY='chainhub_last_backup_remind';
-const BACKUP_INTERVAL_DAYS=7;
 
-/* ── SEED DATA ── */
 const SEED={"tools":[{"id":"t1","name":"Etherscan","url":"https://etherscan.io","cat":"explorers","desc":"Ethereum blockchain explorer. View transactions, wallets, tokens and smart contracts.","icon":"🔍","tags":["ethereum","evm","free"],"pinned":true,"faviconUrl":"https://etherscan.io/images/favicon3.ico"},{"id":"t4","name":"OpenSea","url":"https://opensea.io","cat":"nft","desc":"Largest NFT marketplace. Buy, sell and discover rare digital items.","icon":"🌊","tags":["marketplace","ethereum","polygon"],"pinned":false},{"id":"t5","name":"Dune Analytics","url":"https://dune.com","cat":"analytics","desc":"Community platform for on-chain data analytics using SQL queries and dashboards.","icon":"📊","tags":["sql","free","on-chain"],"pinned":false},{"id":"t6","name":"Hardhat","url":"https://hardhat.org","cat":"dev","desc":"Ethereum development environment for compiling, testing and deploying smart contracts.","icon":"🔨","tags":["solidity","testing","npm"],"pinned":false},{"id":"t8","name":"The Graph","url":"https://thegraph.com","cat":"data","desc":"Indexing protocol for querying blockchain data with GraphQL API endpoints.","icon":"🗄","tags":["graphql","api","indexing"],"pinned":true},{"id":"tmoq1450l","url":"https://unchaindata.xyz/jobs#jobs","name":"Unchaindata","cat":"cmoq13len","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq14h81","url":"https://web3.career/","name":"Web3","cat":"cmoq13len","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq15l4o","url":"https://www.rootdata.com/Investors","name":"Rootdata","cat":"cmoq159ck","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq17662","url":"https://blocksec.com/phalcon/explorer","name":"phalcon","cat":"explorers","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq1kadx","url":"https://app.nansen.ai/","name":"Nansen","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq1mxbc","url":"https://app.elfa.ai/leaderboard/token?timeframe=1d","name":"Mindshare","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq1oasr","url":"https://loris.tools/","name":"Loris","cat":"cmoq1nrwq","desc":"Arbitrage Opportunity","icon":"","tags":[],"pinned":false},{"id":"tmoq1q77n","url":"https://app.coinmarketman.com/hypertracker","name":"HyperLiquid Wallet Tracker","cat":"cmoq1oqeq","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq1tcz2","url":"https://www.findas.org/","name":"Findas","cat":"cmoq159ck","desc":"TokenNomics Of Tokens","icon":"","tags":[],"pinned":false},{"id":"tmoq248ud","url":"https://stalkchain.com/dashboard/learning-center","name":"Stalkchain","cat":"cmoq11k5j","desc":"Solana Onchain Screener and finder","icon":"","tags":[],"pinned":false},{"id":"tmoq27zxh","url":"https://members.delphidigital.io/","name":"delphidigital","cat":"analytics","desc":"","icon":"","tags":["research"],"pinned":false},{"id":"tmoq28qu1","url":"https://classic.artemis.ai/home","name":"artemis","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2cdfc","url":"https://www.tradingview.com/chart/WpglJglJ/","name":"Tradingview","cat":"cmoq1nrwq","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2prmi","url":"https://www.coingecko.com/en/","name":"Coingecko","cat":"cmoq2pb6q","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2qz03","url":"https://www.livecoinwatch.com/tools/api#try","name":"Livecoinwatch","cat":"data","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2s93k","url":"https://legend.coinglass.com/chart/7e1e5b5cc9364c0a94379c9a2210c792","name":"Legend Coinglass","cat":"cmoq1nrwq","desc":"Liquidation","icon":"","tags":[],"pinned":false},{"id":"tmoq2suoq","url":"https://www.coinglass.com/","name":"Coinglass","cat":"cmoq2pb6q","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2trqd","url":"https://intel.arkm.com/explorer","name":"Intelligenc Arkham","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2u5zg","url":"https://defillama.com/","name":"Defillama","cat":"analytics","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2vpx7","url":"https://yield-analyzer.xyz/","name":"Yield-analyzer","cat":"cmoq2pb6q","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2wncz","url":"https://dune.com/decrypto_space/bitcoin-on-chain-metrics","name":"Dune Bitcoin essential metrics","cat":"cmoq0znnq","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2xn3d","url":"https://www.investing.com/economic-calendar","name":"Investing","cat":"cmoq12g4i","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2ysha","url":"https://studio.glassnode.com/","name":"Glassnode Studio","cat":"cmoq12g4i","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq2z9r9","url":"https://cryptopanic.com/","name":"Cryptopanic","cat":"cmoq2pb6q","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq30cxx","url":"https://app.hyperliquid.xyz/trade","name":"hyperliquid","cat":"cmoq1oqeq","desc":"","icon":"","tags":[],"pinned":false},{"id":"tmoq35e0d","url":"https://www.theblock.co/data/on-chain-metrics/bitcoin","name":"Theblock","cat":"cmoq0znnq","desc":"Bitcoin Macros Mertics","icon":"","tags":[],"pinned":false},{"id":"tmoq36bh2","url":"https://bitbo.io/tools/","name":"Bitbo","cat":"cmoq0znnq","desc":"Various Bitcoin Tools","icon":"","tags":[],"pinned":false},{"id":"tmoq377xj","url":"https://cryptoslate.com/companies/","name":"Cryptoslate","cat":"cmoq2pb6q","desc":"Crypto Companies list","icon":"","tags":[],"pinned":false},{"id":"tmoq3iaal","url":"https://jup.ag/","name":"Jupiter","cat":"cmoq11k5j","desc":"All in One Solana Ecosystem","icon":"","tags":[],"pinned":false},{"id":"tmoq3on5f","url":"https://www.meteora.ag/","name":"Meteora","cat":"cmoq11k5j","desc":"Liquidity Providing and earn Fees","icon":"","tags":[],"pinned":false},{"id":"tmoq3rfk2","url":"https://www.jito.network/staking/","name":"Jito","cat":"cmoq11k5j","desc":"Staking and restaking","icon":"","tags":[],"pinned":false}],"cats":[{"id":"explorers","name":"Block Explorers","icon":"🔍","color":"#4f7fff"},{"id":"nft","name":"NFTs","icon":"🖼","color":"#ec4899"},{"id":"analytics","name":"Analytics","icon":"📊","color":"#06b6d4"},{"id":"dev","name":"Dev Tools","icon":"⚙","color":"#ef4444"},{"id":"data","name":"Data / APIs","icon":"🗄","color":"#22d3a0"},{"id":"cmoq0znnq","name":"Bitcoin","icon":"₿","color":"#f59e0b"},{"id":"cmoq10cjr","name":"Ethereum","icon":"♢","color":"#06b6d4"},{"id":"cmoq11k5j","name":"Solana","icon":"𝒔","color":"#22d3a0"},{"id":"cmoq12g4i","name":"Macro","icon":"📊","color":"#7c3aed"},{"id":"cmoq13len","name":"Web3 Jobs","icon":"👨","color":"#7c3aed"},{"id":"cmoq159ck","name":"VC / Investors","icon":"📁","color":"#ec4899"},{"id":"cmoq1nrwq","name":"Trading","icon":"📁","color":"#22d3a0"},{"id":"cmoq1oqeq","name":"HyperLiquid","icon":"📁","color":"#22d3a0"},{"id":"cmoq2pb6q","name":"General","icon":"📁","color":"#22d3a0"}],"view":"grid"};
 
 const W3E={'Chains':['⛓','🔗','🪙','💎','🏅','🔮','⚡','🔥','❄️','🌊','🌐','🛰','₿','Ξ','◎','⟠'],'DeFi':['💹','📈','📉','💸','💳','🏦','⚖️','🎯','💼','📊','🗂','💱','🏧','💰','🤑','🏪'],'NFT':['🖼','🎨','🖌','✏️','🎭','🏺','🗿','🎃','🎆','✨','🪄','🎠','🖍','🎪','🎡','🌈'],'Dev':['⚙️','🔧','🔨','🛠','🔩','⛏','🔑','🔐','🛡','⚔️','🔭','💻','🖥','📱','🖨','⌨️'],'Wallets':['👛','💼','🗄','📦','📫','💾','💿','📀','🔒','🔓','🗝','📲','📬','📮','🗃','🗳'],'Bridges':['🌉','🌁','🗺','🌏','🔀','↔️','🔄','♻️','🔃','🔁','📶','📡','🛜','🌐','⇄','🚀'],'Analytics':['📊','📈','📉','🗃','📋','📌','🔎','🔍','🧮','🔢','📐','📏','🎛','🕹','🧩','🗺'],'Security':['🛡','🔐','🔒','🔑','⚔️','🪖','🪤','🚧','⚠️','🚨','🚦','🛑','🔔','📯','🚔','🔕'],'Gov':['🏛','⚖️','🗳','📜','📝','✍️','🤝','👥','🏗','🏢','🌆','🌇','🗺','📃','📄','🏙'],'Status':['✅','❌','⭐','🌟','🔥','💥','❓','❗','🆕','🆙','💯','🔝','⬆️','➡️','🎯','⚡']};
 
 /* ══ STATE ══ */
-let S={tools:[],cats:[],view:'grid',activeCat:'all',search:'',editId:null};
+let S={tools:[],cats:[],view:'grid',activeCat:'all',search:'',editId:null,savedAt:0};
 
-/* ══ MEMORY STATUS ══ */
-let MEM={ls:false,idb:false,session:false,lastSaved:null};
+/* ══ CLOUD CONFIG (persisted separately) ══ */
+let CLOUD={apiKey:'',binId:'',enabled:false,lastCloudSave:0,lastCloudPull:0};
+
 let idbDB=null;
 let saveTimer=null;
+let pollTimer=null;
+let isSaving=false;
 
 const isMobile=()=>window.innerWidth<=640;
 function gid(p='t'){return p+Date.now().toString(36)+Math.random().toString(36).slice(2,5)}
 
-/* ════════════════════════════════════════
-   LAYER 1: localStorage
-   ════════════════════════════════════════ */
-function lsSave(data){
-  try{
-    localStorage.setItem(SK,JSON.stringify(data));
-    localStorage.setItem(SK+'_ts',Date.now().toString());
-    MEM.ls=true;return true;
-  }catch(e){MEM.ls=false;console.warn('localStorage save failed:',e);return false;}
+/* ════════════════════════════
+   CONFIG LOAD / SAVE
+   ════════════════════════════ */
+function loadCloudCfg(){
+  try{const r=localStorage.getItem(CFG_KEY);if(r)CLOUD=Object.assign(CLOUD,JSON.parse(r));}catch(e){}
 }
-function lsLoad(){
-  try{const r=localStorage.getItem(SK);return r?JSON.parse(r):null;}
-  catch(e){return null;}
+function saveCloudCfg(){
+  try{localStorage.setItem(CFG_KEY,JSON.stringify(CLOUD));}catch(e){}
 }
 
-/* ════════════════════════════════════════
-   LAYER 2: IndexedDB (survives storage pressure, private browsing quotas)
-   ════════════════════════════════════════ */
+/* ════════════════════════════
+   LAYER 1: localStorage
+   ════════════════════════════ */
+function lsSave(data){
+  try{localStorage.setItem(SK,JSON.stringify(data));return true;}catch(e){return false;}
+}
+function lsLoad(){
+  try{const r=localStorage.getItem(SK);return r?JSON.parse(r):null;}catch(e){return null;}
+}
+
+/* ════════════════════════════
+   LAYER 2: IndexedDB
+   ════════════════════════════ */
 function idbOpen(){
-  return new Promise((res,rej)=>{
+  return new Promise(res=>{
     if(!window.indexedDB){res(null);return;}
     const req=indexedDB.open('chainhub',2);
-    req.onupgradeneeded=e=>{
-      const db=e.target.result;
-      if(!db.objectStoreNames.contains('data'))db.createObjectStore('data');
-    };
-    req.onsuccess=e=>{res(e.target.result);};
-    req.onerror=()=>{res(null);};
+    req.onupgradeneeded=e=>{const db=e.target.result;if(!db.objectStoreNames.contains('data'))db.createObjectStore('data');};
+    req.onsuccess=e=>res(e.target.result);
+    req.onerror=()=>res(null);
   });
 }
 async function idbSave(data){
   try{
     if(!idbDB)idbDB=await idbOpen();
-    if(!idbDB){MEM.idb=false;return false;}
+    if(!idbDB)return false;
     return new Promise(res=>{
       const tx=idbDB.transaction('data','readwrite');
-      const store=tx.objectStore('data');
-      store.put(JSON.stringify(data),SK_IDB);
-      store.put(Date.now().toString(),SK_IDB+'_ts');
-      tx.oncomplete=()=>{MEM.idb=true;res(true);};
-      tx.onerror=()=>{MEM.idb=false;res(false);};
+      tx.objectStore('data').put(JSON.stringify(data),SK_IDB);
+      tx.oncomplete=()=>res(true);tx.onerror=()=>res(false);
     });
-  }catch(e){MEM.idb=false;return false;}
+  }catch(e){return false;}
 }
 async function idbLoad(){
   try{
     if(!idbDB)idbDB=await idbOpen();
     if(!idbDB)return null;
     return new Promise(res=>{
-      const tx=idbDB.transaction('data','readonly');
-      const req=tx.objectStore('data').get(SK_IDB);
+      const req=idbDB.transaction('data','readonly').objectStore('data').get(SK_IDB);
       req.onsuccess=()=>{try{res(req.result?JSON.parse(req.result):null);}catch(e){res(null);}};
       req.onerror=()=>res(null);
     });
   }catch(e){return null;}
 }
 
-/* ════════════════════════════════════════
-   LAYER 3: sessionStorage (tab-scoped fallback)
-   ════════════════════════════════════════ */
-function sessionSave(data){
-  try{sessionStorage.setItem(SK_SESSION,JSON.stringify(data));MEM.session=true;return true;}
-  catch(e){MEM.session=false;return false;}
-}
-function sessionLoad(){
-  try{const r=sessionStorage.getItem(SK_SESSION);return r?JSON.parse(r):null;}
-  catch(e){return null;}
+/* ════════════════════════════
+   LAYER 3: JSONBin.io CLOUD
+   ════════════════════════════ */
+function jsonbinHeaders(){
+  return{'Content-Type':'application/json','X-Master-Key':CLOUD.apiKey,'X-Bin-Versioning':'false'};
 }
 
-/* ════════════════════════════════════════
-   UNIFIED SAVE — writes to all layers
-   ════════════════════════════════════════ */
-async function save(skipDebounce=false){
-  const data={tools:S.tools,cats:S.cats,view:S.view,savedAt:Date.now()};
-  setSyncStatus('saving');
+async function cloudCreate(data){
+  const res=await fetch(`${JSONBIN_API}/b`,{
+    method:'POST',
+    headers:{...jsonbinHeaders(),'X-Bin-Name':'chainhub-sync','X-Bin-Private':'true'},
+    body:JSON.stringify(data)
+  });
+  if(!res.ok)throw new Error('Create failed: '+res.status);
+  const j=await res.json();
+  return j.metadata.id;
+}
+
+async function cloudRead(){
+  const res=await fetch(`${JSONBIN_API}/b/${CLOUD.binId}/latest`,{
+    headers:{'X-Master-Key':CLOUD.apiKey}
+  });
+  if(!res.ok)throw new Error('Read failed: '+res.status);
+  const j=await res.json();
+  return j.record;
+}
+
+async function cloudWrite(data){
+  const res=await fetch(`${JSONBIN_API}/b/${CLOUD.binId}`,{
+    method:'PUT',
+    headers:jsonbinHeaders(),
+    body:JSON.stringify(data)
+  });
+  if(!res.ok)throw new Error('Write failed: '+res.status);
+  return true;
+}
+
+/* ════════════════════════════
+   SYNC BADGE UI
+   ════════════════════════════ */
+function setSyncBadge(state,text){
+  const badge=document.getElementById('sync-badge');
+  const dot=document.getElementById('sync-dot');
+  const lbl=document.getElementById('sync-label');
+  const ico=document.getElementById('nav-sync-icon');
+  if(!badge)return;
+  badge.className='sync-badge '+state;
+  lbl.textContent=text;
+  if(ico)ico.textContent=state==='cloud'?'☁️':state==='saving'?'🔄':state==='error'?'⚠️':'📴';
+}
+
+/* ════════════════════════════
+   UNIFIED SAVE
+   ════════════════════════════ */
+async function save(pushCloud=true){
+  S.savedAt=Date.now();
+  const data={tools:S.tools,cats:S.cats,view:S.view,savedAt:S.savedAt};
   lsSave(data);
-  sessionSave(data);
-  await idbSave(data);
-  MEM.lastSaved=Date.now();
-  setSyncStatus('synced');
-  updateMemStatus();
+  idbSave(data);
+  if(pushCloud&&CLOUD.enabled&&CLOUD.apiKey&&CLOUD.binId){
+    setSyncBadge('saving','Syncing…');
+    try{
+      await cloudWrite(data);
+      CLOUD.lastCloudSave=Date.now();
+      saveCloudCfg();
+      const d=new Date();
+      setSyncBadge('cloud','Synced '+d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}));
+    }catch(e){
+      setSyncBadge('error','Sync error');
+      console.warn('Cloud save failed:',e);
+    }
+  } else if(!CLOUD.enabled){
+    setSyncBadge('local','Local only');
+  }
 }
 
-/* Debounced save — used for rapid changes */
 function debouncedSave(){
   clearTimeout(saveTimer);
-  setSyncStatus('saving');
-  saveTimer=setTimeout(()=>save(),400);
+  if(CLOUD.enabled)setSyncBadge('saving','Saving…');
+  saveTimer=setTimeout(()=>save(),600);
 }
 
-/* ════════════════════════════════════════
-   LOAD — tries each layer, picks freshest
-   ════════════════════════════════════════ */
+/* ════════════════════════════
+   POLL FOR REMOTE CHANGES (multi-device)
+   Every 30s when tab is visible
+   ════════════════════════════ */
+async function pollCloud(){
+  if(!CLOUD.enabled||!CLOUD.binId||!CLOUD.apiKey)return;
+  if(isSaving)return;
+  try{
+    const remote=await cloudRead();
+    if(remote&&remote.savedAt&&remote.savedAt>S.savedAt+2000){
+      // Remote is newer — pull it in
+      S.tools=remote.tools||[];
+      S.cats=remote.cats||[];
+      S.view=remote.view||'grid';
+      S.savedAt=remote.savedAt;
+      lsSave(remote);
+      idbSave(remote);
+      renderAll();
+      showToast('🔄 Synced from cloud','ok');
+      const d=new Date();
+      setSyncBadge('cloud','Synced '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}));
+    }
+  }catch(e){/* silent — offline */}
+}
+
+function startPolling(){
+  clearInterval(pollTimer);
+  if(CLOUD.enabled)pollTimer=setInterval(pollCloud,30000);
+}
+
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'&&CLOUD.enabled){pollCloud();}
+  if(document.visibilityState==='hidden'){clearTimeout(saveTimer);save();}
+});
+window.addEventListener('beforeunload',()=>{clearTimeout(saveTimer);const d={tools:S.tools,cats:S.cats,view:S.view,savedAt:S.savedAt};lsSave(d);});
+
+/* ════════════════════════════
+   LOAD
+   ════════════════════════════ */
 async function load(){
-  setSyncStatus('saving');
+  setSyncBadge('saving','Loading…');
+  loadCloudCfg();
 
-  // Try localStorage
-  let lsData=lsLoad();
-
-  // Try IndexedDB
-  let idbData=await idbLoad();
-
-  // Try sessionStorage
-  let ssData=sessionLoad();
-
-  // Pick the freshest non-null source
   let best=null,bestTs=0;
-  for(const d of [lsData,idbData,ssData]){
+  const lsData=lsLoad();
+  const idbData=await idbLoad();
+  for(const d of [lsData,idbData]){
     if(d&&d.savedAt&&d.savedAt>bestTs){best=d;bestTs=d.savedAt;}
   }
 
+  // Try to pull from cloud (authoritative)
+  if(CLOUD.enabled&&CLOUD.binId&&CLOUD.apiKey){
+    try{
+      const remote=await cloudRead();
+      if(remote&&remote.savedAt&&remote.savedAt>bestTs){best=remote;bestTs=remote.savedAt;}
+    }catch(e){console.warn('Cloud load failed, using local:',e);}
+  }
+
   if(best&&((best.tools||[]).length||(best.cats||[]).length)){
-    S.tools=best.tools||[];
-    S.cats=best.cats||[];
-    S.view=best.view||'grid';
-    MEM.lastSaved=best.savedAt||null;
-    // Write freshest back to all layers (sync)
-    await save();
-    setSyncStatus('synced');
+    S.tools=best.tools||[];S.cats=best.cats||[];S.view=best.view||'grid';S.savedAt=best.savedAt||0;
+    await save(false);// write freshest to all local layers without pushing back to cloud
+    if(CLOUD.enabled)setSyncBadge('cloud','Synced');else setSyncBadge('local','Local only');
     return;
   }
 
   // Legacy migration
   for(const k of LEGACY){
-    try{
-      const r=localStorage.getItem(k);
-      if(r){
-        const d=JSON.parse(r);
-        if((d.tools||[]).length||(d.cats||[]).length){
-          S.tools=d.tools||[];S.cats=d.cats||[];S.view=d.view||'grid';
-          await save();
-          showToast('Migrated from '+k+' ✓','ok');
-          setSyncStatus('synced');
-          return;
-        }
-      }
-    }catch(e){}
+    try{const r=localStorage.getItem(k);if(r){const d=JSON.parse(r);if((d.tools||[]).length){S.tools=d.tools||[];S.cats=d.cats||[];S.view=d.view||'grid';await save();showToast('Migrated ✓','ok');return;}}}catch(e){}
   }
 
-  // Seed data
   S.tools=JSON.parse(JSON.stringify(SEED.tools));
   S.cats=JSON.parse(JSON.stringify(SEED.cats));
-  S.view=SEED.view||'grid';
+  S.view='grid';
   await save();
-  setSyncStatus('synced');
 }
 
-/* ════════════════════════════════════════
-   SYNC STATUS UI
-   ════════════════════════════════════════ */
-function setSyncStatus(status){
-  const badge=document.getElementById('sync-badge');
-  const dot=document.getElementById('sync-dot');
-  const lbl=document.getElementById('sync-label');
-  if(!badge)return;
-  badge.className='sync-badge '+status;
-  dot.className='sync-dot'+(status==='saving'?' pulse':'');
-  lbl.textContent=status==='saving'?'Saving...':status==='error'?'Error':'Saved';
+/* ════════════════════════════
+   WIZARD — CONNECT CLOUD
+   ════════════════════════════ */
+function showWizard(){
+  document.getElementById('wizard').style.display='flex';
+  document.getElementById('main-app').style.display='none';
+}
+function showApp(){
+  document.getElementById('wizard').style.display='none';
+  document.getElementById('main-app').style.display='flex';
 }
 
-function updateMemStatus(){
-  const el=document.getElementById('mem-layers');
-  const ts=document.getElementById('mem-last-saved');
-  if(!el)return;
-  const layers=[
-    {key:'ls',label:'localStorage',icon:'💾'},
-    {key:'idb',label:'IndexedDB',icon:'🗄'},
-    {key:'session',label:'Session',icon:'🔄'},
-  ];
-  el.innerHTML=layers.map(l=>`
-    <div class="mem-layer ${MEM[l.key]?'ok':'err'}">
-      <div class="mem-dot"></div>
-      ${l.icon} ${l.label}
-    </div>`).join('');
-  if(MEM.lastSaved&&ts){
-    const d=new Date(MEM.lastSaved);
-    ts.textContent='Last saved: '+d.toLocaleTimeString();
+async function connectCloud(){
+  const key=document.getElementById('wiz-apikey').value.trim();
+  const binId=document.getElementById('wiz-binid').value.trim();
+  const err=document.getElementById('wiz-error');
+  const btn=document.getElementById('wiz-btn');
+  if(!key){err.textContent='API Key is required.';err.classList.add('show');return;}
+  err.classList.remove('show');
+  btn.textContent='🔄 Connecting…';btn.disabled=true;
+  try{
+    CLOUD.apiKey=key;CLOUD.enabled=true;
+    if(binId){
+      // Use existing bin (sync from another device)
+      CLOUD.binId=binId;
+      const remote=await cloudRead();
+      if(remote&&(remote.tools||[]).length){
+        S.tools=remote.tools||[];S.cats=remote.cats||[];S.view=remote.view||'grid';S.savedAt=remote.savedAt||0;
+        showToast('Pulled '+S.tools.length+' tools from cloud ✓','ok');
+      }
+    } else {
+      // Create new bin
+      const data={tools:S.tools,cats:S.cats,view:S.view,savedAt:Date.now()};
+      const newBinId=await cloudCreate(data);
+      CLOUD.binId=newBinId;
+      S.savedAt=Date.now();
+    }
+    saveCloudCfg();
+    lsSave({tools:S.tools,cats:S.cats,view:S.view,savedAt:S.savedAt});
+    idbSave({tools:S.tools,cats:S.cats,view:S.view,savedAt:S.savedAt});
+    showApp();
+    renderAll();
+    startPolling();
+    setSyncBadge('cloud','Synced');
+    showToast('☁️ Cloud sync connected ✓','ok');
+  }catch(e){
+    err.textContent='Connection failed: '+(e.message||'Invalid API key or network error');
+    err.classList.add('show');
+    btn.textContent='🔗 Connect & Sync';btn.disabled=false;
+    CLOUD.enabled=false;CLOUD.apiKey='';CLOUD.binId='';
   }
 }
 
-/* ════════════════════════════════════════
-   AUTO-SAVE on page visibility change (tab switch/close)
-   ════════════════════════════════════════ */
-document.addEventListener('visibilitychange',()=>{
-  if(document.visibilityState==='hidden'){
-    clearTimeout(saveTimer);
-    save(true);
-  }
-});
-window.addEventListener('beforeunload',()=>{
-  clearTimeout(saveTimer);
-  // Sync save to localStorage at least
-  const data={tools:S.tools,cats:S.cats,view:S.view,savedAt:Date.now()};
-  lsSave(data);
-  sessionSave(data);
-});
+function skipCloud(){
+  CLOUD.enabled=false;saveCloudCfg();
+  showApp();renderAll();setSyncBadge('local','Local only');
+}
 
-/* ════════════════════════════════════════
-   BACKUP REMINDER
-   ════════════════════════════════════════ */
-function checkBackupReminder(){
-  const last=parseInt(localStorage.getItem(BACKUP_REMINDER_KEY)||'0');
-  const daysSince=(Date.now()-last)/(1000*60*60*24);
-  const el=document.getElementById('backup-banner-wrap');
-  if(!el)return;
-  if(daysSince>=BACKUP_INTERVAL_DAYS||!last){
-    el.innerHTML=`<div class="backup-banner">
-      <span>💾</span>
-      <div><strong>Backup reminder:</strong> Export your data to keep a local file backup.</div>
-      <div style="display:flex;gap:5px;margin-left:8px;flex-shrink:0">
-        <button class="btn btn-sm btn-green" onclick="showExport();openModal('ie-modal')">Export now</button>
-        <button class="bb-close" onclick="dismissBackupBanner()">✕</button>
+/* ════════════════════════════
+   CLOUD SETTINGS MODAL
+   ════════════════════════════ */
+function openCloudModal(){
+  const el=document.getElementById('cloud-modal-body');
+  if(CLOUD.enabled&&CLOUD.binId){
+    const d=CLOUD.lastCloudSave?new Date(CLOUD.lastCloudSave).toLocaleString():'Never';
+    el.innerHTML=`
+      <div class="cloud-panel">
+        <div class="cp-row"><span class="cp-label">Status</span><span class="cp-status" style="color:var(--green)">● Connected</span></div>
+        <div class="cp-row"><span class="cp-label">Bin ID</span></div>
+        <div class="cp-key">${CLOUD.binId}</div>
+        <div class="cp-row" style="margin-top:8px"><span class="cp-label">Last synced</span><span style="font-size:11px;color:var(--text2)">${d}</span></div>
+        <div class="cp-actions">
+          <button class="btn btn-sm" onclick="manualSync()">🔄 Sync now</button>
+          <button class="btn btn-sm" onclick="copyBinId()">📋 Copy Bin ID</button>
+          <button class="btn btn-sm btn-amber" onclick="disconnectCloud()">Disconnect</button>
+        </div>
       </div>
-    </div>`;
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:.85rem;font-size:11.5px;color:var(--text2);line-height:1.7">
+        <strong style="color:var(--text);display:block;margin-bottom:4px">📱 Sync to another device</strong>
+        Copy your <strong style="color:var(--accent)">API Key</strong> and <strong style="color:var(--accent)">Bin ID</strong> above, open ChainHub on the other device, go to Cloud Sync → enter both values to pull all your data.
+      </div>`;
+  } else {
+    el.innerHTML=`
+      <div class="cloud-panel">
+        <div class="cp-row"><span class="cp-label">Status</span><span class="cp-status" style="color:var(--text3)">● Offline / Local only</span></div>
+      </div>
+      <div class="wiz-fields">
+        <div class="fg" style="margin:0">
+          <label class="fl">JSONBin API Key</label>
+          <input class="fi mono" id="cm-apikey" type="password" placeholder="$2b$10$..." autocomplete="off">
+        </div>
+        <div class="fg" style="margin:0">
+          <label class="fl">Bin ID <span style="color:var(--text3)">(leave empty for new)</span></label>
+          <input class="fi mono" id="cm-binid" placeholder="optional — paste from another device" autocomplete="off">
+        </div>
+      </div>
+      <div class="wiz-error" id="cm-error" style="margin:.75rem 0 0"></div>
+      <button class="btn btn-p" style="width:100%;margin-top:.75rem;display:flex;align-items:center;justify-content:center;padding:10px" id="cm-btn" onclick="connectFromModal()">🔗 Connect Cloud Sync</button>`;
   }
-}
-function dismissBackupBanner(){
-  localStorage.setItem(BACKUP_REMINDER_KEY,Date.now().toString());
-  const el=document.getElementById('backup-banner-wrap');
-  if(el)el.innerHTML='';
+  openModal('cloud-modal');
 }
 
-/* ════════════════════════════════════════
+async function connectFromModal(){
+  const key=document.getElementById('cm-apikey').value.trim();
+  const binId=document.getElementById('cm-binid').value.trim();
+  const err=document.getElementById('cm-error');
+  const btn=document.getElementById('cm-btn');
+  if(!key){err.textContent='API Key is required.';err.classList.add('show');return;}
+  err.classList.remove('show');btn.textContent='🔄 Connecting…';btn.disabled=true;
+  try{
+    CLOUD.apiKey=key;CLOUD.enabled=true;
+    if(binId){
+      CLOUD.binId=binId;
+      const remote=await cloudRead();
+      if(remote&&(remote.tools||[]).length){S.tools=remote.tools||[];S.cats=remote.cats||[];S.view=remote.view||'grid';S.savedAt=remote.savedAt||0;}
+    } else {
+      const data={tools:S.tools,cats:S.cats,view:S.view,savedAt:Date.now()};
+      CLOUD.binId=await cloudCreate(data);S.savedAt=Date.now();
+    }
+    saveCloudCfg();await save(true);
+    closeModal('cloud-modal');renderAll();startPolling();
+    setSyncBadge('cloud','Synced');showToast('☁️ Cloud connected ✓','ok');
+  }catch(e){
+    err.textContent='Failed: '+(e.message||'Check your API key');
+    err.classList.add('show');btn.textContent='🔗 Connect Cloud Sync';btn.disabled=false;
+    CLOUD.enabled=false;CLOUD.apiKey='';CLOUD.binId='';
+  }
+}
+
+async function manualSync(){
+  if(!CLOUD.enabled)return;
+  setSyncBadge('saving','Syncing…');
+  try{
+    const remote=await cloudRead();
+    const localTs=S.savedAt||0;
+    const remoteTs=remote&&remote.savedAt||0;
+    if(remoteTs>localTs+2000){
+      S.tools=remote.tools||[];S.cats=remote.cats||[];S.view=remote.view||'grid';S.savedAt=remote.savedAt;
+      lsSave(remote);idbSave(remote);renderAll();showToast('Pulled latest from cloud ✓','ok');
+    } else {
+      await cloudWrite({tools:S.tools,cats:S.cats,view:S.view,savedAt:Date.now()});
+      showToast('Pushed to cloud ✓','ok');
+    }
+    CLOUD.lastCloudSave=Date.now();saveCloudCfg();
+    setSyncBadge('cloud','Synced');closeModal('cloud-modal');openCloudModal();
+  }catch(e){setSyncBadge('error','Error');showToast('Sync failed','err');}
+}
+
+function copyBinId(){
+  navigator.clipboard.writeText(CLOUD.binId).then(()=>showToast('Bin ID copied ✓','ok')).catch(()=>{showToast('Copy: '+CLOUD.binId,'ok');});
+}
+
+function disconnectCloud(){
+  if(!confirm('Disconnect cloud sync? Your local data is safe.'))return;
+  CLOUD={apiKey:'',binId:'',enabled:false,lastCloudSave:0,lastCloudPull:0};
+  saveCloudCfg();clearInterval(pollTimer);
+  setSyncBadge('local','Local only');closeModal('cloud-modal');showToast('Disconnected','ok');
+}
+
+/* ════════════════════════════
    DRAWER
-   ════════════════════════════════════════ */
+   ════════════════════════════ */
 function toggleDrawer(){
   const sb=document.getElementById('sidebar'),ov=document.getElementById('drawer-overlay');
-  const open=sb.classList.toggle('open');
-  ov.classList.toggle('open',open);
-  if(open)document.body.style.overflow='hidden';else document.body.style.overflow='';
+  const open=sb.classList.toggle('open');ov.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
 }
-function closeDrawer(){
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('drawer-overlay').classList.remove('open');
-  document.body.style.overflow='';
-}
+function closeDrawer(){document.getElementById('sidebar').classList.remove('open');document.getElementById('drawer-overlay').classList.remove('open');document.body.style.overflow='';}
+function mobileNav(cat){S.activeCat=cat;document.getElementById('nav-all').className='nav-btn'+(cat==='all'?' active':'');document.getElementById('nav-pinned').className='nav-btn'+(cat==='pinned'?' active':'');renderSidebar();renderTools();}
 
-/* MOBILE NAV */
-function mobileNav(cat){
-  S.activeCat=cat;
-  document.getElementById('nav-all').className='nav-btn'+(cat==='all'?' active':'');
-  document.getElementById('nav-pinned').className='nav-btn'+(cat==='pinned'?' active':'');
-  renderSidebar();renderTools();
-}
-
-/* SIDEBAR */
+/* ════════════════════════════
+   RENDER
+   ════════════════════════════ */
 function renderSidebar(){
   const sb=document.getElementById('sidebar');
   const all=S.tools.length,pin=S.tools.filter(t=>t.pinned).length;
@@ -729,26 +936,14 @@ function renderSidebar(){
     <button class="cat-btn ${S.activeCat==='pinned'?'active':''}" onclick="selCat('pinned')">
       <div class="c-ico" style="background:rgba(245,166,35,.1)">⭐</div><span style="flex:1">Pinned</span><span class="c-cnt">${pin}</span></button>
   </div><div class="s-sec"><div class="s-lbl">Categories</div>`;
-  S.cats.forEach(c=>{
-    const cnt=S.tools.filter(t=>t.cat===c.id).length;
-    h+=`<button class="cat-btn ${S.activeCat===c.id?'active':''}" onclick="selCat('${c.id}')">
-      <div class="c-ico" style="background:${c.color}22">${c.icon}</div>
-      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}</span>
-      <span class="c-cnt">${cnt}</span></button>`;
-  });
+  S.cats.forEach(c=>{const cnt=S.tools.filter(t=>t.cat===c.id).length;h+=`<button class="cat-btn ${S.activeCat===c.id?'active':''}" onclick="selCat('${c.id}')"><div class="c-ico" style="background:${c.color}22">${c.icon}</div><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}</span><span class="c-cnt">${cnt}</span></button>`;});
   h+=`</div><div style="padding:0 4px"><button class="add-cat-btn" onclick="openMgCats()">⚙ Manage categories</button></div>`;
   sb.innerHTML=h;
 }
-
 function renderStats(){
   const t=S.tools.length,c=S.cats.length,p=S.tools.filter(x=>x.pinned).length,ac=new Set(S.tools.map(x=>x.cat)).size;
-  document.getElementById('stats').innerHTML=`
-    <div class="stat"><div class="sv">${t}</div><div class="sl">Tools</div></div>
-    <div class="stat"><div class="sv">${c}</div><div class="sl">Cats</div></div>
-    <div class="stat"><div class="sv">${p}</div><div class="sl">Pinned</div></div>
-    <div class="stat"><div class="sv">${ac}</div><div class="sl">Active</div></div>`;
+  document.getElementById('stats').innerHTML=`<div class="stat"><div class="sv">${t}</div><div class="sl">Tools</div></div><div class="stat"><div class="sv">${c}</div><div class="sl">Cats</div></div><div class="stat"><div class="sv">${p}</div><div class="sl">Pinned</div></div><div class="stat"><div class="sv">${ac}</div><div class="sl">Active</div></div>`;
 }
-
 function getFiltered(){
   let t=[...S.tools];
   if(S.activeCat==='pinned')t=t.filter(x=>x.pinned);
@@ -756,209 +951,114 @@ function getFiltered(){
   if(S.search){const q=S.search.toLowerCase();t=t.filter(x=>x.name.toLowerCase().includes(q)||(x.desc||'').toLowerCase().includes(q)||(x.tags||[]).some(tg=>tg.toLowerCase().includes(q)));}
   return t;
 }
-
 function renderTools(){
   const tools=getFiltered(),tc=document.getElementById('tc');
   const cat=S.cats.find(c=>c.id===S.activeCat);
   document.getElementById('pg-ttl').textContent=S.activeCat==='all'?'All Tools':S.activeCat==='pinned'?'⭐ Pinned':cat?cat.icon+' '+cat.name:'';
-  if(!tools.length){
-    tc.innerHTML=`<div class="empty"><div class="ei">${S.search?'🔭':'📦'}</div><div class="et">${S.search?'No results':'No tools yet'}</div><div class="ed">${S.search?'Try a different term.':'Add your first tool.'}</div>${!S.search?'<button class="btn btn-p" onclick="openAddModal()">＋ Add Tool</button>':''}</div>`;
-    return;
-  }
+  if(!tools.length){tc.innerHTML=`<div class="empty"><div class="ei">${S.search?'🔭':'📦'}</div><div class="et">${S.search?'No results':'No tools yet'}</div><div class="ed">${S.search?'Try a different term.':'Add your first tool.'}</div>${!S.search?'<button class="btn btn-p" onclick="openAddModal()">＋ Add Tool</button>':''}</div>`;return;}
   const mobile=isMobile();
   if(S.view==='grid')tc.innerHTML=`<div class="tools-grid">${tools.map((t,i)=>renderCard(t,i,mobile)).join('')}</div>`;
   else tc.innerHTML=`<div class="tools-list">${tools.map((t,i)=>renderListCard(t,i)).join('')}</div>`;
 }
-
 function gc(id){return S.cats.find(c=>c.id===id)}
 function domain(url){try{return new URL(url).hostname.replace('www.','')}catch(e){return url}}
 function fav(t){if(t.faviconUrl)return t.faviconUrl;try{return'https://www.google.com/s2/favicons?domain='+new URL(t.url).hostname+'&sz=64'}catch(e){return''}}
-function favHtml(t,sz){
-  const f=fav(t),ico=t.icon||(gc(t.cat)||{}).icon||'🔧';
-  const fs=sz<=30?13:15;
-  return f?`<img src="${f}" style="width:${sz}px;height:${sz}px;object-fit:cover;border-radius:${sz<=30?7:8}px" onerror="this.style.display='none';this.nextSibling.style.display='flex'" loading="lazy"><span style="display:none;font-size:${fs}px">${ico}</span>`:`<span style="font-size:${fs}px">${ico}</span>`;
-}
-
-function renderCard(t,i,mobile){
-  const cat=gc(t.cat);
-  return`<div class="tool-card" style="animation-delay:${Math.min(i*0.025,.25)}s" onclick="openTool('${t.id}')">
-    <div class="t-top">
-      <div class="t-fav">${favHtml(t,mobile?30:34)}</div>
-      <div class="t-acts">
-        <button class="a-btn" onclick="event.stopPropagation();pin('${t.id}')">${t.pinned?'⭐':'☆'}</button>
-        <button class="a-btn" onclick="event.stopPropagation();editT('${t.id}')">✏</button>
-        <button class="a-btn del" onclick="event.stopPropagation();delT('${t.id}')">✕</button>
-      </div>
-    </div>
-    <div class="t-name">${t.pinned?'<span style="font-size:9px">⭐</span> ':''}${t.name}</div>
-    <div class="t-desc">${t.desc||'<span style="opacity:.35">No description.</span>'}</div>
-    <div class="t-meta">
-      ${cat?`<span class="t-tag" style="background:${cat.color}18;color:${cat.color};border-color:${cat.color}33">${cat.icon}</span>`:''}
-      ${(t.tags||[]).slice(0,1).map(tg=>`<span class="t-tag">${tg}</span>`).join('')}
-      <span class="t-url">${domain(t.url)}</span>
-    </div>
-    <div class="pbar"></div>
-  </div>`;
-}
-
-function renderListCard(t,i){
-  const cat=gc(t.cat);
-  return`<div class="tool-card tool-card-list" style="animation-delay:${Math.min(i*0.02,.2)}s" onclick="openTool('${t.id}')">
-    <div class="lci">
-      <div class="lfav">${favHtml(t,30)}</div>
-      <div class="ltxt">
-        <div class="ln">${t.pinned?'⭐ ':''}${t.name}</div>
-        <div class="ld">${t.desc||domain(t.url)}</div>
-      </div>
-    </div>
-    <div class="lr">
-      ${cat?`<span class="t-tag" style="background:${cat.color}18;color:${cat.color};border-color:${cat.color}33;font-size:9px">${cat.icon} ${cat.name}</span>`:''}
-      <div class="t-acts" style="opacity:1">
-        <button class="a-btn" onclick="event.stopPropagation();pin('${t.id}')">${t.pinned?'⭐':'☆'}</button>
-        <button class="a-btn" onclick="event.stopPropagation();editT('${t.id}')">✏</button>
-        <button class="a-btn del" onclick="event.stopPropagation();delT('${t.id}')">✕</button>
-      </div>
-    </div>
-  </div>`;
-}
+function favHtml(t,sz){const f=fav(t),ico=t.icon||(gc(t.cat)||{}).icon||'🔧',fs=sz<=30?13:15;return f?`<img src="${f}" style="width:${sz}px;height:${sz}px;object-fit:cover;border-radius:${sz<=30?7:8}px" onerror="this.style.display='none';this.nextSibling.style.display='flex'" loading="lazy"><span style="display:none;font-size:${fs}px">${ico}</span>`:`<span style="font-size:${fs}px">${ico}</span>`;}
+function renderCard(t,i,mobile){const cat=gc(t.cat);return`<div class="tool-card" style="animation-delay:${Math.min(i*0.025,.25)}s" onclick="openTool('${t.id}')"><div class="t-top"><div class="t-fav">${favHtml(t,mobile?30:34)}</div><div class="t-acts"><button class="a-btn" onclick="event.stopPropagation();pin('${t.id}')">${t.pinned?'⭐':'☆'}</button><button class="a-btn" onclick="event.stopPropagation();editT('${t.id}')">✏</button><button class="a-btn del" onclick="event.stopPropagation();delT('${t.id}')">✕</button></div></div><div class="t-name">${t.pinned?'<span style="font-size:9px">⭐</span> ':''}${t.name}</div><div class="t-desc">${t.desc||'<span style="opacity:.35">No description.</span>'}</div><div class="t-meta">${cat?`<span class="t-tag" style="background:${cat.color}18;color:${cat.color};border-color:${cat.color}33">${cat.icon}</span>`:''}${(t.tags||[]).slice(0,1).map(tg=>`<span class="t-tag">${tg}</span>`).join('')}<span class="t-url">${domain(t.url)}</span></div><div class="pbar"></div></div>`;}
+function renderListCard(t,i){const cat=gc(t.cat);return`<div class="tool-card tool-card-list" style="animation-delay:${Math.min(i*0.02,.2)}s" onclick="openTool('${t.id}')"><div class="lci"><div class="lfav">${favHtml(t,30)}</div><div class="ltxt"><div class="ln">${t.pinned?'⭐ ':''}${t.name}</div><div class="ld">${t.desc||domain(t.url)}</div></div></div><div class="lr">${cat?`<span class="t-tag" style="background:${cat.color}18;color:${cat.color};border-color:${cat.color}33;font-size:9px">${cat.icon} ${cat.name}</span>`:''}<div class="t-acts" style="opacity:1"><button class="a-btn" onclick="event.stopPropagation();pin('${t.id}')">${t.pinned?'⭐':'☆'}</button><button class="a-btn" onclick="event.stopPropagation();editT('${t.id}')">✏</button><button class="a-btn del" onclick="event.stopPropagation();delT('${t.id}')">✕</button></div></div></div>`;}
 
 function openTool(id){const t=S.tools.find(x=>x.id===id);if(t)try{window.open(t.url,'_blank')}catch(e){}}
-function selCat(id){S.activeCat=id;closeDrawer();renderSidebar();renderTools()}
-function filterTools(fromMobile){
-  S.search=fromMobile?document.getElementById('msrch').value:document.getElementById('srch').value;
-  renderTools();
-}
-function setView(v){
-  S.view=v;
-  document.getElementById('vg').className='vbtn'+(v==='grid'?' active':'');
-  document.getElementById('vl').className='vbtn'+(v==='list'?' active':'');
-  debouncedSave();renderTools();
-}
-function pin(id){const t=S.tools.find(x=>x.id===id);if(t){t.pinned=!t.pinned;debouncedSave();renderAll()}}
-function delT(id){if(!confirm('Remove this tool?'))return;S.tools=S.tools.filter(t=>t.id!==id);debouncedSave();renderAll();showToast('Tool removed','ok')}
+function selCat(id){S.activeCat=id;closeDrawer();renderSidebar();renderTools();}
+function filterTools(fromMobile){S.search=fromMobile?document.getElementById('msrch').value:document.getElementById('srch').value;renderTools();}
+function setView(v){S.view=v;document.getElementById('vg').className='vbtn'+(v==='grid'?' active':'');document.getElementById('vl').className='vbtn'+(v==='list'?' active':'');debouncedSave();renderTools();}
+function pin(id){const t=S.tools.find(x=>x.id===id);if(t){t.pinned=!t.pinned;debouncedSave();renderAll();}}
+function delT(id){if(!confirm('Remove this tool?'))return;S.tools=S.tools.filter(t=>t.id!==id);debouncedSave();renderAll();showToast('Tool removed','ok');}
 
 /* TOOL MODAL */
-function popCats(sel){document.getElementById('f-cat').innerHTML=S.cats.map(c=>`<option value="${c.id}"${sel===c.id?' selected':''}>${c.icon} ${c.name}</option>`).join('');if(S.activeCat!=='all'&&S.activeCat!=='pinned'&&!sel)document.getElementById('f-cat').value=S.activeCat}
-function openAddModal(){S.editId=null;document.getElementById('m-ttl-txt').textContent='Add Tool';['f-url','f-name','f-desc','f-icon','f-tags'].forEach(id=>document.getElementById(id).value='');popCats();buildEP('tool','f-icon');openModal('tool-modal')}
-function editT(id){const t=S.tools.find(x=>x.id===id);if(!t)return;S.editId=id;document.getElementById('m-ttl-txt').textContent='Edit Tool';document.getElementById('f-url').value=t.url;document.getElementById('f-name').value=t.name;document.getElementById('f-desc').value=t.desc||'';document.getElementById('f-icon').value=t.icon||'';document.getElementById('f-tags').value=(t.tags||[]).join(', ');popCats(t.cat);buildEP('tool','f-icon');openModal('tool-modal')}
-function autoFill(){const u=document.getElementById('f-url').value.trim();if(!u||document.getElementById('f-name').value)return;try{const h=new URL(u).hostname.replace('www.','');document.getElementById('f-name').value=h.split('.')[0].charAt(0).toUpperCase()+h.split('.')[0].slice(1)}catch(e){}}
+function popCats(sel){document.getElementById('f-cat').innerHTML=S.cats.map(c=>`<option value="${c.id}"${sel===c.id?' selected':''}>${c.icon} ${c.name}</option>`).join('');if(S.activeCat!=='all'&&S.activeCat!=='pinned'&&!sel)document.getElementById('f-cat').value=S.activeCat;}
+function openAddModal(){S.editId=null;document.getElementById('m-ttl-txt').textContent='Add Tool';['f-url','f-name','f-desc','f-icon','f-tags'].forEach(id=>document.getElementById(id).value='');popCats();buildEP('tool','f-icon');openModal('tool-modal');}
+function editT(id){const t=S.tools.find(x=>x.id===id);if(!t)return;S.editId=id;document.getElementById('m-ttl-txt').textContent='Edit Tool';document.getElementById('f-url').value=t.url;document.getElementById('f-name').value=t.name;document.getElementById('f-desc').value=t.desc||'';document.getElementById('f-icon').value=t.icon||'';document.getElementById('f-tags').value=(t.tags||[]).join(', ');popCats(t.cat);buildEP('tool','f-icon');openModal('tool-modal');}
+function autoFill(){const u=document.getElementById('f-url').value.trim();if(!u||document.getElementById('f-name').value)return;try{const h=new URL(u).hostname.replace('www.','');document.getElementById('f-name').value=h.split('.')[0].charAt(0).toUpperCase()+h.split('.')[0].slice(1);}catch(e){}}
 function saveTool(){
   const url=document.getElementById('f-url').value.trim(),name=document.getElementById('f-name').value.trim();
   const cat=document.getElementById('f-cat').value,desc=document.getElementById('f-desc').value.trim();
   const icon=document.getElementById('f-icon').value.trim(),tags=document.getElementById('f-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
-  if(!url||!name){showToast('URL and Name required','err');return}
-  if(S.editId){const t=S.tools.find(x=>x.id===S.editId);if(t)Object.assign(t,{url,name,cat,desc,icon,tags,faviconUrl:''});showToast('Updated ✓','ok')}
-  else{S.tools.push({id:gid('t'),url,name,cat,desc,icon,tags,pinned:false,faviconUrl:''});showToast('Tool added ✓','ok')}
+  if(!url||!name){showToast('URL and Name required','err');return;}
+  if(S.editId){const t=S.tools.find(x=>x.id===S.editId);if(t)Object.assign(t,{url,name,cat,desc,icon,tags,faviconUrl:''});showToast('Updated ✓','ok');}
+  else{S.tools.push({id:gid('t'),url,name,cat,desc,icon,tags,pinned:false,faviconUrl:''});showToast('Tool added ✓','ok');}
   debouncedSave();closeModal('tool-modal');renderAll();
 }
 
 /* CAT MODAL */
-function openCatModal(){['c-name','c-icon'].forEach(id=>document.getElementById(id).value='');buildEP('cat','c-icon');openModal('cat-modal')}
-function saveCat(){
-  const name=document.getElementById('c-name').value.trim(),icon=document.getElementById('c-icon').value.trim()||'📁',color=document.getElementById('c-color').value;
-  if(!name){showToast('Name required','err');return}
-  S.cats.push({id:gid('c'),name,icon,color});debouncedSave();closeModal('cat-modal');renderAll();showToast('Category created ✓','ok');
-}
-
-/* MANAGE CATS */
-function openMgCats(){renderCatList();openModal('mgcat-modal')}
-function renderCatList(){
-  const el=document.getElementById('cats-list');
-  if(!S.cats.length){el.innerHTML='<p style="color:var(--text2);font-size:12px;padding:.5rem 0">No categories.</p>';return}
-  el.innerHTML=S.cats.map(c=>{const cnt=S.tools.filter(t=>t.cat===c.id).length;return`<div class="citem"><div class="cdot" style="background:${c.color}"></div><span style="font-size:14px">${c.icon}</span><span style="font-size:12.5px;flex:1">${c.name}</span><span style="font-size:10px;color:var(--text3);margin-right:10px">${cnt}</span><button class="a-btn del" onclick="delCat('${c.id}')">✕</button></div>`}).join('')
-}
-function delCat(id){
-  const cnt=S.tools.filter(t=>t.cat===id).length;
-  if(cnt>0&&!confirm('Delete category + '+cnt+' tool(s)?'))return;
-  S.tools=S.tools.filter(t=>t.cat!==id);S.cats=S.cats.filter(c=>c.id!==id);
-  if(S.activeCat===id)S.activeCat='all';
-  debouncedSave();renderCatList();renderAll();showToast('Deleted','ok');
-}
+function openCatModal(){['c-name','c-icon'].forEach(id=>document.getElementById(id).value='');buildEP('cat','c-icon');openModal('cat-modal');}
+function saveCat(){const name=document.getElementById('c-name').value.trim(),icon=document.getElementById('c-icon').value.trim()||'📁',color=document.getElementById('c-color').value;if(!name){showToast('Name required','err');return;}S.cats.push({id:gid('c'),name,icon,color});debouncedSave();closeModal('cat-modal');renderAll();showToast('Category created ✓','ok');}
+function openMgCats(){renderCatList();openModal('mgcat-modal');}
+function renderCatList(){const el=document.getElementById('cats-list');if(!S.cats.length){el.innerHTML='<p style="color:var(--text2);font-size:12px;padding:.5rem 0">No categories.</p>';return;}el.innerHTML=S.cats.map(c=>{const cnt=S.tools.filter(t=>t.cat===c.id).length;return`<div class="citem"><div class="cdot" style="background:${c.color}"></div><span style="font-size:14px">${c.icon}</span><span style="font-size:12.5px;flex:1">${c.name}</span><span style="font-size:10px;color:var(--text3);margin-right:10px">${cnt}</span><button class="a-btn del" onclick="delCat('${c.id}')">✕</button></div>`}).join('');}
+function delCat(id){const cnt=S.tools.filter(t=>t.cat===id).length;if(cnt>0&&!confirm('Delete category + '+cnt+' tool(s)?'))return;S.tools=S.tools.filter(t=>t.cat!==id);S.cats=S.cats.filter(c=>c.id!==id);if(S.activeCat===id)S.activeCat='all';debouncedSave();renderCatList();renderAll();showToast('Deleted','ok');}
 
 /* IMPORT/EXPORT */
-function openIE(){document.getElementById('ie-body').innerHTML='';updateMemStatus();openModal('ie-modal')}
-function showExport(){
-  const d=JSON.stringify({tools:S.tools,cats:S.cats,view:S.view,exportedAt:new Date().toISOString()},null,2);
-  document.getElementById('ie-body').innerHTML=`<p style="font-size:11.5px;color:var(--text2);margin-bottom:.5rem">Full backup — <strong style="color:var(--text)">${S.tools.length} tools, ${S.cats.length} categories</strong></p><textarea class="imp-area" readonly onclick="this.select()">${d}</textarea><div style="margin-top:7px;display:flex;gap:6px"><button class="btn btn-sm" onclick="cpExport()">📋 Copy</button><button class="btn btn-sm btn-green" onclick="dlExport()">⬇ Download .json</button></div>`;
-  dismissBackupBanner();
-}
-function cpExport(){const ta=document.querySelector('.imp-area');if(ta){navigator.clipboard.writeText(ta.value).then(()=>showToast('Copied ✓','ok')).catch(()=>{ta.select();document.execCommand('copy');showToast('Copied ✓','ok')})}}
-function dlExport(){
-  const d=JSON.stringify({tools:S.tools,cats:S.cats,view:S.view,exportedAt:new Date().toISOString()},null,2);
-  const b=new Blob([d],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(b);
-  const ts=new Date().toISOString().slice(0,10);
-  a.download=`chainhub-backup-${ts}.json`;a.click();
-  showToast('Downloaded ✓','ok');
-  localStorage.setItem(BACKUP_REMINDER_KEY,Date.now().toString());
-}
-function showImport(){document.getElementById('ie-body').innerHTML=`<p style="font-size:11.5px;color:var(--text2);margin-bottom:.5rem">Paste JSON backup below:</p><textarea class="imp-area" id="imp-ta" placeholder='{"tools":[...],"cats":[]}'></textarea><div style="margin-top:7px;display:flex;gap:6px"><button class="btn btn-p btn-sm" onclick="doImport()">📥 Replace all</button><button class="btn btn-sm" onclick="doMerge()">🔀 Merge (no duplicates)</button></div>`}
-async function doImport(){
-  try{
-    const d=JSON.parse(document.getElementById('imp-ta').value);
-    S.tools=d.tools||[];S.cats=d.cats||[];
-    await save();closeModal('ie-modal');renderAll();showToast('Imported '+S.tools.length+' tools ✓','ok');
-  }catch(e){showToast('Invalid JSON','err')}
-}
-async function doMerge(){
-  try{
-    const d=JSON.parse(document.getElementById('imp-ta').value);
-    let tc=0,cc=0;
-    (d.cats||[]).forEach(c=>{if(!S.cats.find(x=>x.name===c.name)){S.cats.push({...c,id:c.id||gid('c')});cc++}});
-    (d.tools||[]).forEach(t=>{if(!S.tools.find(x=>x.url===t.url&&x.name===t.name)){S.tools.push({...t,id:t.id||gid('t')});tc++}});
-    await save();closeModal('ie-modal');renderAll();showToast('Merged +'+tc+' tools, +'+cc+' cats ✓','ok');
-  }catch(e){showToast('Invalid JSON','err')}
-}
-async function resetToDefault(){
-  if(!confirm('Reset to original data? This cannot be undone.'))return;
-  S.tools=JSON.parse(JSON.stringify(SEED.tools));S.cats=JSON.parse(JSON.stringify(SEED.cats));S.view='grid';
-  await save();closeModal('ie-modal');renderAll();showToast('Reset ✓','ok');
-}
+function openIE(){document.getElementById('ie-body').innerHTML='';openModal('ie-modal');}
+function showExport(){const d=JSON.stringify({tools:S.tools,cats:S.cats,view:S.view,exportedAt:new Date().toISOString()},null,2);document.getElementById('ie-body').innerHTML=`<p style="font-size:11.5px;color:var(--text2);margin-bottom:.5rem">Full backup — <strong style="color:var(--text)">${S.tools.length} tools, ${S.cats.length} cats</strong></p><textarea class="imp-area" readonly onclick="this.select()">${d}</textarea><div style="margin-top:7px;display:flex;gap:6px"><button class="btn btn-sm" onclick="cpExport()">📋 Copy</button><button class="btn btn-sm btn-green" onclick="dlExport()">⬇ Download .json</button></div>`;}
+function cpExport(){const ta=document.querySelector('.imp-area');if(ta){navigator.clipboard.writeText(ta.value).then(()=>showToast('Copied ✓','ok')).catch(()=>{ta.select();document.execCommand('copy');showToast('Copied ✓','ok');});}}
+function dlExport(){const d=JSON.stringify({tools:S.tools,cats:S.cats,view:S.view,exportedAt:new Date().toISOString()},null,2);const b=new Blob([d],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='chainhub-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();showToast('Downloaded ✓','ok');}
+function showImport(){document.getElementById('ie-body').innerHTML=`<p style="font-size:11.5px;color:var(--text2);margin-bottom:.5rem">Paste JSON backup:</p><textarea class="imp-area" id="imp-ta" placeholder='{"tools":[...],"cats":[]}'></textarea><div style="margin-top:7px;display:flex;gap:6px"><button class="btn btn-p btn-sm" onclick="doImport()">📥 Replace all</button><button class="btn btn-sm" onclick="doMerge()">🔀 Merge</button></div>`;}
+async function doImport(){try{const d=JSON.parse(document.getElementById('imp-ta').value);S.tools=d.tools||[];S.cats=d.cats||[];await save();closeModal('ie-modal');renderAll();showToast('Imported '+S.tools.length+' tools ✓','ok');}catch(e){showToast('Invalid JSON','err');}}
+async function doMerge(){try{const d=JSON.parse(document.getElementById('imp-ta').value);let tc=0,cc=0;(d.cats||[]).forEach(c=>{if(!S.cats.find(x=>x.name===c.name)){S.cats.push({...c,id:c.id||gid('c')});cc++;}});(d.tools||[]).forEach(t=>{if(!S.tools.find(x=>x.url===t.url&&x.name===t.name)){S.tools.push({...t,id:t.id||gid('t')});tc++;}});await save();closeModal('ie-modal');renderAll();showToast('Merged +'+tc+' tools, +'+cc+' cats ✓','ok');}catch(e){showToast('Invalid JSON','err');}}
+async function resetToDefault(){if(!confirm('Reset to original data?'))return;S.tools=JSON.parse(JSON.stringify(SEED.tools));S.cats=JSON.parse(JSON.stringify(SEED.cats));S.view='grid';await save();closeModal('ie-modal');renderAll();showToast('Reset ✓','ok');}
 
 /* EMOJI PICKER */
 let epTab={};
-function buildEP(ns,inputId){
-  const tabs=Object.keys(W3E);epTab[ns]=tabs[0];
-  document.getElementById(ns+'-etabs').innerHTML=tabs.map(t=>`<button class="ep-tab${t===tabs[0]?' active':''}" onclick="swEPTab('${ns}','${t}','${inputId}')">${t}</button>`).join('');
-  renderEPGrid(ns,tabs[0],inputId);
-}
-function swEPTab(ns,tab,iid){epTab[ns]=tab;document.querySelectorAll('#'+ns+'-etabs .ep-tab').forEach((b,i)=>{b.className='ep-tab'+(Object.keys(W3E)[i]===tab?' active':'')});renderEPGrid(ns,tab,iid)}
-function renderEPGrid(ns,tab,iid){document.getElementById(ns+'-egrid').innerHTML=(W3E[tab]||[]).map(e=>`<button class="ep-em" onclick="pickE('${iid}','${e}','${ns}')">${e}</button>`).join('')}
-function pickE(iid,e,ns){document.getElementById(iid).value=e;closeEP(ns)}
-function toggleEP(ns){const p=document.getElementById(ns+'-epanel');const was=p.classList.contains('open');document.querySelectorAll('.epanel').forEach(x=>x.classList.remove('open'));if(!was)p.classList.add('open')}
-function closeEP(ns){document.getElementById(ns+'-epanel').classList.remove('open')}
-document.addEventListener('click',e=>{if(!e.target.closest('.emoji-wrap'))document.querySelectorAll('.epanel').forEach(p=>p.classList.remove('open'))})
+function buildEP(ns,iid){const tabs=Object.keys(W3E);epTab[ns]=tabs[0];document.getElementById(ns+'-etabs').innerHTML=tabs.map(t=>`<button class="ep-tab${t===tabs[0]?' active':''}" onclick="swEPTab('${ns}','${t}','${iid}')">${t}</button>`).join('');renderEPGrid(ns,tabs[0],iid);}
+function swEPTab(ns,tab,iid){epTab[ns]=tab;document.querySelectorAll('#'+ns+'-etabs .ep-tab').forEach((b,i)=>{b.className='ep-tab'+(Object.keys(W3E)[i]===tab?' active':'');});renderEPGrid(ns,tab,iid);}
+function renderEPGrid(ns,tab,iid){document.getElementById(ns+'-egrid').innerHTML=(W3E[tab]||[]).map(e=>`<button class="ep-em" onclick="pickE('${iid}','${e}','${ns}')">${e}</button>`).join('');}
+function pickE(iid,e,ns){document.getElementById(iid).value=e;closeEP(ns);}
+function toggleEP(ns){const p=document.getElementById(ns+'-epanel');const was=p.classList.contains('open');document.querySelectorAll('.epanel').forEach(x=>x.classList.remove('open'));if(!was)p.classList.add('open');}
+function closeEP(ns){document.getElementById(ns+'-epanel').classList.remove('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('.emoji-wrap'))document.querySelectorAll('.epanel').forEach(p=>p.classList.remove('open'));});
 
 /* MODALS */
-function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
-function closeModal(id){document.getElementById(id).classList.remove('open');document.querySelectorAll('.epanel').forEach(p=>p.classList.remove('open'));if(!document.querySelector('.overlay.open'))document.body.style.overflow=''}
-document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)closeModal(el.id)}))
+function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.querySelectorAll('.epanel').forEach(p=>p.classList.remove('open'));if(!document.querySelector('.overlay.open'))document.body.style.overflow='';}
+document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)closeModal(el.id);}));
 
 /* TOAST */
-function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
+function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600);}
 
 /* KEYBOARD */
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){closeDrawer();document.querySelectorAll('.overlay.open').forEach(x=>closeModal(x.id))}
-  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();(isMobile()?document.getElementById('msrch'):document.getElementById('srch')).focus()}
-  if((e.metaKey||e.ctrlKey)&&e.key==='n'){e.preventDefault();openAddModal()}
-  if((e.metaKey||e.ctrlKey)&&e.key==='s'){e.preventDefault();save();showToast('Saved ✓','ok')}
-})
-
-/* SWIPE */
+  if(e.key==='Escape'){closeDrawer();document.querySelectorAll('.overlay.open').forEach(x=>closeModal(x.id));}
+  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();(isMobile()?document.getElementById('msrch'):document.getElementById('srch')).focus();}
+  if((e.metaKey||e.ctrlKey)&&e.key==='n'){e.preventDefault();openAddModal();}
+  if((e.metaKey||e.ctrlKey)&&e.key==='s'){e.preventDefault();save();showToast('Saved ✓','ok');}
+});
 let touchStartX=0;
-document.addEventListener('touchstart',e=>{touchStartX=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchstart',e=>{touchStartX=e.touches[0].clientX;},{passive:true});
 document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-touchStartX;if(dx<-50&&document.getElementById('sidebar').classList.contains('open'))closeDrawer();},{passive:true});
 window.addEventListener('resize',()=>renderTools());
 
-/* RENDER ALL */
 function renderAll(){renderSidebar();renderStats();renderTools();}
 
-/* INIT */
+/* ── INIT ── */
 (async()=>{
-  await load();
-  renderAll();
-  checkBackupReminder();
+  loadCloudCfg();
+  // If never set up cloud, show wizard on first visit
+  const hasLocal=!!lsLoad();
+  const hasCloudCfg=!!(CLOUD.apiKey);
+  if(!hasCloudCfg&&!hasLocal){
+    // Brand new user — show wizard
+    document.getElementById('wizard').style.display='flex';
+  } else {
+    // Returning user — go straight to app
+    showApp();
+    await load();
+    renderAll();
+    if(CLOUD.enabled){
+      setSyncBadge('cloud','Synced');
+      startPolling();
+    } else {
+      setSyncBadge('local','Local only');
+    }
+  }
 })();
 </script>
 </body>
